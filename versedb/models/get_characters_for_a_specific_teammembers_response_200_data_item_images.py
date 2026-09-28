@@ -1,0 +1,79 @@
+from __future__ import annotations
+
+from collections.abc import Mapping
+from typing import Any, TypeVar
+
+from attrs import define as _attrs_define
+from attrs import field as _attrs_field
+
+from ..types import UNSET, Unset
+
+T = TypeVar("T", bound="GetCharactersForASpecificTeammembersResponse200DataItemImages")
+
+
+@_attrs_define
+class GetCharactersForASpecificTeammembersResponse200DataItemImages:
+    """
+    Attributes:
+        tile_sm (str | Unset):
+        profile_md (str | Unset):
+        full_lg (str | Unset):
+    """
+
+    tile_sm: str | Unset = UNSET
+    profile_md: str | Unset = UNSET
+    full_lg: str | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        tile_sm = self.tile_sm
+
+        profile_md = self.profile_md
+
+        full_lg = self.full_lg
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
+        field_dict.update({})
+        if tile_sm is not UNSET:
+            field_dict["tile_sm"] = tile_sm
+        if profile_md is not UNSET:
+            field_dict["profile_md"] = profile_md
+        if full_lg is not UNSET:
+            field_dict["full_lg"] = full_lg
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        d = dict(src_dict)
+        tile_sm = d.pop("tile_sm", UNSET)
+
+        profile_md = d.pop("profile_md", UNSET)
+
+        full_lg = d.pop("full_lg", UNSET)
+
+        get_characters_for_a_specific_teammembers_response_200_data_item_images = cls(
+            tile_sm=tile_sm,
+            profile_md=profile_md,
+            full_lg=full_lg,
+        )
+
+        get_characters_for_a_specific_teammembers_response_200_data_item_images.additional_properties = d
+        return get_characters_for_a_specific_teammembers_response_200_data_item_images
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

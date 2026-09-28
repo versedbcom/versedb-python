@@ -1,0 +1,43 @@
+[project]
+name = "versedb"
+version = "0.1.0"
+description = "Official Python SDK for the VerseDB comic book database API."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "VerseDB" }]
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.23.1,<0.29.0",
+    "attrs>=22.2.0",
+]
+keywords = ["versedb", "comics", "comic books", "api", "sdk"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://versedb.com"
+Documentation = "https://versedb.com/api/docs"
+Repository = "https://github.com/versedbcom/versedb-python"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = ["/versedb", "/README.md", "/LICENSE"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["versedb"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]

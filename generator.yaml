@@ -1,0 +1,5 @@
+project_name_override: versedb
+package_name_override: versedb
+# Grades like "NM+", "NM" and "NM-" all reduce to the same Enum member name
+# once punctuation is stripped. Literal types keep the raw values instead.
+literal_enums: true

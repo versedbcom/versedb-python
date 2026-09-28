@@ -1,0 +1,39 @@
+name: Regenerate SDK
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Regenerate from the live spec
+        run: ./scripts/generate.sh
+
+      - name: Test
+        run: uv run pytest -q
+
+      # Operation IDs come from endpoint summaries on the website, so a renamed
+      # summary renames a Python function. Open a PR for review instead of
+      # publishing straight to PyPI.
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: regenerate-sdk
+          delete-branch: true
+          commit-message: Regenerate from the current User API spec
+          title: Regenerate from the current User API spec
+          body: |
+            The nightly run found changes in https://versedb.com/api/docs.openapi.
+
+            Check the diff for renamed or removed functions before merging. To
+            release, bump `version` in `pyproject.toml` and publish a GitHub
+            release tagged `v<version>`.
