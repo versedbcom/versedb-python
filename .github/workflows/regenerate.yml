@@ -13,8 +13,8 @@ jobs:
   regenerate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
 
       - name: Regenerate from the live spec
         run: ./scripts/generate.sh
@@ -25,7 +25,7 @@ jobs:
       # Operation IDs come from endpoint summaries on the website, so a renamed
       # summary renames a Python function. Open a PR for review instead of
       # publishing straight to PyPI.
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           branch: regenerate-sdk
           delete-branch: true
