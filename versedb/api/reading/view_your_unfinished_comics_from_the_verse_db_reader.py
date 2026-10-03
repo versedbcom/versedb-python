@@ -1,40 +1,35 @@
 from http import HTTPStatus
 from typing import Any
-from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.get_users_lists_response_200 import GetUsersListsResponse200
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
+from ...models.view_your_unfinished_comics_from_the_verse_db_reader_response_200 import (
+    ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200,
+)
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    user_id: int,
     *,
-    entity_type: str | Unset = UNSET,
-    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
-    params["entity_type"] = entity_type
-
-    params["sort"] = sort
-
     params["limit"] = limit
+
+    params["page"] = page
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/api/v1/users/{user_id}/lists".format(
-            user_id=quote(str(user_id), safe=""),
-        ),
+        "url": "/api/v1/user/reading/in-progress",
         "params": params,
     }
 
@@ -43,9 +38,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200 | None:
     if response.status_code == 200:
-        response_200 = GetUsersListsResponse200.from_dict(response.json())
+        response_200 = ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200.from_dict(response.json())
 
         return response_200
 
@@ -67,7 +62,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,37 +72,32 @@ def _build_response(
 
 
 def sync_detailed(
-    user_id: int,
     *,
     client: AuthenticatedClient | Client,
-    entity_type: str | Unset = UNSET,
-    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]:
-    """Get user's lists.
+    page: int | Unset = UNSET,
+) -> Response[TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200]:
+    """View your unfinished comics from the VerseDB reader.
 
-     Returns a user's public lists. Your own lists also include private and draft ones when the
-    token has `read:user`.
+     Available with read:user or read:showcase. Returns display fields only;
+    page URLs, resume positions and private account data are excluded.
+    Finished and unavailable books are omitted, with content preferences applied.
 
     Args:
-        user_id (int):
-        entity_type (str | Unset): Filter by entity type (issues, series, etc.).
-        sort (str | Unset): Sort order (newest, popular, most_saved).
-        limit (int | Unset): Items per page (max 100).
+        limit (int | Unset): Results per page (1-50).
+        page (int | Unset): Page number.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200]
     """
 
     kwargs = _get_kwargs(
-        user_id=user_id,
-        entity_type=entity_type,
-        sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -118,73 +108,63 @@ def sync_detailed(
 
 
 def sync(
-    user_id: int,
     *,
     client: AuthenticatedClient | Client,
-    entity_type: str | Unset = UNSET,
-    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
-    """Get user's lists.
+    page: int | Unset = UNSET,
+) -> TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200 | None:
+    """View your unfinished comics from the VerseDB reader.
 
-     Returns a user's public lists. Your own lists also include private and draft ones when the
-    token has `read:user`.
+     Available with read:user or read:showcase. Returns display fields only;
+    page URLs, resume positions and private account data are excluded.
+    Finished and unavailable books are omitted, with content preferences applied.
 
     Args:
-        user_id (int):
-        entity_type (str | Unset): Filter by entity type (issues, series, etc.).
-        sort (str | Unset): Sort order (newest, popular, most_saved).
-        limit (int | Unset): Items per page (max 100).
+        limit (int | Unset): Results per page (1-50).
+        page (int | Unset): Page number.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError
+        TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200
     """
 
     return sync_detailed(
-        user_id=user_id,
         client=client,
-        entity_type=entity_type,
-        sort=sort,
         limit=limit,
+        page=page,
     ).parsed
 
 
 async def asyncio_detailed(
-    user_id: int,
     *,
     client: AuthenticatedClient | Client,
-    entity_type: str | Unset = UNSET,
-    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]:
-    """Get user's lists.
+    page: int | Unset = UNSET,
+) -> Response[TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200]:
+    """View your unfinished comics from the VerseDB reader.
 
-     Returns a user's public lists. Your own lists also include private and draft ones when the
-    token has `read:user`.
+     Available with read:user or read:showcase. Returns display fields only;
+    page URLs, resume positions and private account data are excluded.
+    Finished and unavailable books are omitted, with content preferences applied.
 
     Args:
-        user_id (int):
-        entity_type (str | Unset): Filter by entity type (issues, series, etc.).
-        sort (str | Unset): Sort order (newest, popular, most_saved).
-        limit (int | Unset): Items per page (max 100).
+        limit (int | Unset): Results per page (1-50).
+        page (int | Unset): Page number.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200]
     """
 
     kwargs = _get_kwargs(
-        user_id=user_id,
-        entity_type=entity_type,
-        sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -193,38 +173,33 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    user_id: int,
     *,
     client: AuthenticatedClient | Client,
-    entity_type: str | Unset = UNSET,
-    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
-    """Get user's lists.
+    page: int | Unset = UNSET,
+) -> TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200 | None:
+    """View your unfinished comics from the VerseDB reader.
 
-     Returns a user's public lists. Your own lists also include private and draft ones when the
-    token has `read:user`.
+     Available with read:user or read:showcase. Returns display fields only;
+    page URLs, resume positions and private account data are excluded.
+    Finished and unavailable books are omitted, with content preferences applied.
 
     Args:
-        user_id (int):
-        entity_type (str | Unset): Filter by entity type (issues, series, etc.).
-        sort (str | Unset): Sort order (newest, popular, most_saved).
-        limit (int | Unset): Items per page (max 100).
+        limit (int | Unset): Results per page (1-50).
+        page (int | Unset): Page number.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError
+        TooManyRequestsError | UnauthorizedError | ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200
     """
 
     return (
         await asyncio_detailed(
-            user_id=user_id,
             client=client,
-            entity_type=entity_type,
-            sort=sort,
             limit=limit,
+            page=page,
         )
     ).parsed

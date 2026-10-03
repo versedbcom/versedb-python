@@ -139,6 +139,13 @@ def sync_detailed(
 
      Returns all issues in the user's collection with series and publisher info.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         page (int | Unset): Page number.
@@ -223,6 +230,13 @@ def sync(
 
      Returns all issues in the user's collection with series and publisher info.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         page (int | Unset): Page number.
@@ -301,6 +315,13 @@ async def asyncio_detailed(
     """List collection.
 
      Returns all issues in the user's collection with series and publisher info.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -383,6 +404,13 @@ async def asyncio(
     """List collection.
 
      Returns all issues in the user's collection with series and publisher info.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
