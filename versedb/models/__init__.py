@@ -66,6 +66,9 @@ from .delete_list_response_403_type_0 import DeleteListResponse403Type0
 from .delete_list_response_403_type_1 import DeleteListResponse403Type1
 from .edit_reading_date_body import EditReadingDateBody
 from .edit_reading_date_response_200 import EditReadingDateResponse200
+from .exchange_a_connect_code_for_a_token_body import ExchangeAConnectCodeForATokenBody
+from .exchange_a_connect_code_for_a_token_response_200 import ExchangeAConnectCodeForATokenResponse200
+from .exchange_a_connect_code_for_a_token_response_400 import ExchangeAConnectCodeForATokenResponse400
 from .f_oc_deadlines_response_200 import FOcDeadlinesResponse200
 from .f_oc_deadlines_response_200_data_item import FOcDeadlinesResponse200DataItem
 from .f_oc_deadlines_response_200_data_item_series import FOcDeadlinesResponse200DataItemSeries
@@ -85,6 +88,7 @@ from .get_a_comic_shop_response_200 import GetAComicShopResponse200
 from .get_a_comic_shop_response_200_data import GetAComicShopResponse200Data
 from .get_a_comic_shop_response_200_data_images import GetAComicShopResponse200DataImages
 from .get_a_comic_shop_response_200_data_operating_hours import GetAComicShopResponse200DataOperatingHours
+from .get_a_comic_shop_response_200_data_special_hours_item import GetAComicShopResponse200DataSpecialHoursItem
 from .get_a_comic_shop_response_404 import GetAComicShopResponse404
 from .get_a_specific_podcast_response_200 import GetASpecificPodcastResponse200
 from .get_a_specific_podcast_response_200_data import GetASpecificPodcastResponse200Data
@@ -505,6 +509,12 @@ from .view_your_monthly_reading_calendar_response_403 import ViewYourMonthlyRead
 from .view_your_reading_goal_response_200 import ViewYourReadingGoalResponse200
 from .view_your_reading_goal_response_200_data import ViewYourReadingGoalResponse200Data
 from .view_your_reading_goal_response_401 import ViewYourReadingGoalResponse401
+from .view_your_unfinished_comics_from_the_verse_db_reader_response_200 import (
+    ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200,
+)
+from .view_your_unfinished_comics_from_the_verse_db_reader_response_200_meta import (
+    ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200Meta,
+)
 
 __all__ = (
     "AddIssueToCollectionBody",
@@ -571,6 +581,9 @@ __all__ = (
     "DeleteListResponse403Type1",
     "EditReadingDateBody",
     "EditReadingDateResponse200",
+    "ExchangeAConnectCodeForATokenBody",
+    "ExchangeAConnectCodeForATokenResponse200",
+    "ExchangeAConnectCodeForATokenResponse400",
     "FOcDeadlinesResponse200",
     "FOcDeadlinesResponse200DataItem",
     "FOcDeadlinesResponse200DataItemSeries",
@@ -590,6 +603,7 @@ __all__ = (
     "GetAComicShopResponse200Data",
     "GetAComicShopResponse200DataImages",
     "GetAComicShopResponse200DataOperatingHours",
+    "GetAComicShopResponse200DataSpecialHoursItem",
     "GetAComicShopResponse404",
     "GetActivityFeedResponse200",
     "GetActivityFeedResponse200DataItem",
@@ -954,4 +968,6 @@ __all__ = (
     "ViewYourReadingGoalResponse200",
     "ViewYourReadingGoalResponse200Data",
     "ViewYourReadingGoalResponse401",
+    "ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200",
+    "ViewYourUnfinishedComicsFromTheVerseDbReaderResponse200Meta",
 )

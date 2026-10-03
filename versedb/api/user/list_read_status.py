@@ -79,6 +79,8 @@ def sync_detailed(
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
@@ -114,6 +116,8 @@ def sync(
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
@@ -143,6 +147,8 @@ async def asyncio_detailed(
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -176,6 +182,8 @@ async def asyncio(
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).

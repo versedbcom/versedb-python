@@ -90,6 +90,10 @@
     {
       "name": "User",
       "description": "\nEndpoints for managing the authenticated user's pull list, follows, and reading progress.\n\nAll endpoints in this group require authentication with a Bearer API token."
+    },
+    {
+      "name": "Connect to VerseDB",
+      "description": "\nLets a third-party site get a read-only token for a member's account without the member\ncopying one by hand. It is an OAuth 2.0 authorization-code flow with PKCE (S256).\n\n1. Generate a random `code_verifier` (43-128 characters) and a `state`, and keep both on your\n   server. The `code_challenge` is the base64url-encoded SHA-256 of the verifier, without padding.\n2. Send the member to `https://versedb.com/connect` with `redirect_uri`, `state`,\n   `code_challenge`, `code_challenge_method=S256`, and optionally `client_name` (your app, such as\n   `WordPress`, 40 characters at most), `site_name` (100 at most) and `scope` (a space-separated\n   subset of `read:public read:showcase`; both by default). `redirect_uri` must be HTTPS, or\n   `http://localhost` while developing.\n3. The member signs in if needed and approves or denies. VerseDB redirects to `redirect_uri` with\n   `code` and `state`, or with `error=access_denied` and `state` when they deny. Check that\n   `state` matches.\n4. Within 5 minutes, exchange the code here from your server.\n\nThe token is named \"{client_name}: {your host}\", lasts 365 days, shows in the member's My Apps\npage and counts toward their limit of 10 active tokens. Connecting the same site again replaces\nits previous token. `read:showcase` reads the member's profile, collection, wishlist, pull list and\nreading progress for display, without email, birth date, location, prices, notes, storage or loans."
     }
   ],
   "components": {
@@ -8035,7 +8039,7 @@
       "get": {
         "summary": "Get creator's series.",
         "operationId": "getCreatorsSeries",
-        "description": "Returns paginated series where the creator has worked.",
+        "description": "Returns paginated series where the creator has worked. `creator_issues_count` is how many\nof the series' issues credit this creator; `cached_issues_count` is the whole series.\nA series credited to the creator without any issue credits reports 0.",
         "parameters": [
           {
             "in": "query",
@@ -8131,6 +8135,12 @@
                             "examples": [
                               85
                             ]
+                          },
+                          "creator_issues_count": {
+                            "type": "integer",
+                            "examples": [
+                              12
+                            ]
                           }
                         }
                       },
@@ -8143,7 +8153,8 @@
                             "start_year": 2016,
                             "end_year": 2020,
                             "cover_url": "https://...",
-                            "cached_issues_count": 85
+                            "cached_issues_count": 85,
+                            "creator_issues_count": 12
                           }
                         ]
                       ]
@@ -8188,7 +8199,8 @@
                           "start_year": 2016,
                           "end_year": 2020,
                           "cover_url": "https://...",
-                          "cached_issues_count": 85
+                          "cached_issues_count": 85,
+                          "creator_issues_count": 12
                         }
                       ],
                       "meta": {
@@ -14741,7 +14753,7 @@
       "get": {
         "summary": "Get a comic shop.",
         "operationId": "getAComicShop",
-        "description": "Returns full shop details including services offered.\n\n`operating_hours` is keyed Monday-first by lowercase day name. Each value is\neither `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas\n(a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map\nhas unknown hours — that is not the same as the shop being closed that day.",
+        "description": "Returns full shop details including services offered.\n\n`operating_hours` is keyed Monday-first by lowercase day name. Each value is\neither `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas\n(a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map\nhas unknown hours — that is not the same as the shop being closed that day.\n\n`special_hours` lists dated exceptions to the weekly hours, ordered by start\ndate: holiday closures, stocktake days, late openings for a release. Each entry\nhas `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),\n`hours` in the same grammar as `operating_hours`, and an optional `note`. On the\ndates it covers, an entry replaces the weekly hours. Entries that have already\nended are left out, so an empty list means no exceptions are coming up.",
         "parameters": [],
         "responses": {
           "200": {
@@ -14854,6 +14866,54 @@
                             }
                           }
                         },
+                        "special_hours": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "from": {
+                                "type": "string",
+                                "examples": [
+                                  "2026-12-25"
+                                ]
+                              },
+                              "to": {
+                                "type": "string",
+                                "examples": [
+                                  "2026-12-26"
+                                ]
+                              },
+                              "hours": {
+                                "type": "string",
+                                "examples": [
+                                  "closed"
+                                ]
+                              },
+                              "note": {
+                                "type": "string",
+                                "examples": [
+                                  "Closed for the holidays"
+                                ]
+                              }
+                            }
+                          },
+                          "examples": [
+                            [
+                              {
+                                "from": "2026-12-25",
+                                "to": "2026-12-26",
+                                "hours": "closed",
+                                "note": "Closed for the holidays"
+                              },
+                              {
+                                "from": "2026-12-31",
+                                "to": "2026-12-31",
+                                "hours": "10:00-16:00",
+                                "note": null
+                              }
+                            ]
+                          ]
+                        },
                         "services": {
                           "type": "array",
                           "items": {
@@ -14900,6 +14960,20 @@
                           "saturday": "10:00-21:00",
                           "sunday": "closed"
                         },
+                        "special_hours": [
+                          {
+                            "from": "2026-12-25",
+                            "to": "2026-12-26",
+                            "hours": "closed",
+                            "note": "Closed for the holidays"
+                          },
+                          {
+                            "from": "2026-12-31",
+                            "to": "2026-12-31",
+                            "hours": "10:00-16:00",
+                            "note": null
+                          }
+                        ],
                         "services": [
                           "New Comics",
                           "Back Issues",
@@ -15654,7 +15728,7 @@
           "schema": {
             "type": "integer",
             "examples": [
-              433
+              395
             ]
           }
         }
@@ -17504,7 +17578,7 @@
       "get": {
         "summary": "Get user's lists.",
         "operationId": "getUsersLists",
-        "description": "Returns a user's public lists. If viewing your own profile, also includes private lists.",
+        "description": "Returns a user's public lists. Your own lists also include private and draft ones when the\ntoken has `read:user`.",
         "parameters": [
           {
             "in": "query",
@@ -21248,11 +21322,179 @@
         }
       ]
     },
+    "/api/v1/user/reading/in-progress": {
+      "get": {
+        "summary": "View your unfinished comics from the VerseDB reader.",
+        "operationId": "viewYourUnfinishedComicsFromTheVerseDBReader",
+        "description": "Available with read:user or read:showcase. Returns display fields only;\npage URLs, resume positions and private account data are excluded.\nFinished and unavailable books are omitted, with content preferences applied.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Results per page (1-50).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Results per page (1-50).",
+              "examples": [
+                12
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page number.",
+              "examples": [
+                1
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "examples": [
+                        []
+                      ],
+                      "items": {}
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            12
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "examples": [
+                    {
+                      "data": [],
+                      "meta": {
+                        "current_page": 1,
+                        "last_page": 1,
+                        "per_page": 12,
+                        "total": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reading"
+        ]
+      }
+    },
     "/api/v1/user/reading-stats/year": {
       "get": {
         "summary": "View yearly reading statistics.",
         "operationId": "viewYearlyReadingStatistics",
-        "description": "Pro feature. Includes goal progress, daily and monthly counts, pace,\nstreaks, rankings and completed series for the authenticated member.",
+        "description": "Pro feature. Includes goal progress, daily and monthly counts, pace,\nstreaks, rankings and completed series for the authenticated member.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without\n`notify_milestones`, `notify_lapses` and `email_updates`.",
         "parameters": [
           {
             "in": "query",
@@ -21746,7 +21988,7 @@
       "get": {
         "summary": "View your monthly reading calendar.",
         "operationId": "viewYourMonthlyReadingCalendar",
-        "description": "Pro feature. Returns up to 60 reads per page, newest first.",
+        "description": "Pro feature. Returns up to 60 reads per page, newest first.\n\nNeeds `read:user` or `read:showcase`; both get the same response.",
         "parameters": [
           {
             "in": "query",
@@ -21949,7 +22191,7 @@
       "get": {
         "summary": "View your reading goal.",
         "operationId": "viewYourReadingGoal",
-        "description": "Available to every authenticated member. Returns only the caller's goal.",
+        "description": "Available to every authenticated member. Returns only the caller's goal.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets the goal without\n`notify_milestones`, `notify_lapses` and `email_updates`.",
         "parameters": [
           {
             "in": "query",
@@ -22224,7 +22466,7 @@
       "get": {
         "summary": "Get the authenticated user.",
         "operationId": "getTheAuthenticatedUser",
-        "description": "Returns the profile of the user the token belongs to.",
+        "description": "Returns the profile of the user the token belongs to.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets only `id`, `name`,\n`username`, `bio`, the avatar and banner fields, `is_pro`, the level and XP fields,\n`created_at` and `updated_at`: no email, location, birth date, preferences, or\nnotification and account settings.",
         "parameters": [],
         "responses": {
           "200": {
@@ -22585,7 +22827,7 @@
       "get": {
         "summary": "List collection.",
         "operationId": "listCollection",
-        "description": "Returns all issues in the user's collection with series and publisher info.",
+        "description": "Returns all issues in the user's collection with series and publisher info.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each copy without\n`price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,\n`purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,\n`comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,\n`custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies\nmarked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.",
         "parameters": [
           {
             "in": "query",
@@ -26309,7 +26551,7 @@
       "get": {
         "summary": "List pull list.",
         "operationId": "listPullList",
-        "description": "Returns all series on the user's pull list (series they're tracking for new releases).",
+        "description": "Returns all series on the user's pull list (series they're tracking for new releases).\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each entry without\n`personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,\n`last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.",
         "parameters": [
           {
             "in": "query",
@@ -26809,7 +27051,7 @@
       "get": {
         "summary": "List read status.",
         "operationId": "listReadStatus",
-        "description": "Returns all issues the user has marked as read with timestamps.",
+        "description": "Returns all issues the user has marked as read with timestamps.\n\nNeeds `read:user` or `read:showcase`; both get the same response.",
         "parameters": [
           {
             "in": "query",
@@ -27490,7 +27732,7 @@
       "get": {
         "summary": "List wishlist.",
         "operationId": "listWishlist",
-        "description": "Returns the authenticated user's wishlist issues, most recently added first.",
+        "description": "Returns the authenticated user's wishlist issues, most recently added first.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.",
         "parameters": [
           {
             "in": "query",
@@ -29181,6 +29423,208 @@
           "User"
         ],
         "deprecated": true
+      }
+    },
+    "/api/v1/connect/token": {
+      "post": {
+        "summary": "Exchange a Connect code for a token",
+        "operationId": "exchangeAConnectCodeForAToken",
+        "description": "Redeems the single-use code from the Connect redirect. A code works once: a second attempt,\na wrong `code_verifier` or a different `redirect_uri` fails and the code cannot be used again.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "examples": [
+                        "Sq2mX9p..."
+                      ]
+                    },
+                    "token_type": {
+                      "type": "string",
+                      "examples": [
+                        "Bearer"
+                      ]
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "examples": [
+                        "2027-09-29T15:00:00Z"
+                      ]
+                    },
+                    "abilities": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        [
+                          "read:public",
+                          "read:showcase"
+                        ]
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "access_token": "Sq2mX9p...",
+                      "token_type": "Bearer",
+                      "expires_at": "2027-09-29T15:00:00Z",
+                      "abilities": [
+                        "read:public",
+                        "read:showcase"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request could not be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "examples": [
+                        "invalid_grant"
+                      ]
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "examples": [
+                        "This code is invalid or has expired."
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "error": "invalid_grant",
+                      "error_description": "This code is invalid or has expired."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Connect to VerseDB"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Must be `authorization_code`.",
+                    "examples": [
+                      "authorization_code"
+                    ]
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "The code from the redirect.",
+                    "examples": [
+                      "9Qm2cT4xZ7bN1pL8vR3kW6yH0sD5fJ2aG4eU7iO1nB3vC6xZ"
+                    ]
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "Exactly the redirect_uri sent to /connect.",
+                    "examples": [
+                      "https://example.com/wp-admin/options-general.php?page=versedb"
+                    ]
+                  },
+                  "code_verifier": {
+                    "type": "string",
+                    "description": "The verifier the code_challenge was made from.",
+                    "examples": [
+                      "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+                    ]
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "code",
+                  "redirect_uri",
+                  "code_verifier"
+                ]
+              }
+            }
+          }
+        },
+        "security": []
       }
     }
   }

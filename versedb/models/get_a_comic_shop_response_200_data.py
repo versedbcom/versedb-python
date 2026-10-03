@@ -11,6 +11,9 @@ from ..types import UNSET, Unset
 if TYPE_CHECKING:
     from ..models.get_a_comic_shop_response_200_data_images import GetAComicShopResponse200DataImages
     from ..models.get_a_comic_shop_response_200_data_operating_hours import GetAComicShopResponse200DataOperatingHours
+    from ..models.get_a_comic_shop_response_200_data_special_hours_item import (
+        GetAComicShopResponse200DataSpecialHoursItem,
+    )
 
 
 T = TypeVar("T", bound="GetAComicShopResponse200Data")
@@ -32,6 +35,7 @@ class GetAComicShopResponse200Data:
         logo_url (str | Unset):
         images (GetAComicShopResponse200DataImages | Unset):
         operating_hours (GetAComicShopResponse200DataOperatingHours | Unset):
+        special_hours (list[GetAComicShopResponse200DataSpecialHoursItem] | Unset):
         services (list[str] | Unset):
         events (list[Any] | Unset):
     """
@@ -48,6 +52,7 @@ class GetAComicShopResponse200Data:
     logo_url: str | Unset = UNSET
     images: GetAComicShopResponse200DataImages | Unset = UNSET
     operating_hours: GetAComicShopResponse200DataOperatingHours | Unset = UNSET
+    special_hours: list[GetAComicShopResponse200DataSpecialHoursItem] | Unset = UNSET
     services: list[str] | Unset = UNSET
     events: list[Any] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -80,6 +85,13 @@ class GetAComicShopResponse200Data:
         operating_hours: dict[str, Any] | Unset = UNSET
         if not isinstance(self.operating_hours, Unset):
             operating_hours = self.operating_hours.to_dict()
+
+        special_hours: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.special_hours, Unset):
+            special_hours = []
+            for special_hours_item_data in self.special_hours:
+                special_hours_item = special_hours_item_data.to_dict()
+                special_hours.append(special_hours_item)
 
         services: list[str] | Unset = UNSET
         if not isinstance(self.services, Unset):
@@ -116,6 +128,8 @@ class GetAComicShopResponse200Data:
             field_dict["images"] = images
         if operating_hours is not UNSET:
             field_dict["operating_hours"] = operating_hours
+        if special_hours is not UNSET:
+            field_dict["special_hours"] = special_hours
         if services is not UNSET:
             field_dict["services"] = services
         if events is not UNSET:
@@ -130,6 +144,9 @@ class GetAComicShopResponse200Data:
         )
         from ..models.get_a_comic_shop_response_200_data_operating_hours import (
             GetAComicShopResponse200DataOperatingHours,  # noqa: PLC0415
+        )
+        from ..models.get_a_comic_shop_response_200_data_special_hours_item import (
+            GetAComicShopResponse200DataSpecialHoursItem,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
@@ -167,6 +184,15 @@ class GetAComicShopResponse200Data:
         else:
             operating_hours = GetAComicShopResponse200DataOperatingHours.from_dict(_operating_hours)
 
+        _special_hours = d.pop("special_hours", UNSET)
+        special_hours: list[GetAComicShopResponse200DataSpecialHoursItem] | Unset = UNSET
+        if _special_hours is not UNSET:
+            special_hours = []
+            for special_hours_item_data in _special_hours:
+                special_hours_item = GetAComicShopResponse200DataSpecialHoursItem.from_dict(special_hours_item_data)
+
+                special_hours.append(special_hours_item)
+
         services = cast(list[str], d.pop("services", UNSET))
 
         events = cast(list[Any], d.pop("events", UNSET))
@@ -184,6 +210,7 @@ class GetAComicShopResponse200Data:
             logo_url=logo_url,
             images=images,
             operating_hours=operating_hours,
+            special_hours=special_hours,
             services=services,
             events=events,
         )
