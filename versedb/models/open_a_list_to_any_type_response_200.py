@@ -40,9 +40,7 @@ class OpenAListToAnyTypeResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.open_a_list_to_any_type_response_200_data import (
-            OpenAListToAnyTypeResponse200Data,  # noqa: PLC0415
-        )
+        from ..models.open_a_list_to_any_type_response_200_data import OpenAListToAnyTypeResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
         _data = d.pop("data", UNSET)

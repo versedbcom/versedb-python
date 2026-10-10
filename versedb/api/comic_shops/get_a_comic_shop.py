@@ -81,6 +81,13 @@ def sync_detailed(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
         shop_id (int):
 
@@ -117,6 +124,13 @@ def sync(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
         shop_id (int):
 
@@ -147,6 +161,13 @@ async def asyncio_detailed(
     either `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
+
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
 
     Args:
         shop_id (int):
@@ -181,6 +202,13 @@ async def asyncio(
     either `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
+
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
 
     Args:
         shop_id (int):

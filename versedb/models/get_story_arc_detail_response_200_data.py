@@ -148,12 +148,8 @@ class GetStoryArcDetailResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_story_arc_detail_response_200_data_end_issue import (
-            GetStoryArcDetailResponse200DataEndIssue,  # noqa: PLC0415
-        )
-        from ..models.get_story_arc_detail_response_200_data_images import (
-            GetStoryArcDetailResponse200DataImages,  # noqa: PLC0415
-        )
+        from ..models.get_story_arc_detail_response_200_data_end_issue import GetStoryArcDetailResponse200DataEndIssue  # noqa: PLC0415
+        from ..models.get_story_arc_detail_response_200_data_images import GetStoryArcDetailResponse200DataImages  # noqa: PLC0415
         from ..models.get_story_arc_detail_response_200_data_last_edited_by import (
             GetStoryArcDetailResponse200DataLastEditedBy,  # noqa: PLC0415
         )

@@ -97,7 +97,8 @@ def sync_detailed(
         state (str | Unset): Filter by state or province.
         city (str | Unset): Filter by city. Accepts the city name or its URL slug, case-
             insensitive.
-        q (str | Unset): Search by shop name or city.
+        q (str | Unset): Search by shop name, city, street address, postal code or state,
+            tolerating small typos. Results are ordered by relevance when set.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -142,7 +143,8 @@ def sync(
         state (str | Unset): Filter by state or province.
         city (str | Unset): Filter by city. Accepts the city name or its URL slug, case-
             insensitive.
-        q (str | Unset): Search by shop name or city.
+        q (str | Unset): Search by shop name, city, street address, postal code or state,
+            tolerating small typos. Results are ordered by relevance when set.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -182,7 +184,8 @@ async def asyncio_detailed(
         state (str | Unset): Filter by state or province.
         city (str | Unset): Filter by city. Accepts the city name or its URL slug, case-
             insensitive.
-        q (str | Unset): Search by shop name or city.
+        q (str | Unset): Search by shop name, city, street address, postal code or state,
+            tolerating small typos. Results are ordered by relevance when set.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -225,7 +228,8 @@ async def asyncio(
         state (str | Unset): Filter by state or province.
         city (str | Unset): Filter by city. Accepts the city name or its URL slug, case-
             insensitive.
-        q (str | Unset): Search by shop name or city.
+        q (str | Unset): Search by shop name, city, street address, postal code or state,
+            tolerating small typos. Results are ordered by relevance when set.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:

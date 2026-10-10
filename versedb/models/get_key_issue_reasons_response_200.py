@@ -43,9 +43,7 @@ class GetKeyIssueReasonsResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_key_issue_reasons_response_200_data_item import (
-            GetKeyIssueReasonsResponse200DataItem,  # noqa: PLC0415
-        )
+        from ..models.get_key_issue_reasons_response_200_data_item import GetKeyIssueReasonsResponse200DataItem  # noqa: PLC0415
 
         d = dict(src_dict)
         _data = d.pop("data", UNSET)

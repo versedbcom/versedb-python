@@ -84,7 +84,7 @@ def sync_detailed(
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
 
@@ -121,7 +121,7 @@ def sync(
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
 
@@ -153,7 +153,7 @@ async def asyncio_detailed(
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
 
@@ -188,7 +188,7 @@ async def asyncio(
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
 

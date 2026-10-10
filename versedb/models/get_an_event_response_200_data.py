@@ -279,12 +279,8 @@ class GetAnEventResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_an_event_response_200_data_attendees_preview import (
-            GetAnEventResponse200DataAttendeesPreview,  # noqa: PLC0415
-        )
-        from ..models.get_an_event_response_200_data_creators_item import (
-            GetAnEventResponse200DataCreatorsItem,  # noqa: PLC0415
-        )
+        from ..models.get_an_event_response_200_data_attendees_preview import GetAnEventResponse200DataAttendeesPreview  # noqa: PLC0415
+        from ..models.get_an_event_response_200_data_creators_item import GetAnEventResponse200DataCreatorsItem  # noqa: PLC0415
         from ..models.get_an_event_response_200_data_images import GetAnEventResponse200DataImages  # noqa: PLC0415
 
         d = dict(src_dict)
