@@ -86,7 +86,9 @@ def sync_detailed(
 ) -> Response[GetCreatorsSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get creator's series.
 
-     Returns paginated series where the creator has worked.
+     Returns paginated series where the creator has worked. `creator_issues_count` is how many
+    of the series' issues credit this creator; `cached_issues_count` is the whole series.
+    A series credited to the creator without any issue credits reports 0.
 
     Args:
         creator_id (int):
@@ -127,7 +129,9 @@ def sync(
 ) -> GetCreatorsSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get creator's series.
 
-     Returns paginated series where the creator has worked.
+     Returns paginated series where the creator has worked. `creator_issues_count` is how many
+    of the series' issues credit this creator; `cached_issues_count` is the whole series.
+    A series credited to the creator without any issue credits reports 0.
 
     Args:
         creator_id (int):
@@ -163,7 +167,9 @@ async def asyncio_detailed(
 ) -> Response[GetCreatorsSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get creator's series.
 
-     Returns paginated series where the creator has worked.
+     Returns paginated series where the creator has worked. `creator_issues_count` is how many
+    of the series' issues credit this creator; `cached_issues_count` is the whole series.
+    A series credited to the creator without any issue credits reports 0.
 
     Args:
         creator_id (int):
@@ -202,7 +208,9 @@ async def asyncio(
 ) -> GetCreatorsSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get creator's series.
 
-     Returns paginated series where the creator has worked.
+     Returns paginated series where the creator has worked. `creator_issues_count` is how many
+    of the series' issues credit this creator; `cached_issues_count` is the whole series.
+    A series credited to the creator without any issue credits reports 0.
 
     Args:
         creator_id (int):

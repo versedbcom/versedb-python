@@ -72,9 +72,7 @@ class UnlikeListResponse200Type0:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.unlike_list_response_200_type_0_reactions_item import (
-            UnlikeListResponse200Type0ReactionsItem,  # noqa: PLC0415
-        )
+        from ..models.unlike_list_response_200_type_0_reactions_item import UnlikeListResponse200Type0ReactionsItem  # noqa: PLC0415
 
         d = dict(src_dict)
         message = d.pop("message", UNSET)

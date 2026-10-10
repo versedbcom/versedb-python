@@ -22,6 +22,9 @@ def _get_kwargs(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -52,6 +55,12 @@ def _get_kwargs(
     params["title_ids"] = title_ids
 
     params["character_ids"] = character_ids
+
+    params["creator_ids"] = creator_ids
+
+    params["creator_role_ids"] = creator_role_ids
+
+    params["team_ids"] = team_ids
 
     params["genre_ids"] = genre_ids
 
@@ -129,6 +138,9 @@ def sync_detailed(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -156,6 +168,12 @@ def sync_detailed(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -186,6 +204,9 @@ def sync_detailed(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -216,6 +237,9 @@ def sync(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -243,6 +267,12 @@ def sync(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -274,6 +304,9 @@ def sync(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -298,6 +331,9 @@ async def asyncio_detailed(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -325,6 +361,12 @@ async def asyncio_detailed(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -355,6 +397,9 @@ async def asyncio_detailed(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -383,6 +428,9 @@ async def asyncio(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -410,6 +458,12 @@ async def asyncio(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -442,6 +496,9 @@ async def asyncio(
             series_ids=series_ids,
             title_ids=title_ids,
             character_ids=character_ids,
+            creator_ids=creator_ids,
+            creator_role_ids=creator_role_ids,
+            team_ids=team_ids,
             genre_ids=genre_ids,
             languages=languages,
             medium=medium,

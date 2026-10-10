@@ -151,9 +151,7 @@ class GetCharacterDetailsResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_character_details_response_200_data_images import (
-            GetCharacterDetailsResponse200DataImages,  # noqa: PLC0415
-        )
+        from ..models.get_character_details_response_200_data_images import GetCharacterDetailsResponse200DataImages  # noqa: PLC0415
         from ..models.get_character_details_response_200_data_publisher import (
             GetCharacterDetailsResponse200DataPublisher,  # noqa: PLC0415
         )

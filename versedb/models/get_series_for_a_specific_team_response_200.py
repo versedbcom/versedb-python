@@ -57,9 +57,7 @@ class GetSeriesForASpecificTeamResponse200:
         from ..models.get_series_for_a_specific_team_response_200_data_item import (
             GetSeriesForASpecificTeamResponse200DataItem,  # noqa: PLC0415
         )
-        from ..models.get_series_for_a_specific_team_response_200_meta import (
-            GetSeriesForASpecificTeamResponse200Meta,  # noqa: PLC0415
-        )
+        from ..models.get_series_for_a_specific_team_response_200_meta import GetSeriesForASpecificTeamResponse200Meta  # noqa: PLC0415
 
         d = dict(src_dict)
         _data = d.pop("data", UNSET)

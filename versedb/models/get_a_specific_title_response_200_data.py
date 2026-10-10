@@ -146,9 +146,7 @@ class GetASpecificTitleResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_a_specific_title_response_200_data_images import (
-            GetASpecificTitleResponse200DataImages,  # noqa: PLC0415
-        )
+        from ..models.get_a_specific_title_response_200_data_images import GetASpecificTitleResponse200DataImages  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

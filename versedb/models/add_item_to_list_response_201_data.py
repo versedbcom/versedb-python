@@ -91,12 +91,8 @@ class AddItemToListResponse201Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.add_item_to_list_response_201_data_entity import (
-            AddItemToListResponse201DataEntity,  # noqa: PLC0415
-        )
-        from ..models.add_item_to_list_response_201_data_variant import (
-            AddItemToListResponse201DataVariant,  # noqa: PLC0415
-        )
+        from ..models.add_item_to_list_response_201_data_entity import AddItemToListResponse201DataEntity  # noqa: PLC0415
+        from ..models.add_item_to_list_response_201_data_variant import AddItemToListResponse201DataVariant  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

@@ -19,12 +19,18 @@ class LookupByUpcResponse200VariantsItem:
         variant_name (str | Unset):
         cover_url (str | Unset):
         upc (str | Unset):
+        lunar_code (str | Unset):
+        universal_code (None | str | Unset):
+        diamond_code (str | Unset):
     """
 
     variant_id: None | str | Unset = UNSET
     variant_name: str | Unset = UNSET
     cover_url: str | Unset = UNSET
     upc: str | Unset = UNSET
+    lunar_code: str | Unset = UNSET
+    universal_code: None | str | Unset = UNSET
+    diamond_code: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -40,6 +46,16 @@ class LookupByUpcResponse200VariantsItem:
 
         upc = self.upc
 
+        lunar_code = self.lunar_code
+
+        universal_code: None | str | Unset
+        if isinstance(self.universal_code, Unset):
+            universal_code = UNSET
+        else:
+            universal_code = self.universal_code
+
+        diamond_code = self.diamond_code
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -51,6 +67,12 @@ class LookupByUpcResponse200VariantsItem:
             field_dict["cover_url"] = cover_url
         if upc is not UNSET:
             field_dict["upc"] = upc
+        if lunar_code is not UNSET:
+            field_dict["lunar_code"] = lunar_code
+        if universal_code is not UNSET:
+            field_dict["universal_code"] = universal_code
+        if diamond_code is not UNSET:
+            field_dict["diamond_code"] = diamond_code
 
         return field_dict
 
@@ -73,11 +95,27 @@ class LookupByUpcResponse200VariantsItem:
 
         upc = d.pop("upc", UNSET)
 
+        lunar_code = d.pop("lunar_code", UNSET)
+
+        def _parse_universal_code(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        universal_code = _parse_universal_code(d.pop("universal_code", UNSET))
+
+        diamond_code = d.pop("diamond_code", UNSET)
+
         lookup_by_upc_response_200_variants_item = cls(
             variant_id=variant_id,
             variant_name=variant_name,
             cover_url=cover_url,
             upc=upc,
+            lunar_code=lunar_code,
+            universal_code=universal_code,
+            diamond_code=diamond_code,
         )
 
         lookup_by_upc_response_200_variants_item.additional_properties = d

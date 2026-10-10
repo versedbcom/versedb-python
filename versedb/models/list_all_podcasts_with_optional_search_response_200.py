@@ -27,11 +27,13 @@ class ListAllPodcastsWithOptionalSearchResponse200:
         data (list[ListAllPodcastsWithOptionalSearchResponse200DataItem] | Unset):
         meta (ListAllPodcastsWithOptionalSearchResponse200Meta | Unset):
         languages (list[str] | Unset):
+        categories (list[str] | Unset):
     """
 
     data: list[ListAllPodcastsWithOptionalSearchResponse200DataItem] | Unset = UNSET
     meta: ListAllPodcastsWithOptionalSearchResponse200Meta | Unset = UNSET
     languages: list[str] | Unset = UNSET
+    categories: list[str] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -50,6 +52,10 @@ class ListAllPodcastsWithOptionalSearchResponse200:
         if not isinstance(self.languages, Unset):
             languages = self.languages
 
+        categories: list[str] | Unset = UNSET
+        if not isinstance(self.categories, Unset):
+            categories = self.categories
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -59,6 +65,8 @@ class ListAllPodcastsWithOptionalSearchResponse200:
             field_dict["meta"] = meta
         if languages is not UNSET:
             field_dict["languages"] = languages
+        if categories is not UNSET:
+            field_dict["categories"] = categories
 
         return field_dict
 
@@ -90,10 +98,13 @@ class ListAllPodcastsWithOptionalSearchResponse200:
 
         languages = cast(list[str], d.pop("languages", UNSET))
 
+        categories = cast(list[str], d.pop("categories", UNSET))
+
         list_all_podcasts_with_optional_search_response_200 = cls(
             data=data,
             meta=meta,
             languages=languages,
+            categories=categories,
         )
 
         list_all_podcasts_with_optional_search_response_200.additional_properties = d

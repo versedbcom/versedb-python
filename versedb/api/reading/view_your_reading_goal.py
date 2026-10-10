@@ -75,6 +75,9 @@ def sync_detailed(
 
      Available to every authenticated member. Returns only the caller's goal.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
 
@@ -106,6 +109,9 @@ def sync(
 
      Available to every authenticated member. Returns only the caller's goal.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
 
@@ -131,6 +137,9 @@ async def asyncio_detailed(
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -160,6 +169,9 @@ async def asyncio(
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.

@@ -52,9 +52,7 @@ class GetActivityFeedResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_activity_feed_response_200_data_item import (
-            GetActivityFeedResponse200DataItem,  # noqa: PLC0415
-        )
+        from ..models.get_activity_feed_response_200_data_item import GetActivityFeedResponse200DataItem  # noqa: PLC0415
         from ..models.get_activity_feed_response_200_meta import GetActivityFeedResponse200Meta  # noqa: PLC0415
 
         d = dict(src_dict)
