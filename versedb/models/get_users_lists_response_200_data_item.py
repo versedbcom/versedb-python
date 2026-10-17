@@ -70,9 +70,7 @@ class GetUsersListsResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_users_lists_response_200_data_item_user import (
-            GetUsersListsResponse200DataItemUser,  # noqa: PLC0415
-        )
+        from ..models.get_users_lists_response_200_data_item_user import GetUsersListsResponse200DataItemUser  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

@@ -329,24 +329,16 @@ class GetSeriesDetailsResponse200Data:
         from ..models.get_series_details_response_200_data_foc_issues_item import (
             GetSeriesDetailsResponse200DataFocIssuesItem,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_genres_item import (
-            GetSeriesDetailsResponse200DataGenresItem,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_genres_item import GetSeriesDetailsResponse200DataGenresItem  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_last_edited_by import (
             GetSeriesDetailsResponse200DataLastEditedBy,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_publisher import (
-            GetSeriesDetailsResponse200DataPublisher,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_publisher import GetSeriesDetailsResponse200DataPublisher  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_publishers_item import (
             GetSeriesDetailsResponse200DataPublishersItem,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_teams_item import (
-            GetSeriesDetailsResponse200DataTeamsItem,  # noqa: PLC0415
-        )
-        from ..models.get_series_details_response_200_data_title import (
-            GetSeriesDetailsResponse200DataTitle,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_teams_item import GetSeriesDetailsResponse200DataTeamsItem  # noqa: PLC0415
+        from ..models.get_series_details_response_200_data_title import GetSeriesDetailsResponse200DataTitle  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_upcoming_issues_item import (
             GetSeriesDetailsResponse200DataUpcomingIssuesItem,  # noqa: PLC0415
         )

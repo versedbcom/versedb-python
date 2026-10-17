@@ -16,6 +16,8 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
@@ -26,6 +28,14 @@ def _get_kwargs(
     params["type"] = type_
 
     params["language"] = language
+
+    json_category: list[str] | Unset = UNSET
+    if not isinstance(category, Unset):
+        json_category = category
+
+    params["category"] = json_category
+
+    params["sort"] = sort
 
     params["limit"] = limit
 
@@ -81,17 +91,24 @@ def sync_detailed(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -106,6 +123,8 @@ def sync_detailed(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
     )
 
@@ -122,17 +141,24 @@ def sync(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -148,6 +174,8 @@ def sync(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
     ).parsed
 
@@ -158,17 +186,24 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -183,6 +218,8 @@ async def asyncio_detailed(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
     )
 
@@ -197,17 +234,24 @@ async def asyncio(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -224,6 +268,8 @@ async def asyncio(
             q=q,
             type_=type_,
             language=language,
+            category=category,
+            sort=sort,
             limit=limit,
         )
     ).parsed

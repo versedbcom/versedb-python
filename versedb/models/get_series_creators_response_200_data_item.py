@@ -52,9 +52,7 @@ class GetSeriesCreatorsResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_series_creators_response_200_data_item_role import (
-            GetSeriesCreatorsResponse200DataItemRole,  # noqa: PLC0415
-        )
+        from ..models.get_series_creators_response_200_data_item_role import GetSeriesCreatorsResponse200DataItemRole  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

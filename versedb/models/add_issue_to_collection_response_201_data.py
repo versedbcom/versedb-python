@@ -83,12 +83,8 @@ class AddIssueToCollectionResponse201Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.add_issue_to_collection_response_201_data_issue import (
-            AddIssueToCollectionResponse201DataIssue,  # noqa: PLC0415
-        )
-        from ..models.add_issue_to_collection_response_201_data_series import (
-            AddIssueToCollectionResponse201DataSeries,  # noqa: PLC0415
-        )
+        from ..models.add_issue_to_collection_response_201_data_issue import AddIssueToCollectionResponse201DataIssue  # noqa: PLC0415
+        from ..models.add_issue_to_collection_response_201_data_series import AddIssueToCollectionResponse201DataSeries  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

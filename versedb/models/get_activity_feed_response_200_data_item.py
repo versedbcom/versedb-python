@@ -64,9 +64,7 @@ class GetActivityFeedResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_activity_feed_response_200_data_item_data import (
-            GetActivityFeedResponse200DataItemData,  # noqa: PLC0415
-        )
+        from ..models.get_activity_feed_response_200_data_item_data import GetActivityFeedResponse200DataItemData  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
