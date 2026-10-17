@@ -48,9 +48,7 @@ class ViewYearlyReadingStatisticsResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.view_yearly_reading_statistics_response_200_data import (
-            ViewYearlyReadingStatisticsResponse200Data,  # noqa: PLC0415
-        )
+        from ..models.view_yearly_reading_statistics_response_200_data import ViewYearlyReadingStatisticsResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
         _data = d.pop("data", UNSET)

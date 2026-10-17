@@ -16,6 +16,8 @@ def _get_kwargs(
     team_id: int,
     *,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     medium: str | Unset = UNSET,
 ) -> dict[str, Any]:
@@ -23,6 +25,10 @@ def _get_kwargs(
     params: dict[str, Any] = {}
 
     params["q"] = q
+
+    params["sort"] = sort
+
+    params["direction"] = direction
 
     params["limit"] = limit
 
@@ -81,16 +87,22 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     medium: str | Unset = UNSET,
 ) -> Response[GetIssuesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get issues for a specific team
 
-     Returns the issues the team appears in.
+     Returns the issues the team appears in, newest release first unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's issues. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (release_date, cover_date, average_rating). Defaults to
+            release_date.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to desc.
         limit (int | Unset): Number of results per page (max 50).
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
@@ -106,6 +118,8 @@ def sync_detailed(
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
         medium=medium,
     )
@@ -122,16 +136,22 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     medium: str | Unset = UNSET,
 ) -> GetIssuesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get issues for a specific team
 
-     Returns the issues the team appears in.
+     Returns the issues the team appears in, newest release first unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's issues. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (release_date, cover_date, average_rating). Defaults to
+            release_date.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to desc.
         limit (int | Unset): Number of results per page (max 50).
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
@@ -148,6 +168,8 @@ def sync(
         team_id=team_id,
         client=client,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
         medium=medium,
     ).parsed
@@ -158,16 +180,22 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     medium: str | Unset = UNSET,
 ) -> Response[GetIssuesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get issues for a specific team
 
-     Returns the issues the team appears in.
+     Returns the issues the team appears in, newest release first unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's issues. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (release_date, cover_date, average_rating). Defaults to
+            release_date.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to desc.
         limit (int | Unset): Number of results per page (max 50).
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
@@ -183,6 +211,8 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
         medium=medium,
     )
@@ -197,16 +227,22 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
     medium: str | Unset = UNSET,
 ) -> GetIssuesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get issues for a specific team
 
-     Returns the issues the team appears in.
+     Returns the issues the team appears in, newest release first unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's issues. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (release_date, cover_date, average_rating). Defaults to
+            release_date.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to desc.
         limit (int | Unset): Number of results per page (max 50).
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
@@ -224,6 +260,8 @@ async def asyncio(
             team_id=team_id,
             client=client,
             q=q,
+            sort=sort,
+            direction=direction,
             limit=limit,
             medium=medium,
         )
