@@ -151,18 +151,10 @@ class GetCreatorDetailsResponse200Data:
         from ..models.get_creator_details_response_200_data_awards_item import (
             GetCreatorDetailsResponse200DataAwardsItem,  # noqa: PLC0415
         )
-        from ..models.get_creator_details_response_200_data_images import (
-            GetCreatorDetailsResponse200DataImages,  # noqa: PLC0415
-        )
-        from ..models.get_creator_details_response_200_data_links import (
-            GetCreatorDetailsResponse200DataLinks,  # noqa: PLC0415
-        )
-        from ..models.get_creator_details_response_200_data_role import (
-            GetCreatorDetailsResponse200DataRole,  # noqa: PLC0415
-        )
-        from ..models.get_creator_details_response_200_data_roles_item import (
-            GetCreatorDetailsResponse200DataRolesItem,  # noqa: PLC0415
-        )
+        from ..models.get_creator_details_response_200_data_images import GetCreatorDetailsResponse200DataImages  # noqa: PLC0415
+        from ..models.get_creator_details_response_200_data_links import GetCreatorDetailsResponse200DataLinks  # noqa: PLC0415
+        from ..models.get_creator_details_response_200_data_role import GetCreatorDetailsResponse200DataRole  # noqa: PLC0415
+        from ..models.get_creator_details_response_200_data_roles_item import GetCreatorDetailsResponse200DataRolesItem  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

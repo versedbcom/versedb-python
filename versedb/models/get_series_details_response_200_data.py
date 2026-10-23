@@ -39,6 +39,7 @@ class GetSeriesDetailsResponse200Data:
         id (int | Unset):
         title_id (int | Unset):
         name (str | Unset):
+        original_name (None | str | Unset):
         slug (str | Unset):
         number (int | Unset):
         start_year (int | Unset):
@@ -78,6 +79,7 @@ class GetSeriesDetailsResponse200Data:
     id: int | Unset = UNSET
     title_id: int | Unset = UNSET
     name: str | Unset = UNSET
+    original_name: None | str | Unset = UNSET
     slug: str | Unset = UNSET
     number: int | Unset = UNSET
     start_year: int | Unset = UNSET
@@ -120,6 +122,12 @@ class GetSeriesDetailsResponse200Data:
         title_id = self.title_id
 
         name = self.name
+
+        original_name: None | str | Unset
+        if isinstance(self.original_name, Unset):
+            original_name = UNSET
+        else:
+            original_name = self.original_name
 
         slug = self.slug
 
@@ -247,6 +255,8 @@ class GetSeriesDetailsResponse200Data:
             field_dict["title_id"] = title_id
         if name is not UNSET:
             field_dict["name"] = name
+        if original_name is not UNSET:
+            field_dict["original_name"] = original_name
         if slug is not UNSET:
             field_dict["slug"] = slug
         if number is not UNSET:
@@ -329,24 +339,16 @@ class GetSeriesDetailsResponse200Data:
         from ..models.get_series_details_response_200_data_foc_issues_item import (
             GetSeriesDetailsResponse200DataFocIssuesItem,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_genres_item import (
-            GetSeriesDetailsResponse200DataGenresItem,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_genres_item import GetSeriesDetailsResponse200DataGenresItem  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_last_edited_by import (
             GetSeriesDetailsResponse200DataLastEditedBy,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_publisher import (
-            GetSeriesDetailsResponse200DataPublisher,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_publisher import GetSeriesDetailsResponse200DataPublisher  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_publishers_item import (
             GetSeriesDetailsResponse200DataPublishersItem,  # noqa: PLC0415
         )
-        from ..models.get_series_details_response_200_data_teams_item import (
-            GetSeriesDetailsResponse200DataTeamsItem,  # noqa: PLC0415
-        )
-        from ..models.get_series_details_response_200_data_title import (
-            GetSeriesDetailsResponse200DataTitle,  # noqa: PLC0415
-        )
+        from ..models.get_series_details_response_200_data_teams_item import GetSeriesDetailsResponse200DataTeamsItem  # noqa: PLC0415
+        from ..models.get_series_details_response_200_data_title import GetSeriesDetailsResponse200DataTitle  # noqa: PLC0415
         from ..models.get_series_details_response_200_data_upcoming_issues_item import (
             GetSeriesDetailsResponse200DataUpcomingIssuesItem,  # noqa: PLC0415
         )
@@ -357,6 +359,15 @@ class GetSeriesDetailsResponse200Data:
         title_id = d.pop("title_id", UNSET)
 
         name = d.pop("name", UNSET)
+
+        def _parse_original_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        original_name = _parse_original_name(d.pop("original_name", UNSET))
 
         slug = d.pop("slug", UNSET)
 
@@ -510,6 +521,7 @@ class GetSeriesDetailsResponse200Data:
             id=id,
             title_id=title_id,
             name=name,
+            original_name=original_name,
             slug=slug,
             number=number,
             start_year=start_year,

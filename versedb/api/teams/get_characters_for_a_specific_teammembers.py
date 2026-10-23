@@ -18,12 +18,18 @@ def _get_kwargs(
     team_id: int,
     *,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["q"] = q
+
+    params["sort"] = sort
+
+    params["direction"] = direction
 
     params["limit"] = limit
 
@@ -80,15 +86,21 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[GetCharactersForASpecificTeammembersResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get characters for a specific team (members)
 
-     Returns the team's character roster.
+     Returns the team's character roster, by name unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's members. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (name, cached_issues_count, joined_date). Defaults to name.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to asc for name and desc for
+            the others.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -102,6 +114,8 @@ def sync_detailed(
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
     )
 
@@ -117,15 +131,21 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> GetCharactersForASpecificTeammembersResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get characters for a specific team (members)
 
-     Returns the team's character roster.
+     Returns the team's character roster, by name unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's members. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (name, cached_issues_count, joined_date). Defaults to name.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to asc for name and desc for
+            the others.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -140,6 +160,8 @@ def sync(
         team_id=team_id,
         client=client,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
     ).parsed
 
@@ -149,15 +171,21 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[GetCharactersForASpecificTeammembersResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get characters for a specific team (members)
 
-     Returns the team's character roster.
+     Returns the team's character roster, by name unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's members. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (name, cached_issues_count, joined_date). Defaults to name.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to asc for name and desc for
+            the others.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -171,6 +199,8 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
     )
 
@@ -184,15 +214,21 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> GetCharactersForASpecificTeammembersResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get characters for a specific team (members)
 
-     Returns the team's character roster.
+     Returns the team's character roster, by name unless sort says otherwise.
 
     Args:
         team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        q (str | Unset): Optional search within the team's members. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (name, cached_issues_count, joined_date). Defaults to name.
+        direction (str | Unset): Sort direction (asc, desc). Defaults to asc for name and desc for
+            the others.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -208,6 +244,8 @@ async def asyncio(
             team_id=team_id,
             client=client,
             q=q,
+            sort=sort,
+            direction=direction,
             limit=limit,
         )
     ).parsed

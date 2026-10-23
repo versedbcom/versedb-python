@@ -71,12 +71,8 @@ class FollowUpdatesResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.follow_updates_response_200_data_item import FollowUpdatesResponse200DataItem  # noqa: PLC0415
-        from ..models.follow_updates_response_200_follow_contexts import (
-            FollowUpdatesResponse200FollowContexts,  # noqa: PLC0415
-        )
-        from ..models.follow_updates_response_200_follow_types import (
-            FollowUpdatesResponse200FollowTypes,  # noqa: PLC0415
-        )
+        from ..models.follow_updates_response_200_follow_contexts import FollowUpdatesResponse200FollowContexts  # noqa: PLC0415
+        from ..models.follow_updates_response_200_follow_types import FollowUpdatesResponse200FollowTypes  # noqa: PLC0415
         from ..models.follow_updates_response_200_meta import FollowUpdatesResponse200Meta  # noqa: PLC0415
 
         d = dict(src_dict)

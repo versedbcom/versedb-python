@@ -102,9 +102,7 @@ class GetPublisherDetailsResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_publisher_details_response_200_data_images import (
-            GetPublisherDetailsResponse200DataImages,  # noqa: PLC0415
-        )
+        from ..models.get_publisher_details_response_200_data_images import GetPublisherDetailsResponse200DataImages  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

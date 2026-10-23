@@ -140,9 +140,7 @@ class GetASpecificPodcastResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_a_specific_podcast_response_200_data_images import (
-            GetASpecificPodcastResponse200DataImages,  # noqa: PLC0415
-        )
+        from ..models.get_a_specific_podcast_response_200_data_images import GetASpecificPodcastResponse200DataImages  # noqa: PLC0415
         from ..models.get_a_specific_podcast_response_200_data_platform_links import (
             GetASpecificPodcastResponse200DataPlatformLinks,  # noqa: PLC0415
         )
