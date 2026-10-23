@@ -86,7 +86,8 @@ def sync_detailed(
 ) -> Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get user's lists.
 
-     Returns a user's public lists. If viewing your own profile, also includes private lists.
+     Returns a user's public lists. Your own lists also include private and draft ones when the
+    token has `read:user`.
 
     Args:
         user_id (int):
@@ -126,7 +127,8 @@ def sync(
 ) -> GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get user's lists.
 
-     Returns a user's public lists. If viewing your own profile, also includes private lists.
+     Returns a user's public lists. Your own lists also include private and draft ones when the
+    token has `read:user`.
 
     Args:
         user_id (int):
@@ -161,7 +163,8 @@ async def asyncio_detailed(
 ) -> Response[GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get user's lists.
 
-     Returns a user's public lists. If viewing your own profile, also includes private lists.
+     Returns a user's public lists. Your own lists also include private and draft ones when the
+    token has `read:user`.
 
     Args:
         user_id (int):
@@ -199,7 +202,8 @@ async def asyncio(
 ) -> GetUsersListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get user's lists.
 
-     Returns a user's public lists. If viewing your own profile, also includes private lists.
+     Returns a user's public lists. Your own lists also include private and draft ones when the
+    token has `read:user`.
 
     Args:
         user_id (int):

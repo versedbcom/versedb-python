@@ -22,6 +22,7 @@ class GetCreatorsSeriesResponse200DataItem:
         end_year (int | Unset):
         cover_url (str | Unset):
         cached_issues_count (int | Unset):
+        creator_issues_count (int | Unset):
     """
 
     id: int | Unset = UNSET
@@ -31,6 +32,7 @@ class GetCreatorsSeriesResponse200DataItem:
     end_year: int | Unset = UNSET
     cover_url: str | Unset = UNSET
     cached_issues_count: int | Unset = UNSET
+    creator_issues_count: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,6 +49,8 @@ class GetCreatorsSeriesResponse200DataItem:
         cover_url = self.cover_url
 
         cached_issues_count = self.cached_issues_count
+
+        creator_issues_count = self.creator_issues_count
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -65,6 +69,8 @@ class GetCreatorsSeriesResponse200DataItem:
             field_dict["cover_url"] = cover_url
         if cached_issues_count is not UNSET:
             field_dict["cached_issues_count"] = cached_issues_count
+        if creator_issues_count is not UNSET:
+            field_dict["creator_issues_count"] = creator_issues_count
 
         return field_dict
 
@@ -85,6 +91,8 @@ class GetCreatorsSeriesResponse200DataItem:
 
         cached_issues_count = d.pop("cached_issues_count", UNSET)
 
+        creator_issues_count = d.pop("creator_issues_count", UNSET)
+
         get_creators_series_response_200_data_item = cls(
             id=id,
             name=name,
@@ -93,6 +101,7 @@ class GetCreatorsSeriesResponse200DataItem:
             end_year=end_year,
             cover_url=cover_url,
             cached_issues_count=cached_issues_count,
+            creator_issues_count=creator_issues_count,
         )
 
         get_creators_series_response_200_data_item.additional_properties = d

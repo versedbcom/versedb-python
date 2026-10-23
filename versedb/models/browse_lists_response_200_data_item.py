@@ -99,9 +99,7 @@ class BrowseListsResponse200DataItem:
         from ..models.browse_lists_response_200_data_item_preview_items_item import (
             BrowseListsResponse200DataItemPreviewItemsItem,  # noqa: PLC0415
         )
-        from ..models.browse_lists_response_200_data_item_user import (
-            BrowseListsResponse200DataItemUser,  # noqa: PLC0415
-        )
+        from ..models.browse_lists_response_200_data_item_user import BrowseListsResponse200DataItemUser  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

@@ -76,9 +76,7 @@ class FOcDeadlinesResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.f_oc_deadlines_response_200_data_item_series import (
-            FOcDeadlinesResponse200DataItemSeries,  # noqa: PLC0415
-        )
+        from ..models.f_oc_deadlines_response_200_data_item_series import FOcDeadlinesResponse200DataItemSeries  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
