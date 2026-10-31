@@ -81,7 +81,11 @@
     },
     {
       "name": "Barcode Lookup",
-      "description": "\nEndpoints for looking up comics by barcode (UPC or ISBN).\nUsed by the mobile app's barcode scanning feature and exposed\nto User API tokens via the `lookup:barcode` ability.\n\nOn the Mobile API the GET lookups sit on the App Clip mode of the first-party\ndoor: a signed-in session gets the full payload, and the App Clip, which has no\naccount, gets the preview payload with its attested clip token (#3044). On the\npublic User API they require the `lookup:barcode` token ability, and carry no\nmarket quote."
+      "description": "\nEndpoints for looking up comics by barcode (UPC or ISBN) or by a distributor's\norder code (Lunar or Universal). Used by the mobile app's barcode scanning feature\nand exposed to User API tokens via the `lookup:barcode` ability.\n\nOn the Mobile API the GET lookups sit on the App Clip mode of the first-party\ndoor: a signed-in session gets the full payload, and the App Clip, which has no\naccount, gets the preview payload with its attested clip token (#3044). On the\npublic User API they require the `lookup:barcode` token ability, and carry no\nmarket quote."
+    },
+    {
+      "name": "Cover Lookup",
+      "description": "\nIdentify a comic from a photo of its cover. The photo is matched by image against every cover\nin the catalog (issues and variants), and the answer is catalog ids. No cover image is stored,\nand none comes back beyond the cover URLs the issue resource already carries."
     },
     {
       "name": "Reading",
@@ -90,6 +94,10 @@
     {
       "name": "User",
       "description": "\nEndpoints for managing the authenticated user's pull list, follows, and reading progress.\n\nAll endpoints in this group require authentication with a Bearer API token."
+    },
+    {
+      "name": "Connect to VerseDB",
+      "description": "\nLets a third-party site get a read-only token for a member's account without the member\ncopying one by hand. It is an OAuth 2.0 authorization-code flow with PKCE (S256).\n\n1. Generate a random `code_verifier` (43-128 characters) and a `state`, and keep both on your\n   server. The `code_challenge` is the base64url-encoded SHA-256 of the verifier, without padding.\n2. Send the member to `https://versedb.com/connect` with `redirect_uri`, `state`,\n   `code_challenge`, `code_challenge_method=S256`, and optionally `client_name` (your app, such as\n   `WordPress`, 40 characters at most), `site_name` (100 at most) and `scope` (a space-separated\n   subset of `read:public read:showcase`; both by default). `redirect_uri` must be HTTPS, or\n   `http://localhost` while developing.\n3. The member signs in if needed and approves or denies. VerseDB redirects to `redirect_uri` with\n   `code` and `state`, or with `error=access_denied` and `state` when they deny. Check that\n   `state` matches.\n4. Within 5 minutes, exchange the code here from your server.\n\nThe token is named \"{client_name}: {your host}\", lasts 365 days, shows in the member's My Apps\npage and counts toward their limit of 10 active tokens. Connecting the same site again replaces\nits previous token. `read:showcase` reads the member's profile, collection, wishlist, pull list and\nreading progress for display, without email, birth date, location, prices, notes, storage or loans."
     }
   ],
   "components": {
@@ -193,6 +201,32 @@
               "description": "Start of FOC window (YYYY-MM-DD). Defaults to today.",
               "examples": [
                 "2026-03-15"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "publisher_ids",
+            "description": "Comma-separated publisher IDs; matches issues from any of them.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated publisher IDs; matches issues from any of them.",
+              "examples": [
+                "1,4"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "foc_date (default: FOC date, then publisher, then series name), publisher (publisher, then FOC date, then series name) or series (series name, then FOC date).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "foc_date (default: FOC date, then publisher, then series name), publisher (publisher, then FOC date, then series name) or series (series name, then FOC date).",
+              "examples": [
+                "foc_date"
               ]
             }
           }
@@ -1068,6 +1102,45 @@
             "schema": {
               "type": "boolean",
               "description": "Return only titles whose start year has already arrived.",
+              "examples": [
+                true
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "medium",
+            "description": "Return titles with a series in this medium: comic, manga, manhwa, manhua, bande_dessinee or magazine.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Return titles with a series in this medium: comic, manga, manhwa, manhua, bande_dessinee or magazine.",
+              "examples": [
+                "manga"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "languages",
+            "description": "Comma-separated language codes. Returns titles with a series in any one of them.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated language codes. Returns titles with a series in any one of them.",
+              "examples": [
+                "en,ja"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "ongoing",
+            "description": "Return only titles with an ongoing series. Combined with medium or languages, that same series has to match them.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Return only titles with an ongoing series. Combined with medium or languages, that same series has to match them.",
               "examples": [
                 true
               ]
@@ -1988,6 +2061,15 @@
                               "Amazing Spider-Man"
                             ]
                           },
+                          "original_name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          },
                           "slug": {
                             "type": "string",
                             "examples": [
@@ -2098,6 +2180,7 @@
                             "id": 123,
                             "title_id": 45,
                             "name": "Amazing Spider-Man",
+                            "original_name": null,
                             "slug": "amazing-spider-man-2018",
                             "number": 6,
                             "start_year": 2018,
@@ -2156,6 +2239,7 @@
                           "id": 123,
                           "title_id": 45,
                           "name": "Amazing Spider-Man",
+                          "original_name": null,
                           "slug": "amazing-spider-man-2018",
                           "number": 6,
                           "start_year": 2018,
@@ -2295,6 +2379,15 @@
                           "type": "string",
                           "examples": [
                             "Amazing Spider-Man"
+                          ]
+                        },
+                        "original_name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            null
                           ]
                         },
                         "slug": {
@@ -2868,6 +2961,7 @@
                         "id": 123,
                         "title_id": 45,
                         "name": "Amazing Spider-Man",
+                        "original_name": null,
                         "slug": "amazing-spider-man-2018",
                         "number": 6,
                         "start_year": 2018,
@@ -3883,6 +3977,45 @@
           },
           {
             "in": "query",
+            "name": "creator_ids",
+            "description": "Comma-separated creator IDs, up to 10; an issue must credit every one.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated creator IDs, up to 10; an issue must credit every one.",
+              "examples": [
+                "789"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "creator_role_ids",
+            "description": "Comma-separated creator role IDs; with creator_ids, each creator must be credited in one of these roles.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated creator role IDs; with creator_ids, each creator must be credited in one of these roles.",
+              "examples": [
+                "1"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "team_ids",
+            "description": "Comma-separated team IDs, up to 10; an issue must feature every one.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated team IDs, up to 10; an issue must feature every one.",
+              "examples": [
+                "12"
+              ]
+            }
+          },
+          {
+            "in": "query",
             "name": "genre_ids",
             "description": "Comma-separated genre IDs; matches issues whose series carries any of them.",
             "required": false,
@@ -4345,6 +4478,27 @@
                             "75960608936700111"
                           ]
                         },
+                        "lunar_code": {
+                          "type": "string",
+                          "examples": [
+                            "0518MA0101"
+                          ]
+                        },
+                        "universal_code": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            null
+                          ]
+                        },
+                        "diamond_code": {
+                          "type": "string",
+                          "examples": [
+                            "MAY180901"
+                          ]
+                        },
                         "series": {
                           "type": "object",
                           "properties": {
@@ -4507,6 +4661,9 @@
                         "page_count": 40,
                         "price": "4.99",
                         "upc": "75960608936700111",
+                        "lunar_code": "0518MA0101",
+                        "universal_code": null,
+                        "diamond_code": "MAY180901",
                         "series": {
                           "id": 123,
                           "name": "Amazing Spider-Man",
@@ -6320,7 +6477,7 @@
           "schema": {
             "type": "integer",
             "examples": [
-              91
+              64910
             ]
           }
         }
@@ -6335,11 +6492,11 @@
           {
             "in": "query",
             "name": "q",
-            "description": "Search by imprint name.",
+            "description": "Search by imprint name, tolerating small typos.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Search by imprint name.",
+              "description": "Search by imprint name, tolerating small typos.",
               "examples": [
                 "vertigo"
               ]
@@ -6764,7 +6921,7 @@
           "schema": {
             "type": "integer",
             "examples": [
-              6
+              8
             ]
           }
         }
@@ -8035,7 +8192,7 @@
       "get": {
         "summary": "Get creator's series.",
         "operationId": "getCreatorsSeries",
-        "description": "Returns paginated series where the creator has worked.",
+        "description": "Returns paginated series where the creator has worked. `creator_issues_count` is how many\nof the series' issues credit this creator; `cached_issues_count` is the whole series.\nA series credited to the creator without any issue credits reports 0.",
         "parameters": [
           {
             "in": "query",
@@ -8131,6 +8288,12 @@
                             "examples": [
                               85
                             ]
+                          },
+                          "creator_issues_count": {
+                            "type": "integer",
+                            "examples": [
+                              12
+                            ]
                           }
                         }
                       },
@@ -8143,7 +8306,8 @@
                             "start_year": 2016,
                             "end_year": 2020,
                             "cover_url": "https://...",
-                            "cached_issues_count": 85
+                            "cached_issues_count": 85,
+                            "creator_issues_count": 12
                           }
                         ]
                       ]
@@ -8188,7 +8352,8 @@
                           "start_year": 2016,
                           "end_year": 2020,
                           "cover_url": "https://...",
-                          "cached_issues_count": 85
+                          "cached_issues_count": 85,
+                          "creator_issues_count": 12
                         }
                       ],
                       "meta": {
@@ -10283,18 +10448,44 @@
       "get": {
         "summary": "Get characters for a specific team (members)",
         "operationId": "getCharactersForASpecificTeammembers",
-        "description": "Returns the team's character roster.",
+        "description": "Returns the team's character roster, by name unless sort says otherwise.",
         "parameters": [
           {
             "in": "query",
             "name": "q",
-            "description": "Optional case-insensitive search within these results.",
+            "description": "Optional search within the team's members. Results come back in relevance order unless sort is passed.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Optional case-insensitive search within these results.",
+              "description": "Optional search within the team's members. Results come back in relevance order unless sort is passed.",
               "examples": [
-                "batman"
+                "wolverine"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Sort field (name, cached_issues_count, joined_date). Defaults to name.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort field (name, cached_issues_count, joined_date). Defaults to name.",
+              "examples": [
+                "cached_issues_count"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "direction",
+            "description": "Sort direction (asc, desc). Defaults to asc for name and desc for the others.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort direction (asc, desc). Defaults to asc for name and desc for the others.",
+              "examples": [
+                "desc"
               ]
             }
           },
@@ -10608,18 +10799,44 @@
       "get": {
         "summary": "Get series for a specific team",
         "operationId": "getSeriesForASpecificTeam",
-        "description": "Returns the series the team appears in.",
+        "description": "Returns the series the team appears in, newest start year first unless sort says otherwise.",
         "parameters": [
           {
             "in": "query",
             "name": "q",
-            "description": "Optional case-insensitive search within these results.",
+            "description": "Optional search within the team's series. Results come back in relevance order unless sort is passed.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Optional case-insensitive search within these results.",
+              "description": "Optional search within the team's series. Results come back in relevance order unless sort is passed.",
               "examples": [
-                "batman"
+                "uncanny"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Sort field (start_year, name, cached_issues_count, average_rating, latest_release_date). Defaults to start_year.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort field (start_year, name, cached_issues_count, average_rating, latest_release_date). Defaults to start_year.",
+              "examples": [
+                "start_year"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "direction",
+            "description": "Sort direction (asc, desc). Defaults to asc for name and desc for the others.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort direction (asc, desc). Defaults to asc for name and desc for the others.",
+              "examples": [
+                "desc"
               ]
             }
           },
@@ -10909,18 +11126,44 @@
       "get": {
         "summary": "Get issues for a specific team",
         "operationId": "getIssuesForASpecificTeam",
-        "description": "Returns the issues the team appears in.",
+        "description": "Returns the issues the team appears in, newest release first unless sort says otherwise.",
         "parameters": [
           {
             "in": "query",
             "name": "q",
-            "description": "Optional case-insensitive search within these results.",
+            "description": "Optional search within the team's issues. Results come back in relevance order unless sort is passed.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Optional case-insensitive search within these results.",
+              "description": "Optional search within the team's issues. Results come back in relevance order unless sort is passed.",
               "examples": [
-                "batman"
+                "uncanny"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Sort field (release_date, cover_date, average_rating). Defaults to release_date.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort field (release_date, cover_date, average_rating). Defaults to release_date.",
+              "examples": [
+                "release_date"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "direction",
+            "description": "Sort direction (asc, desc). Defaults to desc.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Sort direction (asc, desc). Defaults to desc.",
+              "examples": [
+                "desc"
               ]
             }
           },
@@ -13195,11 +13438,11 @@
           {
             "in": "query",
             "name": "q",
-            "description": "Search by event name.",
+            "description": "Search by event name, city or venue, tolerating small typos for upcoming events. Results are ordered by relevance unless `sort` is set.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Search by event name.",
+              "description": "Search by event name, city or venue, tolerating small typos for upcoming events. Results are ordered by relevance unless `sort` is set.",
               "examples": [
                 "comic-con"
               ]
@@ -13293,6 +13536,45 @@
               "description": "Filter by region, matched exactly against the stored value. Use the values from /events/regions.",
               "examples": [
                 "California"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "weekend",
+            "description": "Only events running this Friday to Sunday.",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Only events running this Friday to Sunday.",
+              "examples": [
+                true
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "description": "Only events starting in this month, as YYYY-MM.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Only events starting in this month, as YYYY-MM.",
+              "examples": [
+                "2026-07"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.",
+              "examples": [
+                "date_desc"
               ]
             }
           },
@@ -14474,11 +14756,11 @@
           {
             "in": "query",
             "name": "q",
-            "description": "Search by shop name or city.",
+            "description": "Search by shop name, city, street address, postal code or state, tolerating small typos. Results are ordered by relevance when set.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Search by shop name or city.",
+              "description": "Search by shop name, city, street address, postal code or state, tolerating small typos. Results are ordered by relevance when set.",
               "examples": [
                 "manhattan"
               ]
@@ -14741,7 +15023,7 @@
       "get": {
         "summary": "Get a comic shop.",
         "operationId": "getAComicShop",
-        "description": "Returns full shop details including services offered.\n\n`operating_hours` is keyed Monday-first by lowercase day name. Each value is\neither `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas\n(a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map\nhas unknown hours — that is not the same as the shop being closed that day.",
+        "description": "Returns full shop details including services offered.\n\n`operating_hours` is keyed Monday-first by lowercase day name. Each value is\neither `closed` or one or more 24-hour `HH:MM-HH:MM` ranges joined by commas\n(a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map\nhas unknown hours — that is not the same as the shop being closed that day.\n\n`special_hours` lists dated exceptions to the weekly hours, ordered by start\ndate: holiday closures, stocktake days, late openings for a release. Each entry\nhas `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),\n`hours` in the same grammar as `operating_hours`, and an optional `note`. On the\ndates it covers, an entry replaces the weekly hours. Entries that have already\nended are left out, so an empty list means no exceptions are coming up.",
         "parameters": [],
         "responses": {
           "200": {
@@ -14854,6 +15136,54 @@
                             }
                           }
                         },
+                        "special_hours": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "from": {
+                                "type": "string",
+                                "examples": [
+                                  "2026-12-25"
+                                ]
+                              },
+                              "to": {
+                                "type": "string",
+                                "examples": [
+                                  "2026-12-26"
+                                ]
+                              },
+                              "hours": {
+                                "type": "string",
+                                "examples": [
+                                  "closed"
+                                ]
+                              },
+                              "note": {
+                                "type": "string",
+                                "examples": [
+                                  "Closed for the holidays"
+                                ]
+                              }
+                            }
+                          },
+                          "examples": [
+                            [
+                              {
+                                "from": "2026-12-25",
+                                "to": "2026-12-26",
+                                "hours": "closed",
+                                "note": "Closed for the holidays"
+                              },
+                              {
+                                "from": "2026-12-31",
+                                "to": "2026-12-31",
+                                "hours": "10:00-16:00",
+                                "note": null
+                              }
+                            ]
+                          ]
+                        },
                         "services": {
                           "type": "array",
                           "items": {
@@ -14900,6 +15230,20 @@
                           "saturday": "10:00-21:00",
                           "sunday": "closed"
                         },
+                        "special_hours": [
+                          {
+                            "from": "2026-12-25",
+                            "to": "2026-12-26",
+                            "hours": "closed",
+                            "note": "Closed for the holidays"
+                          },
+                          {
+                            "from": "2026-12-31",
+                            "to": "2026-12-31",
+                            "hours": "10:00-16:00",
+                            "note": null
+                          }
+                        ],
                         "services": [
                           "New Comics",
                           "Back Issues",
@@ -15030,7 +15374,7 @@
       "get": {
         "summary": "List all podcasts with optional search",
         "operationId": "listAllPodcastsWithOptionalSearch",
-        "description": "Returns a paginated list of comic book podcasts and YouTube channels, plus\nthe set of languages present in the catalog. Filter with `q`, `type`, or `language`.",
+        "description": "Returns a paginated list of comic book podcasts and YouTube channels, plus\nthe languages and categories present in the catalog. Filter with `q`, `type`,\n`language`, or `category`, and order with `sort`.",
         "parameters": [
           {
             "in": "query",
@@ -15068,6 +15412,37 @@
               "description": "Filter by language code (e.g., en, ja, fr).",
               "examples": [
                 "en"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "Filter by category name; a podcast matching any of them is returned.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "description": "Filter by category name; a podcast matching any of them is returned.",
+              "items": {
+                "type": "string"
+              },
+              "examples": [
+                [
+                  "Reviews"
+                ]
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "Order: name (default), latest_episodes, newest, popular (most followers) or updated (recently synced).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Order: name (default), latest_episodes, newest, popular (most followers) or updated (recently synced).",
+              "examples": [
+                "latest_episodes"
               ]
             }
           },
@@ -15242,6 +15617,19 @@
                           "ja"
                         ]
                       ]
+                    },
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        [
+                          "Comics",
+                          "Pop Culture",
+                          "Reviews"
+                        ]
+                      ]
                     }
                   },
                   "examples": [
@@ -15277,6 +15665,11 @@
                         "es",
                         "fr",
                         "ja"
+                      ],
+                      "categories": [
+                        "Comics",
+                        "Pop Culture",
+                        "Reviews"
                       ]
                     }
                   ]
@@ -15654,7 +16047,7 @@
           "schema": {
             "type": "integer",
             "examples": [
-              433
+              570
             ]
           }
         }
@@ -15669,11 +16062,11 @@
           {
             "in": "query",
             "name": "q",
-            "description": "Search by list title or description.",
+            "description": "Search by list title or description, tolerating small typos in the title.",
             "required": false,
             "schema": {
               "type": "string",
-              "description": "Search by list title or description.",
+              "description": "Search by list title or description, tolerating small typos in the title.",
               "examples": [
                 "spider-man"
               ]
@@ -17504,7 +17897,7 @@
       "get": {
         "summary": "Get user's lists.",
         "operationId": "getUsersLists",
-        "description": "Returns a user's public lists. If viewing your own profile, also includes private lists.",
+        "description": "Returns a user's public lists. Your own lists also include private and draft ones when the\ntoken has `read:user`.",
         "parameters": [
           {
             "in": "query",
@@ -20454,6 +20847,27 @@
                             "75960608936700111"
                           ]
                         },
+                        "lunar_code": {
+                          "type": "string",
+                          "examples": [
+                            "0518MA0101"
+                          ]
+                        },
+                        "universal_code": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            null
+                          ]
+                        },
+                        "diamond_code": {
+                          "type": "string",
+                          "examples": [
+                            "MAY180901"
+                          ]
+                        },
                         "series": {
                           "type": "object",
                           "properties": {
@@ -20551,6 +20965,27 @@
                             "examples": [
                               "75960608936700111"
                             ]
+                          },
+                          "lunar_code": {
+                            "type": "string",
+                            "examples": [
+                              "0518MA0101"
+                            ]
+                          },
+                          "universal_code": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          },
+                          "diamond_code": {
+                            "type": "string",
+                            "examples": [
+                              "MAY180901"
+                            ]
                           }
                         }
                       },
@@ -20560,13 +20995,19 @@
                             "variant_id": null,
                             "variant_name": "Cover A",
                             "cover_url": "https://...",
-                            "upc": "75960608936700111"
+                            "upc": "75960608936700111",
+                            "lunar_code": "0518MA0101",
+                            "universal_code": null,
+                            "diamond_code": "MAY180901"
                           },
                           {
                             "variant_id": 789,
                             "variant_name": "Cover B",
                             "cover_url": "https://...",
-                            "upc": "75960608936700121"
+                            "upc": "75960608936700121",
+                            "lunar_code": "0518MA0102",
+                            "universal_code": null,
+                            "diamond_code": "MAY180902"
                           }
                         ]
                       ]
@@ -20586,6 +21027,9 @@
                         "cover_date": "2018-09-01",
                         "cover_url": "https://...",
                         "upc": "75960608936700111",
+                        "lunar_code": "0518MA0101",
+                        "universal_code": null,
+                        "diamond_code": "MAY180901",
                         "series": {
                           "id": 123,
                           "name": "Amazing Spider-Man",
@@ -20605,13 +21049,19 @@
                           "variant_id": null,
                           "variant_name": "Cover A",
                           "cover_url": "https://...",
-                          "upc": "75960608936700111"
+                          "upc": "75960608936700111",
+                          "lunar_code": "0518MA0101",
+                          "universal_code": null,
+                          "diamond_code": "MAY180901"
                         },
                         {
                           "variant_id": 789,
                           "variant_name": "Cover B",
                           "cover_url": "https://...",
-                          "upc": "75960608936700121"
+                          "upc": "75960608936700121",
+                          "lunar_code": "0518MA0102",
+                          "universal_code": null,
+                          "diamond_code": "MAY180902"
                         }
                       ]
                     }
@@ -20805,6 +21255,33 @@
                                   "examples": [
                                     "75960608936700111"
                                   ]
+                                },
+                                "lunar_code": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
+                                },
+                                "universal_code": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
+                                },
+                                "diamond_code": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
                                 }
                               }
                             },
@@ -20814,7 +21291,10 @@
                                   "variant_id": null,
                                   "variant_name": "Cover A",
                                   "cover_url": "https://...",
-                                  "upc": "75960608936700111"
+                                  "upc": "75960608936700111",
+                                  "lunar_code": null,
+                                  "universal_code": null,
+                                  "diamond_code": null
                                 }
                               ]
                             ]
@@ -20854,7 +21334,10 @@
                                 "variant_id": null,
                                 "variant_name": "Cover A",
                                 "cover_url": "https://...",
-                                "upc": "75960608936700111"
+                                "upc": "75960608936700111",
+                                "lunar_code": null,
+                                "universal_code": null,
+                                "diamond_code": null
                               }
                             ],
                             "publisher_name": "Marvel",
@@ -20884,7 +21367,10 @@
                               "variant_id": null,
                               "variant_name": "Cover A",
                               "cover_url": "https://...",
-                              "upc": "75960608936700111"
+                              "upc": "75960608936700111",
+                              "lunar_code": null,
+                              "universal_code": null,
+                              "diamond_code": null
                             }
                           ],
                           "publisher_name": "Marvel",
@@ -21248,11 +21734,1451 @@
         }
       ]
     },
+    "/api/v1/lookup/code/{code}": {
+      "get": {
+        "summary": "Lookup by distributor code.",
+        "operationId": "lookupByDistributorCode",
+        "description": "Find an issue by its distributor order code: a Lunar code (like `0126IM0451`) or a\nUniversal code (like `DC10251016`), in any case. A variant's own code finds its issue,\nand `suggested_variant_id` then names that variant. The payload matches the UPC lookup:\none issue returns 200, a code held by several issues returns 409 with the candidates.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "examples": [
+                            5432
+                          ]
+                        },
+                        "slug": {
+                          "type": "string",
+                          "examples": [
+                            "absolute-batman-15"
+                          ]
+                        },
+                        "series_id": {
+                          "type": "integer",
+                          "examples": [
+                            123
+                          ]
+                        },
+                        "title_id": {
+                          "type": "integer",
+                          "examples": [
+                            45
+                          ]
+                        },
+                        "issue_number": {
+                          "type": "string",
+                          "examples": [
+                            "15"
+                          ]
+                        },
+                        "name": {
+                          "type": "string",
+                          "examples": [
+                            "Absolute Batman #15"
+                          ]
+                        },
+                        "solicitation": {
+                          "type": "string",
+                          "examples": [
+                            "The publisher's own solicitation text, verbatim, or null"
+                          ]
+                        },
+                        "release_date": {
+                          "type": "string",
+                          "examples": [
+                            "2026-01-28"
+                          ]
+                        },
+                        "cover_url": {
+                          "type": "string",
+                          "examples": [
+                            "https://..."
+                          ]
+                        },
+                        "upc": {
+                          "type": "string",
+                          "examples": [
+                            "76194138441201511"
+                          ]
+                        },
+                        "lunar_code": {
+                          "type": "string",
+                          "examples": [
+                            "1125DC0151"
+                          ]
+                        },
+                        "universal_code": {
+                          "type": "string",
+                          "examples": [
+                            "DC10251016"
+                          ]
+                        },
+                        "diamond_code": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            null
+                          ]
+                        },
+                        "series": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                123
+                              ]
+                            },
+                            "name": {
+                              "type": "string",
+                              "examples": [
+                                "Absolute Batman"
+                              ]
+                            },
+                            "slug": {
+                              "type": "string",
+                              "examples": [
+                                "absolute-batman-2024"
+                              ]
+                            },
+                            "start_year": {
+                              "type": "integer",
+                              "examples": [
+                                2024
+                              ]
+                            },
+                            "volume_number": {
+                              "type": "integer",
+                              "examples": [
+                                1
+                              ]
+                            }
+                          }
+                        },
+                        "publisher": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                2
+                              ]
+                            },
+                            "name": {
+                              "type": "string",
+                              "examples": [
+                                "DC Comics"
+                              ]
+                            },
+                            "slug": {
+                              "type": "string",
+                              "examples": [
+                                "dc-comics"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "suggested_variant_id": {
+                      "type": "integer",
+                      "examples": [
+                        789
+                      ]
+                    },
+                    "variants": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "variant_id": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          },
+                          "variant_name": {
+                            "type": "string",
+                            "examples": [
+                              "Cover A"
+                            ]
+                          },
+                          "cover_url": {
+                            "type": "string",
+                            "examples": [
+                              "https://..."
+                            ]
+                          },
+                          "upc": {
+                            "type": "string",
+                            "examples": [
+                              "76194138441201511"
+                            ]
+                          },
+                          "lunar_code": {
+                            "type": "string",
+                            "examples": [
+                              "1125DC0151"
+                            ]
+                          },
+                          "universal_code": {
+                            "type": "string",
+                            "examples": [
+                              "DC10251016"
+                            ]
+                          },
+                          "diamond_code": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          }
+                        }
+                      },
+                      "examples": [
+                        [
+                          {
+                            "variant_id": null,
+                            "variant_name": "Cover A",
+                            "cover_url": "https://...",
+                            "upc": "76194138441201511",
+                            "lunar_code": "1125DC0151",
+                            "universal_code": "DC10251016",
+                            "diamond_code": null
+                          },
+                          {
+                            "variant_id": 789,
+                            "variant_name": "Cover B",
+                            "cover_url": "https://...",
+                            "upc": "76194138441201521",
+                            "lunar_code": "1125DC0152",
+                            "universal_code": "DC10251017",
+                            "diamond_code": null
+                          }
+                        ]
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "data": {
+                        "id": 5432,
+                        "slug": "absolute-batman-15",
+                        "series_id": 123,
+                        "title_id": 45,
+                        "issue_number": "15",
+                        "name": "Absolute Batman #15",
+                        "solicitation": "The publisher's own solicitation text, verbatim, or null",
+                        "release_date": "2026-01-28",
+                        "cover_url": "https://...",
+                        "upc": "76194138441201511",
+                        "lunar_code": "1125DC0151",
+                        "universal_code": "DC10251016",
+                        "diamond_code": null,
+                        "series": {
+                          "id": 123,
+                          "name": "Absolute Batman",
+                          "slug": "absolute-batman-2024",
+                          "start_year": 2024,
+                          "volume_number": 1
+                        },
+                        "publisher": {
+                          "id": 2,
+                          "name": "DC Comics",
+                          "slug": "dc-comics"
+                        }
+                      },
+                      "suggested_variant_id": 789,
+                      "variants": [
+                        {
+                          "variant_id": null,
+                          "variant_name": "Cover A",
+                          "cover_url": "https://...",
+                          "upc": "76194138441201511",
+                          "lunar_code": "1125DC0151",
+                          "universal_code": "DC10251016",
+                          "diamond_code": null
+                        },
+                        {
+                          "variant_id": 789,
+                          "variant_name": "Cover B",
+                          "cover_url": "https://...",
+                          "upc": "76194138441201521",
+                          "lunar_code": "1125DC0152",
+                          "universal_code": "DC10251017",
+                          "diamond_code": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing Ability",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Unauthorized"
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "Unauthorized"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No issue found with Lunar code: 1125DC0151"
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "No issue found with Lunar code: 1125DC0151"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Multiple Matches",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Multiple issues share Lunar code: 1125DC0151. Pick one below."
+                      ]
+                    },
+                    "count": {
+                      "type": "integer",
+                      "examples": [
+                        2
+                      ]
+                    },
+                    "total_count": {
+                      "type": "integer",
+                      "examples": [
+                        2
+                      ]
+                    },
+                    "matches": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "issue_id": {
+                            "type": "integer",
+                            "examples": [
+                              5432
+                            ]
+                          },
+                          "series_name": {
+                            "type": "string",
+                            "examples": [
+                              "Absolute Batman"
+                            ]
+                          },
+                          "series_id": {
+                            "type": "integer",
+                            "examples": [
+                              123
+                            ]
+                          },
+                          "issue_number": {
+                            "type": "string",
+                            "examples": [
+                              "15"
+                            ]
+                          },
+                          "cover_url": {
+                            "type": "string",
+                            "examples": [
+                              "https://..."
+                            ]
+                          },
+                          "variant_name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          },
+                          "suggested_variant_id": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              null
+                            ]
+                          },
+                          "variants": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "variant_id": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
+                                },
+                                "variant_name": {
+                                  "type": "string",
+                                  "examples": [
+                                    "Cover A"
+                                  ]
+                                },
+                                "cover_url": {
+                                  "type": "string",
+                                  "examples": [
+                                    "https://..."
+                                  ]
+                                },
+                                "upc": {
+                                  "type": "string",
+                                  "examples": [
+                                    "76194138441201511"
+                                  ]
+                                },
+                                "lunar_code": {
+                                  "type": "string",
+                                  "examples": [
+                                    "1125DC0151"
+                                  ]
+                                },
+                                "universal_code": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
+                                },
+                                "diamond_code": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    null
+                                  ]
+                                }
+                              }
+                            },
+                            "examples": [
+                              [
+                                {
+                                  "variant_id": null,
+                                  "variant_name": "Cover A",
+                                  "cover_url": "https://...",
+                                  "upc": "76194138441201511",
+                                  "lunar_code": "1125DC0151",
+                                  "universal_code": null,
+                                  "diamond_code": null
+                                }
+                              ]
+                            ]
+                          },
+                          "publisher_name": {
+                            "type": "string",
+                            "examples": [
+                              "DC Comics"
+                            ]
+                          },
+                          "release_date": {
+                            "type": "string",
+                            "examples": [
+                              "2026-01-28"
+                            ]
+                          },
+                          "start_year": {
+                            "type": "integer",
+                            "examples": [
+                              2024
+                            ]
+                          }
+                        }
+                      },
+                      "examples": [
+                        [
+                          {
+                            "issue_id": 5432,
+                            "series_name": "Absolute Batman",
+                            "series_id": 123,
+                            "issue_number": "15",
+                            "cover_url": "https://...",
+                            "variant_name": null,
+                            "suggested_variant_id": null,
+                            "variants": [
+                              {
+                                "variant_id": null,
+                                "variant_name": "Cover A",
+                                "cover_url": "https://...",
+                                "upc": "76194138441201511",
+                                "lunar_code": "1125DC0151",
+                                "universal_code": null,
+                                "diamond_code": null
+                              }
+                            ],
+                            "publisher_name": "DC Comics",
+                            "release_date": "2026-01-28",
+                            "start_year": 2024
+                          }
+                        ]
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "Multiple issues share Lunar code: 1125DC0151. Pick one below.",
+                      "count": 2,
+                      "total_count": 2,
+                      "matches": [
+                        {
+                          "issue_id": 5432,
+                          "series_name": "Absolute Batman",
+                          "series_id": 123,
+                          "issue_number": "15",
+                          "cover_url": "https://...",
+                          "variant_name": null,
+                          "suggested_variant_id": null,
+                          "variants": [
+                            {
+                              "variant_id": null,
+                              "variant_name": "Cover A",
+                              "cover_url": "https://...",
+                              "upc": "76194138441201511",
+                              "lunar_code": "1125DC0151",
+                              "universal_code": null,
+                              "diamond_code": null
+                            }
+                          ],
+                          "publisher_name": "DC Comics",
+                          "release_date": "2026-01-28",
+                          "start_year": 2024
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Not a Lunar or Universal Code",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Invalid code. Expected a Lunar code like 0126IM0451 or a Universal code like DC10251016."
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "Invalid code. Expected a Lunar code like 0126IM0451 or a Universal code like DC10251016."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Barcode Lookup"
+        ]
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "code",
+          "description": "A Lunar or Universal code.",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "examples": [
+              "1125DC0151"
+            ]
+          }
+        }
+      ]
+    },
+    "/api/v1/lookup/cover": {
+      "post": {
+        "summary": "Look up an issue by cover photo.",
+        "operationId": "lookUpAnIssueByCoverPhoto",
+        "description": "Upload a photo of a comic cover (bare, bagged or slabbed) as `image`. `clear_match` true means\nthe image match is sure of the issue: `issue_id` is it, and `variant_id` is the cover when the\nmatch also settled which of the issue's covers it is (null is the issue's own cover, or a cover\nit could not tell apart from a same-art sibling such as a newsstand edition). `clear_match`\nfalse means the image was not sure: `issue_id` is null and `candidates` lists up to five\nissues it could be, best first, each at its best-scoring cover. Only the image is compared;\nno text is read off the cover, so a slab label's grade is not returned. Requires the\n`read:public` scope. Rate limited separately from catalog reads: 5/min and 100/day, or\n15/min and 500/day on PRO.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Clear Match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "matched_by": {
+                      "type": "string",
+                      "description": "Always `image`: the answer comes from the image match.",
+                      "examples": [
+                        "image"
+                      ]
+                    },
+                    "clear_match": {
+                      "type": "boolean",
+                      "description": "Whether the image match is sure of the issue.",
+                      "examples": [
+                        true
+                      ]
+                    },
+                    "issue_id": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "The matched issue when `clear_match` is true, otherwise null.",
+                      "examples": [
+                        5432
+                      ]
+                    },
+                    "variant_id": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "description": "The matched variant cover when the match settled one, otherwise null.",
+                      "examples": [
+                        789
+                      ]
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "description": "Best first: the matched issue alone on a clear match, otherwise up to five possibilities.",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "issue_id": {
+                            "type": "integer",
+                            "description": "The candidate issue.",
+                            "examples": [
+                              5432
+                            ]
+                          },
+                          "variant_id": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "description": "The candidate's best-scoring variant cover; null is the issue's own cover.",
+                            "examples": [
+                              789
+                            ]
+                          },
+                          "issue": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "examples": [
+                                  5432
+                                ]
+                              },
+                              "slug": {
+                                "type": "string",
+                                "examples": [
+                                  "amazing-spider-man-1"
+                                ]
+                              },
+                              "series_id": {
+                                "type": "integer",
+                                "examples": [
+                                  123
+                                ]
+                              },
+                              "issue_number": {
+                                "type": "string",
+                                "examples": [
+                                  "1"
+                                ]
+                              },
+                              "name": {
+                                "type": "string",
+                                "examples": [
+                                  "The Amazing Spider-Man #1"
+                                ]
+                              },
+                              "cover_date": {
+                                "type": "string",
+                                "examples": [
+                                  "2018-09-01"
+                                ]
+                              },
+                              "release_date": {
+                                "type": "string",
+                                "examples": [
+                                  "2018-07-11"
+                                ]
+                              },
+                              "foc_date": {
+                                "type": "string",
+                                "examples": [
+                                  "2018-06-18"
+                                ]
+                              },
+                              "is_unreleased": {
+                                "type": "boolean",
+                                "examples": [
+                                  false
+                                ]
+                              },
+                              "cover_url": {
+                                "type": "string",
+                                "examples": [
+                                  "https://..."
+                                ]
+                              },
+                              "images": {
+                                "type": "object",
+                                "properties": {
+                                  "thumb": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://..."
+                                    ]
+                                  },
+                                  "cover_sm": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://..."
+                                    ]
+                                  },
+                                  "cover_md": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://..."
+                                    ]
+                                  },
+                                  "cover_lg": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://..."
+                                    ]
+                                  }
+                                }
+                              },
+                              "is_reprint": {
+                                "type": "boolean",
+                                "examples": [
+                                  false
+                                ]
+                              },
+                              "content_rating_label": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  null
+                                ]
+                              },
+                              "min_age": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  null
+                                ]
+                              },
+                              "is_nsfw": {
+                                "type": "boolean",
+                                "examples": [
+                                  false
+                                ]
+                              },
+                              "average_rating": {
+                                "type": "number",
+                                "examples": [
+                                  4.5
+                                ]
+                              },
+                              "series": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "integer",
+                                    "examples": [
+                                      123
+                                    ]
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "examples": [
+                                      "Amazing Spider-Man"
+                                    ]
+                                  },
+                                  "slug": {
+                                    "type": "string",
+                                    "examples": [
+                                      "amazing-spider-man-2018"
+                                    ]
+                                  },
+                                  "start_year": {
+                                    "type": "integer",
+                                    "examples": [
+                                      2018
+                                    ]
+                                  },
+                                  "end_year": {
+                                    "type": [
+                                      "string",
+                                      "null"
+                                    ],
+                                    "examples": [
+                                      null
+                                    ]
+                                  },
+                                  "volume_number": {
+                                    "type": "integer",
+                                    "examples": [
+                                      5
+                                    ]
+                                  },
+                                  "publication_type": {
+                                    "type": "string",
+                                    "examples": [
+                                      "regular_series"
+                                    ]
+                                  },
+                                  "format": {
+                                    "type": "string",
+                                    "examples": [
+                                      "Standard"
+                                    ]
+                                  },
+                                  "cached_issues_count": {
+                                    "type": "integer",
+                                    "examples": [
+                                      74
+                                    ]
+                                  },
+                                  "cover_url": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://..."
+                                    ]
+                                  },
+                                  "images": {
+                                    "type": "object",
+                                    "properties": {
+                                      "cover_sm": {
+                                        "type": "string",
+                                        "examples": [
+                                          "https://..."
+                                        ]
+                                      },
+                                      "cover_md": {
+                                        "type": "string",
+                                        "examples": [
+                                          "https://..."
+                                        ]
+                                      },
+                                      "cover_lg": {
+                                        "type": "string",
+                                        "examples": [
+                                          "https://..."
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "publisher_name": {
+                                    "type": "string",
+                                    "examples": [
+                                      "Marvel"
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            "description": "The issue, as `GET /api/v1/issues` returns it with `include=series`."
+                          }
+                        },
+                        "required": [
+                          "variant_id"
+                        ]
+                      },
+                      "examples": [
+                        [
+                          {
+                            "issue_id": 5432,
+                            "variant_id": 789,
+                            "issue": {
+                              "id": 5432,
+                              "slug": "amazing-spider-man-1",
+                              "series_id": 123,
+                              "issue_number": "1",
+                              "name": "The Amazing Spider-Man #1",
+                              "cover_date": "2018-09-01",
+                              "release_date": "2018-07-11",
+                              "foc_date": "2018-06-18",
+                              "is_unreleased": false,
+                              "cover_url": "https://...",
+                              "images": {
+                                "thumb": "https://...",
+                                "cover_sm": "https://...",
+                                "cover_md": "https://...",
+                                "cover_lg": "https://..."
+                              },
+                              "is_reprint": false,
+                              "content_rating_label": null,
+                              "min_age": null,
+                              "is_nsfw": false,
+                              "average_rating": 4.5,
+                              "series": {
+                                "id": 123,
+                                "name": "Amazing Spider-Man",
+                                "slug": "amazing-spider-man-2018",
+                                "start_year": 2018,
+                                "end_year": null,
+                                "volume_number": 5,
+                                "publication_type": "regular_series",
+                                "format": "Standard",
+                                "cached_issues_count": 74,
+                                "cover_url": "https://...",
+                                "images": {
+                                  "cover_sm": "https://...",
+                                  "cover_md": "https://...",
+                                  "cover_lg": "https://..."
+                                },
+                                "publisher_name": "Marvel"
+                              }
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  },
+                  "required": [
+                    "issue_id",
+                    "variant_id"
+                  ],
+                  "examples": [
+                    {
+                      "matched_by": "image",
+                      "clear_match": true,
+                      "issue_id": 5432,
+                      "variant_id": 789,
+                      "candidates": [
+                        {
+                          "issue_id": 5432,
+                          "variant_id": 789,
+                          "issue": {
+                            "id": 5432,
+                            "slug": "amazing-spider-man-1",
+                            "series_id": 123,
+                            "issue_number": "1",
+                            "name": "The Amazing Spider-Man #1",
+                            "cover_date": "2018-09-01",
+                            "release_date": "2018-07-11",
+                            "foc_date": "2018-06-18",
+                            "is_unreleased": false,
+                            "cover_url": "https://...",
+                            "images": {
+                              "thumb": "https://...",
+                              "cover_sm": "https://...",
+                              "cover_md": "https://...",
+                              "cover_lg": "https://..."
+                            },
+                            "is_reprint": false,
+                            "content_rating_label": null,
+                            "min_age": null,
+                            "is_nsfw": false,
+                            "average_rating": 4.5,
+                            "series": {
+                              "id": 123,
+                              "name": "Amazing Spider-Man",
+                              "slug": "amazing-spider-man-2018",
+                              "start_year": 2018,
+                              "end_year": null,
+                              "volume_number": 5,
+                              "publication_type": "regular_series",
+                              "format": "Standard",
+                              "cached_issues_count": 74,
+                              "cover_url": "https://...",
+                              "images": {
+                                "cover_sm": "https://...",
+                                "cover_md": "https://...",
+                                "cover_lg": "https://..."
+                              },
+                              "publisher_name": "Marvel"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Not an Image",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "The file must be a valid image."
+                      ]
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "image": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "examples": [
+                            [
+                              "The file must be a valid image."
+                            ]
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "The file must be a valid image.",
+                      "errors": {
+                        "image": [
+                          "The file must be a valid image."
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Matching Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Cover matching is unavailable right now. Try again later or look the comic up by barcode."
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "message": "Cover matching is unavailable right now. Try again later or look the comic up by barcode."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Cover Lookup"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "A photo of the comic cover: JPEG, PNG, GIF, BMP or WebP, up to 5MB. Must be an image. Must not be greater than 5120 kilobytes."
+                  }
+                },
+                "required": [
+                  "image"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/reading/in-progress": {
+      "get": {
+        "summary": "View your unfinished comics from the VerseDB reader.",
+        "operationId": "viewYourUnfinishedComicsFromTheVerseDBReader",
+        "description": "Available with read:user or read:showcase. Returns display fields only;\npage URLs, resume positions and private account data are excluded.\nFinished and unavailable books are omitted, with content preferences applied.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Results per page (1-50).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Results per page (1-50).",
+              "examples": [
+                12
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page number.",
+              "examples": [
+                1
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "examples": [
+                        []
+                      ],
+                      "items": {}
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            12
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            0
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "examples": [
+                    {
+                      "data": [],
+                      "meta": {
+                        "current_page": 1,
+                        "last_page": 1,
+                        "per_page": 12,
+                        "total": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reading"
+        ]
+      }
+    },
     "/api/v1/user/reading-stats/year": {
       "get": {
         "summary": "View yearly reading statistics.",
         "operationId": "viewYearlyReadingStatistics",
-        "description": "Pro feature. Includes goal progress, daily and monthly counts, pace,\nstreaks, rankings and completed series for the authenticated member.",
+        "description": "Pro feature. Includes goal progress, daily and monthly counts, pace,\nstreaks, rankings and completed series for the authenticated member.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without\n`notify_milestones`, `notify_lapses` and `email_updates`.",
         "parameters": [
           {
             "in": "query",
@@ -21746,7 +23672,7 @@
       "get": {
         "summary": "View your monthly reading calendar.",
         "operationId": "viewYourMonthlyReadingCalendar",
-        "description": "Pro feature. Returns up to 60 reads per page, newest first.",
+        "description": "Pro feature. Returns up to 60 reads per page, newest first.\n\nNeeds `read:user` or `read:showcase`; both get the same response.",
         "parameters": [
           {
             "in": "query",
@@ -21949,7 +23875,7 @@
       "get": {
         "summary": "View your reading goal.",
         "operationId": "viewYourReadingGoal",
-        "description": "Available to every authenticated member. Returns only the caller's goal.",
+        "description": "Available to every authenticated member. Returns only the caller's goal.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets the goal without\n`notify_milestones`, `notify_lapses` and `email_updates`.",
         "parameters": [
           {
             "in": "query",
@@ -22224,7 +24150,7 @@
       "get": {
         "summary": "Get the authenticated user.",
         "operationId": "getTheAuthenticatedUser",
-        "description": "Returns the profile of the user the token belongs to.",
+        "description": "Returns the profile of the user the token belongs to.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets only `id`, `name`,\n`username`, `bio`, the avatar and banner fields, `is_pro`, the level and XP fields,\n`created_at` and `updated_at`: no email, location, birth date, preferences, or\nnotification and account settings.",
         "parameters": [],
         "responses": {
           "200": {
@@ -22585,7 +24511,7 @@
       "get": {
         "summary": "List collection.",
         "operationId": "listCollection",
-        "description": "Returns all issues in the user's collection with series and publisher info.",
+        "description": "Returns all issues in the user's collection with series and publisher info.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each copy without\n`price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,\n`purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,\n`comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,\n`custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies\nmarked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.",
         "parameters": [
           {
             "in": "query",
@@ -26309,7 +28235,7 @@
       "get": {
         "summary": "List pull list.",
         "operationId": "listPullList",
-        "description": "Returns all series on the user's pull list (series they're tracking for new releases).",
+        "description": "Returns all series on the user's pull list (series they're tracking for new releases).\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each entry without\n`personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,\n`last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.",
         "parameters": [
           {
             "in": "query",
@@ -26809,7 +28735,7 @@
       "get": {
         "summary": "List read status.",
         "operationId": "listReadStatus",
-        "description": "Returns all issues the user has marked as read with timestamps.",
+        "description": "Returns all issues the user has marked as read with timestamps.\n\nNeeds `read:user` or `read:showcase`; both get the same response.",
         "parameters": [
           {
             "in": "query",
@@ -26834,6 +28760,32 @@
               "description": "When true, only returns reads for issues the user has not yet reviewed.",
               "examples": [
                 true
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Search your reads by series name or issue number.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Search your reads by series name or issue number.",
+              "examples": [
+                "saga 12"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`. Default: newest marked first.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`. Default: newest marked first.",
+              "examples": [
+                "read_at_asc"
               ]
             }
           }
@@ -27490,7 +29442,7 @@
       "get": {
         "summary": "List wishlist.",
         "operationId": "listWishlist",
-        "description": "Returns the authenticated user's wishlist issues, most recently added first.",
+        "description": "Returns the authenticated user's wishlist issues, most recently added first.\n\nNeeds `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.",
         "parameters": [
           {
             "in": "query",
@@ -28154,6 +30106,32 @@
               "description": "Items per page (max 100).",
               "examples": [
                 20
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Only follows of this followable type (the morph alias, e.g. Title, Character, Creator, User).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Only follows of this followable type (the morph alias, e.g. Title, Character, Creator, User).",
+              "examples": [
+                "Character"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "description": "Only follows whose followed entity matches this search (name; username for users).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Only follows whose followed entity matches this search (name; username for users).",
+              "examples": [
+                "spider"
               ]
             }
           }
@@ -29181,6 +31159,208 @@
           "User"
         ],
         "deprecated": true
+      }
+    },
+    "/api/v1/connect/token": {
+      "post": {
+        "summary": "Exchange a Connect code for a token",
+        "operationId": "exchangeAConnectCodeForAToken",
+        "description": "Redeems the single-use code from the Connect redirect. A code works once: a second attempt,\na wrong `code_verifier` or a different `redirect_uri` fails and the code cannot be used again.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "examples": [
+                        "Sq2mX9p..."
+                      ]
+                    },
+                    "token_type": {
+                      "type": "string",
+                      "examples": [
+                        "Bearer"
+                      ]
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "examples": [
+                        "2027-09-29T15:00:00Z"
+                      ]
+                    },
+                    "abilities": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "examples": [
+                        [
+                          "read:public",
+                          "read:showcase"
+                        ]
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "access_token": "Sq2mX9p...",
+                      "token_type": "Bearer",
+                      "expires_at": "2027-09-29T15:00:00Z",
+                      "abilities": [
+                        "read:public",
+                        "read:showcase"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request could not be processed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "examples": [
+                        "invalid_grant"
+                      ]
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "examples": [
+                        "This code is invalid or has expired."
+                      ]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "error": "invalid_grant",
+                      "error_description": "This code is invalid or has expired."
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Connect to VerseDB"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "description": "Must be `authorization_code`.",
+                    "examples": [
+                      "authorization_code"
+                    ]
+                  },
+                  "code": {
+                    "type": "string",
+                    "description": "The code from the redirect.",
+                    "examples": [
+                      "9Qm2cT4xZ7bN1pL8vR3kW6yH0sD5fJ2aG4eU7iO1nB3vC6xZ"
+                    ]
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "Exactly the redirect_uri sent to /connect.",
+                    "examples": [
+                      "https://example.com/wp-admin/options-general.php?page=versedb"
+                    ]
+                  },
+                  "code_verifier": {
+                    "type": "string",
+                    "description": "The verifier the code_challenge was made from.",
+                    "examples": [
+                      "dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"
+                    ]
+                  }
+                },
+                "required": [
+                  "grant_type",
+                  "code",
+                  "redirect_uri",
+                  "code_verifier"
+                ]
+              }
+            }
+          }
+        },
+        "security": []
       }
     }
   }

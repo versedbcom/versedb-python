@@ -68,9 +68,7 @@ class ReorderItemsResponse200ItemsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.reorder_items_response_200_items_item_entity import (
-            ReorderItemsResponse200ItemsItemEntity,  # noqa: PLC0415
-        )
+        from ..models.reorder_items_response_200_items_item_entity import ReorderItemsResponse200ItemsItemEntity  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

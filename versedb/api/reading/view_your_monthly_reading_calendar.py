@@ -105,6 +105,8 @@ def sync_detailed(
 
      Pro feature. Returns up to 60 reads per page, newest first.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
         month (int | Unset): Month from 1 to 12; defaults to the current UTC month.
@@ -148,6 +150,8 @@ def sync(
 
      Pro feature. Returns up to 60 reads per page, newest first.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
         month (int | Unset): Month from 1 to 12; defaults to the current UTC month.
@@ -184,6 +188,8 @@ async def asyncio_detailed(
     """View your monthly reading calendar.
 
      Pro feature. Returns up to 60 reads per page, newest first.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -225,6 +231,8 @@ async def asyncio(
     """View your monthly reading calendar.
 
      Pro feature. Returns up to 60 reads per page, newest first.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
