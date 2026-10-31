@@ -21,6 +21,9 @@ def _get_kwargs(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
@@ -41,6 +44,12 @@ def _get_kwargs(
     params["country_code"] = country_code
 
     params["region"] = region
+
+    params["weekend"] = weekend
+
+    params["month"] = month
+
+    params["sort"] = sort
 
     params["limit"] = limit
 
@@ -101,6 +110,9 @@ def sync_detailed(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List events.
@@ -108,7 +120,8 @@ def sync_detailed(
      Returns: id, slug, name, type, dates, location info, logo_url
 
     Args:
-        q (str | Unset): Search by event name.
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
         type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
@@ -117,6 +130,10 @@ def sync_detailed(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -136,6 +153,9 @@ def sync_detailed(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
     )
 
@@ -157,6 +177,9 @@ def sync(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> ListEventsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
@@ -164,7 +187,8 @@ def sync(
      Returns: id, slug, name, type, dates, location info, logo_url
 
     Args:
-        q (str | Unset): Search by event name.
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
         type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
@@ -173,6 +197,10 @@ def sync(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -193,6 +221,9 @@ def sync(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
     ).parsed
 
@@ -208,6 +239,9 @@ async def asyncio_detailed(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List events.
@@ -215,7 +249,8 @@ async def asyncio_detailed(
      Returns: id, slug, name, type, dates, location info, logo_url
 
     Args:
-        q (str | Unset): Search by event name.
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
         type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
@@ -224,6 +259,10 @@ async def asyncio_detailed(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -243,6 +282,9 @@ async def asyncio_detailed(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
     )
 
@@ -262,6 +304,9 @@ async def asyncio(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
 ) -> ListEventsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
@@ -269,7 +314,8 @@ async def asyncio(
      Returns: id, slug, name, type, dates, location info, logo_url
 
     Args:
-        q (str | Unset): Search by event name.
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
         type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
@@ -278,6 +324,10 @@ async def asyncio(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
 
     Raises:
@@ -299,6 +349,9 @@ async def asyncio(
             is_fcbd=is_fcbd,
             country_code=country_code,
             region=region,
+            weekend=weekend,
+            month=month,
+            sort=sort,
             limit=limit,
         )
     ).parsed

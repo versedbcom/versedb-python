@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -31,6 +31,9 @@ class LookupByUpcResponse200Data:
         cover_date (str | Unset):
         cover_url (str | Unset):
         upc (str | Unset):
+        lunar_code (str | Unset):
+        universal_code (None | str | Unset):
+        diamond_code (str | Unset):
         series (LookupByUpcResponse200DataSeries | Unset):
         publisher (LookupByUpcResponse200DataPublisher | Unset):
     """
@@ -46,6 +49,9 @@ class LookupByUpcResponse200Data:
     cover_date: str | Unset = UNSET
     cover_url: str | Unset = UNSET
     upc: str | Unset = UNSET
+    lunar_code: str | Unset = UNSET
+    universal_code: None | str | Unset = UNSET
+    diamond_code: str | Unset = UNSET
     series: LookupByUpcResponse200DataSeries | Unset = UNSET
     publisher: LookupByUpcResponse200DataPublisher | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
@@ -72,6 +78,16 @@ class LookupByUpcResponse200Data:
         cover_url = self.cover_url
 
         upc = self.upc
+
+        lunar_code = self.lunar_code
+
+        universal_code: None | str | Unset
+        if isinstance(self.universal_code, Unset):
+            universal_code = UNSET
+        else:
+            universal_code = self.universal_code
+
+        diamond_code = self.diamond_code
 
         series: dict[str, Any] | Unset = UNSET
         if not isinstance(self.series, Unset):
@@ -106,6 +122,12 @@ class LookupByUpcResponse200Data:
             field_dict["cover_url"] = cover_url
         if upc is not UNSET:
             field_dict["upc"] = upc
+        if lunar_code is not UNSET:
+            field_dict["lunar_code"] = lunar_code
+        if universal_code is not UNSET:
+            field_dict["universal_code"] = universal_code
+        if diamond_code is not UNSET:
+            field_dict["diamond_code"] = diamond_code
         if series is not UNSET:
             field_dict["series"] = series
         if publisher is not UNSET:
@@ -115,9 +137,7 @@ class LookupByUpcResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.lookup_by_upc_response_200_data_publisher import (
-            LookupByUpcResponse200DataPublisher,  # noqa: PLC0415
-        )
+        from ..models.lookup_by_upc_response_200_data_publisher import LookupByUpcResponse200DataPublisher  # noqa: PLC0415
         from ..models.lookup_by_upc_response_200_data_series import LookupByUpcResponse200DataSeries  # noqa: PLC0415
 
         d = dict(src_dict)
@@ -142,6 +162,19 @@ class LookupByUpcResponse200Data:
         cover_url = d.pop("cover_url", UNSET)
 
         upc = d.pop("upc", UNSET)
+
+        lunar_code = d.pop("lunar_code", UNSET)
+
+        def _parse_universal_code(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        universal_code = _parse_universal_code(d.pop("universal_code", UNSET))
+
+        diamond_code = d.pop("diamond_code", UNSET)
 
         _series = d.pop("series", UNSET)
         series: LookupByUpcResponse200DataSeries | Unset
@@ -169,6 +202,9 @@ class LookupByUpcResponse200Data:
             cover_date=cover_date,
             cover_url=cover_url,
             upc=upc,
+            lunar_code=lunar_code,
+            universal_code=universal_code,
+            diamond_code=diamond_code,
             series=series,
             publisher=publisher,
         )
