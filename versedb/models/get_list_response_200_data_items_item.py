@@ -91,12 +91,8 @@ class GetListResponse200DataItemsItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_list_response_200_data_items_item_entity import (
-            GetListResponse200DataItemsItemEntity,  # noqa: PLC0415
-        )
-        from ..models.get_list_response_200_data_items_item_variant import (
-            GetListResponse200DataItemsItemVariant,  # noqa: PLC0415
-        )
+        from ..models.get_list_response_200_data_items_item_entity import GetListResponse200DataItemsItemEntity  # noqa: PLC0415
+        from ..models.get_list_response_200_data_items_item_variant import GetListResponse200DataItemsItemVariant  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

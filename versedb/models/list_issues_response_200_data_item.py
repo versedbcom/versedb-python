@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.list_issues_response_200_data_item_name_i18n import ListIssuesResponse200DataItemNameI18N
+
 
 T = TypeVar("T", bound="ListIssuesResponse200DataItem")
 
@@ -20,6 +24,7 @@ class ListIssuesResponse200DataItem:
         series_id (int | Unset):
         issue_number (str | Unset):
         name (str | Unset):
+        name_i18n (ListIssuesResponse200DataItemNameI18N | Unset):
         release_date (str | Unset):
         cover_url (str | Unset):
         is_reprint (bool | Unset):
@@ -33,6 +38,7 @@ class ListIssuesResponse200DataItem:
     series_id: int | Unset = UNSET
     issue_number: str | Unset = UNSET
     name: str | Unset = UNSET
+    name_i18n: ListIssuesResponse200DataItemNameI18N | Unset = UNSET
     release_date: str | Unset = UNSET
     cover_url: str | Unset = UNSET
     is_reprint: bool | Unset = UNSET
@@ -51,6 +57,10 @@ class ListIssuesResponse200DataItem:
         issue_number = self.issue_number
 
         name = self.name
+
+        name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.name_i18n, Unset):
+            name_i18n = self.name_i18n.to_dict()
 
         release_date = self.release_date
 
@@ -77,6 +87,8 @@ class ListIssuesResponse200DataItem:
             field_dict["issue_number"] = issue_number
         if name is not UNSET:
             field_dict["name"] = name
+        if name_i18n is not UNSET:
+            field_dict["name_i18n"] = name_i18n
         if release_date is not UNSET:
             field_dict["release_date"] = release_date
         if cover_url is not UNSET:
@@ -94,6 +106,8 @@ class ListIssuesResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.list_issues_response_200_data_item_name_i18n import ListIssuesResponse200DataItemNameI18N  # noqa: PLC0415
+
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
@@ -104,6 +118,13 @@ class ListIssuesResponse200DataItem:
         issue_number = d.pop("issue_number", UNSET)
 
         name = d.pop("name", UNSET)
+
+        _name_i18n = d.pop("name_i18n", UNSET)
+        name_i18n: ListIssuesResponse200DataItemNameI18N | Unset
+        if isinstance(_name_i18n, Unset):
+            name_i18n = UNSET
+        else:
+            name_i18n = ListIssuesResponse200DataItemNameI18N.from_dict(_name_i18n)
 
         release_date = d.pop("release_date", UNSET)
 
@@ -123,6 +144,7 @@ class ListIssuesResponse200DataItem:
             series_id=series_id,
             issue_number=issue_number,
             name=name,
+            name_i18n=name_i18n,
             release_date=release_date,
             cover_url=cover_url,
             is_reprint=is_reprint,

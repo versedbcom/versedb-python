@@ -17,6 +17,7 @@ def _get_kwargs(
     *,
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -24,6 +25,8 @@ def _get_kwargs(
     params["limit"] = limit
 
     params["q"] = q
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -79,6 +82,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetCharacterTeamsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get character teams.
 
@@ -88,6 +92,8 @@ def sync_detailed(
         character_id (int):
         limit (int | Unset): Results per page (max 50).
         q (str | Unset): Optional case-insensitive search within these results.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,6 +107,7 @@ def sync_detailed(
         character_id=character_id,
         limit=limit,
         q=q,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -116,6 +123,7 @@ def sync(
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetCharacterTeamsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get character teams.
 
@@ -125,6 +133,8 @@ def sync(
         character_id (int):
         limit (int | Unset): Results per page (max 50).
         q (str | Unset): Optional case-insensitive search within these results.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,6 +149,7 @@ def sync(
         client=client,
         limit=limit,
         q=q,
+        languages=languages,
     ).parsed
 
 
@@ -148,6 +159,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetCharacterTeamsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get character teams.
 
@@ -157,6 +169,8 @@ async def asyncio_detailed(
         character_id (int):
         limit (int | Unset): Results per page (max 50).
         q (str | Unset): Optional case-insensitive search within these results.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -170,6 +184,7 @@ async def asyncio_detailed(
         character_id=character_id,
         limit=limit,
         q=q,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -183,6 +198,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetCharacterTeamsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get character teams.
 
@@ -192,6 +208,8 @@ async def asyncio(
         character_id (int):
         limit (int | Unset): Results per page (max 50).
         q (str | Unset): Optional case-insensitive search within these results.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -207,5 +225,6 @@ async def asyncio(
             client=client,
             limit=limit,
             q=q,
+            languages=languages,
         )
     ).parsed

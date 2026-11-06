@@ -9,8 +9,15 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.get_character_details_response_200_data_aliases_i18n import (
+        GetCharacterDetailsResponse200DataAliasesI18N,
+    )
     from ..models.get_character_details_response_200_data_images import GetCharacterDetailsResponse200DataImages
+    from ..models.get_character_details_response_200_data_name_i18n import GetCharacterDetailsResponse200DataNameI18N
     from ..models.get_character_details_response_200_data_publisher import GetCharacterDetailsResponse200DataPublisher
+    from ..models.get_character_details_response_200_data_real_name_i18n import (
+        GetCharacterDetailsResponse200DataRealNameI18N,
+    )
 
 
 T = TypeVar("T", bound="GetCharacterDetailsResponse200Data")
@@ -22,6 +29,10 @@ class GetCharacterDetailsResponse200Data:
     Attributes:
         id (int | Unset):
         name (str | Unset):
+        name_i18n (GetCharacterDetailsResponse200DataNameI18N | Unset):
+        real_name_i18n (GetCharacterDetailsResponse200DataRealNameI18N | Unset):
+        aliases_i18n (GetCharacterDetailsResponse200DataAliasesI18N | Unset):
+        original_locale (str | Unset):
         slug (str | Unset):
         real_name (str | Unset):
         aliases (list[str] | Unset):
@@ -42,6 +53,10 @@ class GetCharacterDetailsResponse200Data:
 
     id: int | Unset = UNSET
     name: str | Unset = UNSET
+    name_i18n: GetCharacterDetailsResponse200DataNameI18N | Unset = UNSET
+    real_name_i18n: GetCharacterDetailsResponse200DataRealNameI18N | Unset = UNSET
+    aliases_i18n: GetCharacterDetailsResponse200DataAliasesI18N | Unset = UNSET
+    original_locale: str | Unset = UNSET
     slug: str | Unset = UNSET
     real_name: str | Unset = UNSET
     aliases: list[str] | Unset = UNSET
@@ -64,6 +79,20 @@ class GetCharacterDetailsResponse200Data:
         id = self.id
 
         name = self.name
+
+        name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.name_i18n, Unset):
+            name_i18n = self.name_i18n.to_dict()
+
+        real_name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.real_name_i18n, Unset):
+            real_name_i18n = self.real_name_i18n.to_dict()
+
+        aliases_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.aliases_i18n, Unset):
+            aliases_i18n = self.aliases_i18n.to_dict()
+
+        original_locale = self.original_locale
 
         slug = self.slug
 
@@ -114,6 +143,14 @@ class GetCharacterDetailsResponse200Data:
             field_dict["id"] = id
         if name is not UNSET:
             field_dict["name"] = name
+        if name_i18n is not UNSET:
+            field_dict["name_i18n"] = name_i18n
+        if real_name_i18n is not UNSET:
+            field_dict["real_name_i18n"] = real_name_i18n
+        if aliases_i18n is not UNSET:
+            field_dict["aliases_i18n"] = aliases_i18n
+        if original_locale is not UNSET:
+            field_dict["original_locale"] = original_locale
         if slug is not UNSET:
             field_dict["slug"] = slug
         if real_name is not UNSET:
@@ -151,17 +188,47 @@ class GetCharacterDetailsResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_character_details_response_200_data_images import (
-            GetCharacterDetailsResponse200DataImages,  # noqa: PLC0415
+        from ..models.get_character_details_response_200_data_aliases_i18n import (
+            GetCharacterDetailsResponse200DataAliasesI18N,  # noqa: PLC0415
+        )
+        from ..models.get_character_details_response_200_data_images import GetCharacterDetailsResponse200DataImages  # noqa: PLC0415
+        from ..models.get_character_details_response_200_data_name_i18n import (
+            GetCharacterDetailsResponse200DataNameI18N,  # noqa: PLC0415
         )
         from ..models.get_character_details_response_200_data_publisher import (
             GetCharacterDetailsResponse200DataPublisher,  # noqa: PLC0415
+        )
+        from ..models.get_character_details_response_200_data_real_name_i18n import (
+            GetCharacterDetailsResponse200DataRealNameI18N,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
         name = d.pop("name", UNSET)
+
+        _name_i18n = d.pop("name_i18n", UNSET)
+        name_i18n: GetCharacterDetailsResponse200DataNameI18N | Unset
+        if isinstance(_name_i18n, Unset):
+            name_i18n = UNSET
+        else:
+            name_i18n = GetCharacterDetailsResponse200DataNameI18N.from_dict(_name_i18n)
+
+        _real_name_i18n = d.pop("real_name_i18n", UNSET)
+        real_name_i18n: GetCharacterDetailsResponse200DataRealNameI18N | Unset
+        if isinstance(_real_name_i18n, Unset):
+            real_name_i18n = UNSET
+        else:
+            real_name_i18n = GetCharacterDetailsResponse200DataRealNameI18N.from_dict(_real_name_i18n)
+
+        _aliases_i18n = d.pop("aliases_i18n", UNSET)
+        aliases_i18n: GetCharacterDetailsResponse200DataAliasesI18N | Unset
+        if isinstance(_aliases_i18n, Unset):
+            aliases_i18n = UNSET
+        else:
+            aliases_i18n = GetCharacterDetailsResponse200DataAliasesI18N.from_dict(_aliases_i18n)
+
+        original_locale = d.pop("original_locale", UNSET)
 
         slug = d.pop("slug", UNSET)
 
@@ -208,6 +275,10 @@ class GetCharacterDetailsResponse200Data:
         get_character_details_response_200_data = cls(
             id=id,
             name=name,
+            name_i18n=name_i18n,
+            real_name_i18n=real_name_i18n,
+            aliases_i18n=aliases_i18n,
+            original_locale=original_locale,
             slug=slug,
             real_name=real_name,
             aliases=aliases,

@@ -17,6 +17,7 @@ def _get_kwargs(
     *,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -24,6 +25,8 @@ def _get_kwargs(
     params["q"] = q
 
     params["limit"] = limit
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -79,6 +82,7 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetStoryArcsForASpecificIssueResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get story arcs for a specific issue
 
@@ -88,6 +92,8 @@ def sync_detailed(
         issue_id (int):
         q (str | Unset): Optional case-insensitive search within these results.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,6 +107,7 @@ def sync_detailed(
         issue_id=issue_id,
         q=q,
         limit=limit,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -116,6 +123,7 @@ def sync(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetStoryArcsForASpecificIssueResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get story arcs for a specific issue
 
@@ -125,6 +133,8 @@ def sync(
         issue_id (int):
         q (str | Unset): Optional case-insensitive search within these results.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,6 +149,7 @@ def sync(
         client=client,
         q=q,
         limit=limit,
+        languages=languages,
     ).parsed
 
 
@@ -148,6 +159,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetStoryArcsForASpecificIssueResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get story arcs for a specific issue
 
@@ -157,6 +169,8 @@ async def asyncio_detailed(
         issue_id (int):
         q (str | Unset): Optional case-insensitive search within these results.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -170,6 +184,7 @@ async def asyncio_detailed(
         issue_id=issue_id,
         q=q,
         limit=limit,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -183,6 +198,7 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetStoryArcsForASpecificIssueResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get story arcs for a specific issue
 
@@ -192,6 +208,8 @@ async def asyncio(
         issue_id (int):
         q (str | Unset): Optional case-insensitive search within these results.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -207,5 +225,6 @@ async def asyncio(
             client=client,
             q=q,
             limit=limit,
+            languages=languages,
         )
     ).parsed

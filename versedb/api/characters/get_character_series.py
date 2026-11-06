@@ -18,6 +18,7 @@ def _get_kwargs(
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -27,6 +28,8 @@ def _get_kwargs(
     params["q"] = q
 
     params["medium"] = medium
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -83,6 +86,7 @@ def sync_detailed(
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetCharacterSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get character series.
 
@@ -94,6 +98,8 @@ def sync_detailed(
         q (str | Unset): Optional case-insensitive search within these results.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -108,6 +114,7 @@ def sync_detailed(
         limit=limit,
         q=q,
         medium=medium,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -124,6 +131,7 @@ def sync(
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetCharacterSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get character series.
 
@@ -135,6 +143,8 @@ def sync(
         q (str | Unset): Optional case-insensitive search within these results.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -150,6 +160,7 @@ def sync(
         limit=limit,
         q=q,
         medium=medium,
+        languages=languages,
     ).parsed
 
 
@@ -160,6 +171,7 @@ async def asyncio_detailed(
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[GetCharacterSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get character series.
 
@@ -171,6 +183,8 @@ async def asyncio_detailed(
         q (str | Unset): Optional case-insensitive search within these results.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -185,6 +199,7 @@ async def asyncio_detailed(
         limit=limit,
         q=q,
         medium=medium,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -199,6 +214,7 @@ async def asyncio(
     limit: int | Unset = UNSET,
     q: str | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> GetCharacterSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get character series.
 
@@ -210,6 +226,8 @@ async def asyncio(
         q (str | Unset): Optional case-insensitive search within these results.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -226,5 +244,6 @@ async def asyncio(
             limit=limit,
             q=q,
             medium=medium,
+            languages=languages,
         )
     ).parsed

@@ -94,9 +94,7 @@ class ListWishlistResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_wishlist_response_200_data_item_entity import (
-            ListWishlistResponse200DataItemEntity,  # noqa: PLC0415
-        )
+        from ..models.list_wishlist_response_200_data_item_entity import ListWishlistResponse200DataItemEntity  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)

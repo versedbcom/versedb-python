@@ -20,6 +20,7 @@ def _get_kwargs(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -33,6 +34,8 @@ def _get_kwargs(
     params["direction"] = direction
 
     params["limit"] = limit
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -88,6 +91,7 @@ def sync_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[ListAllPublishersWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List all publishers with optional search
 
@@ -102,6 +106,8 @@ def sync_detailed(
             applied to q results.
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -117,6 +123,7 @@ def sync_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -134,6 +141,7 @@ def sync(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> ListAllPublishersWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List all publishers with optional search
 
@@ -148,6 +156,8 @@ def sync(
             applied to q results.
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,6 +174,7 @@ def sync(
         sort=sort,
         direction=direction,
         limit=limit,
+        languages=languages,
     ).parsed
 
 
@@ -175,6 +186,7 @@ async def asyncio_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[ListAllPublishersWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List all publishers with optional search
 
@@ -189,6 +201,8 @@ async def asyncio_detailed(
             applied to q results.
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -204,6 +218,7 @@ async def asyncio_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -219,6 +234,7 @@ async def asyncio(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> ListAllPublishersWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List all publishers with optional search
 
@@ -233,6 +249,8 @@ async def asyncio(
             applied to q results.
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -250,5 +268,6 @@ async def asyncio(
             sort=sort,
             direction=direction,
             limit=limit,
+            languages=languages,
         )
     ).parsed

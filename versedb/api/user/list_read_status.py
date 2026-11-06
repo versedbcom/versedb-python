@@ -15,6 +15,8 @@ def _get_kwargs(
     *,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -22,6 +24,10 @@ def _get_kwargs(
     params["per_page"] = per_page
 
     params["unreviewed"] = unreviewed
+
+    params["q"] = q
+
+    params["sort"] = sort
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -74,15 +80,22 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,6 +108,8 @@ def sync_detailed(
     kwargs = _get_kwargs(
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     )
 
     response = client.get_httpx_client().request(
@@ -109,15 +124,22 @@ def sync(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -131,6 +153,8 @@ def sync(
         client=client,
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     ).parsed
 
 
@@ -139,15 +163,22 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -160,6 +191,8 @@ async def asyncio_detailed(
     kwargs = _get_kwargs(
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -172,15 +205,22 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
 
+    Needs `read:user` or `read:showcase`; both get the same response.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -195,5 +235,7 @@ async def asyncio(
             client=client,
             per_page=per_page,
             unreviewed=unreviewed,
+            q=q,
+            sort=sort,
         )
     ).parsed

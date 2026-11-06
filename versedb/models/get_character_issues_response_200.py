@@ -52,9 +52,7 @@ class GetCharacterIssuesResponse200:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_character_issues_response_200_data_item import (
-            GetCharacterIssuesResponse200DataItem,  # noqa: PLC0415
-        )
+        from ..models.get_character_issues_response_200_data_item import GetCharacterIssuesResponse200DataItem  # noqa: PLC0415
         from ..models.get_character_issues_response_200_meta import GetCharacterIssuesResponse200Meta  # noqa: PLC0415
 
         d = dict(src_dict)

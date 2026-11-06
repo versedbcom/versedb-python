@@ -93,7 +93,7 @@ def sync_detailed(
     Only shows lists with at least one item.
 
     Args:
-        q (str | Unset): Search by list title or description.
+        q (str | Unset): Search by list title or description, tolerating small typos in the title.
         entity_type (str | Unset): Filter by entity type (issues, series, characters, creators,
             story_arcs, teams). Matches lists declared as that type plus unrestricted lists holding at
             least one item of it.
@@ -140,7 +140,7 @@ def sync(
     Only shows lists with at least one item.
 
     Args:
-        q (str | Unset): Search by list title or description.
+        q (str | Unset): Search by list title or description, tolerating small typos in the title.
         entity_type (str | Unset): Filter by entity type (issues, series, characters, creators,
             story_arcs, teams). Matches lists declared as that type plus unrestricted lists holding at
             least one item of it.
@@ -182,7 +182,7 @@ async def asyncio_detailed(
     Only shows lists with at least one item.
 
     Args:
-        q (str | Unset): Search by list title or description.
+        q (str | Unset): Search by list title or description, tolerating small typos in the title.
         entity_type (str | Unset): Filter by entity type (issues, series, characters, creators,
             story_arcs, teams). Matches lists declared as that type plus unrestricted lists holding at
             least one item of it.
@@ -227,7 +227,7 @@ async def asyncio(
     Only shows lists with at least one item.
 
     Args:
-        q (str | Unset): Search by list title or description.
+        q (str | Unset): Search by list title or description, tolerating small typos in the title.
         entity_type (str | Unset): Filter by entity type (issues, series, characters, creators,
             story_arcs, teams). Matches lists declared as that type plus unrestricted lists holding at
             least one item of it.

@@ -98,6 +98,9 @@ def sync_detailed(
      Pro feature. Includes goal progress, daily and monthly counts, pace,
     streaks, rankings and completed series for the authenticated member.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
 
@@ -136,6 +139,9 @@ def sync(
      Pro feature. Includes goal progress, daily and monthly counts, pace,
     streaks, rankings and completed series for the authenticated member.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
+
     Args:
         year (int | Unset): UTC year; defaults to the current year.
 
@@ -167,6 +173,9 @@ async def asyncio_detailed(
 
      Pro feature. Includes goal progress, daily and monthly counts, pace,
     streaks, rankings and completed series for the authenticated member.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -203,6 +212,9 @@ async def asyncio(
 
      Pro feature. Includes goal progress, daily and monthly counts, pace,
     streaks, rankings and completed series for the authenticated member.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets `progress` without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.

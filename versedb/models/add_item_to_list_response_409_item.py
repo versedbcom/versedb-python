@@ -91,12 +91,8 @@ class AddItemToListResponse409Item:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.add_item_to_list_response_409_item_entity import (
-            AddItemToListResponse409ItemEntity,  # noqa: PLC0415
-        )
-        from ..models.add_item_to_list_response_409_item_variant import (
-            AddItemToListResponse409ItemVariant,  # noqa: PLC0415
-        )
+        from ..models.add_item_to_list_response_409_item_entity import AddItemToListResponse409ItemEntity  # noqa: PLC0415
+        from ..models.add_item_to_list_response_409_item_variant import AddItemToListResponse409ItemVariant  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
