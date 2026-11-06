@@ -109,9 +109,7 @@ class LookupByIsbnResponse200Data:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.lookup_by_isbn_response_200_data_publisher import (
-            LookupByIsbnResponse200DataPublisher,  # noqa: PLC0415
-        )
+        from ..models.lookup_by_isbn_response_200_data_publisher import LookupByIsbnResponse200DataPublisher  # noqa: PLC0415
         from ..models.lookup_by_isbn_response_200_data_series import LookupByIsbnResponse200DataSeries  # noqa: PLC0415
 
         d = dict(src_dict)

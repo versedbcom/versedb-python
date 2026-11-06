@@ -12,6 +12,9 @@ if TYPE_CHECKING:
     from ..models.get_issue_variants_response_200_data_item_creators_item import (
         GetIssueVariantsResponse200DataItemCreatorsItem,
     )
+    from ..models.get_issue_variants_response_200_data_item_variant_name_i18n import (
+        GetIssueVariantsResponse200DataItemVariantNameI18N,
+    )
 
 
 T = TypeVar("T", bound="GetIssueVariantsResponse200DataItem")
@@ -23,6 +26,7 @@ class GetIssueVariantsResponse200DataItem:
     Attributes:
         id (int | Unset):
         variant_name (str | Unset):
+        variant_name_i18n (GetIssueVariantsResponse200DataItemVariantNameI18N | Unset):
         variant_type (str | Unset):
         ratio (str | Unset):
         cover_url (str | Unset):
@@ -34,6 +38,7 @@ class GetIssueVariantsResponse200DataItem:
 
     id: int | Unset = UNSET
     variant_name: str | Unset = UNSET
+    variant_name_i18n: GetIssueVariantsResponse200DataItemVariantNameI18N | Unset = UNSET
     variant_type: str | Unset = UNSET
     ratio: str | Unset = UNSET
     cover_url: str | Unset = UNSET
@@ -47,6 +52,10 @@ class GetIssueVariantsResponse200DataItem:
         id = self.id
 
         variant_name = self.variant_name
+
+        variant_name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.variant_name_i18n, Unset):
+            variant_name_i18n = self.variant_name_i18n.to_dict()
 
         variant_type = self.variant_type
 
@@ -74,6 +83,8 @@ class GetIssueVariantsResponse200DataItem:
             field_dict["id"] = id
         if variant_name is not UNSET:
             field_dict["variant_name"] = variant_name
+        if variant_name_i18n is not UNSET:
+            field_dict["variant_name_i18n"] = variant_name_i18n
         if variant_type is not UNSET:
             field_dict["variant_type"] = variant_type
         if ratio is not UNSET:
@@ -96,11 +107,21 @@ class GetIssueVariantsResponse200DataItem:
         from ..models.get_issue_variants_response_200_data_item_creators_item import (
             GetIssueVariantsResponse200DataItemCreatorsItem,  # noqa: PLC0415
         )
+        from ..models.get_issue_variants_response_200_data_item_variant_name_i18n import (
+            GetIssueVariantsResponse200DataItemVariantNameI18N,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
         variant_name = d.pop("variant_name", UNSET)
+
+        _variant_name_i18n = d.pop("variant_name_i18n", UNSET)
+        variant_name_i18n: GetIssueVariantsResponse200DataItemVariantNameI18N | Unset
+        if isinstance(_variant_name_i18n, Unset):
+            variant_name_i18n = UNSET
+        else:
+            variant_name_i18n = GetIssueVariantsResponse200DataItemVariantNameI18N.from_dict(_variant_name_i18n)
 
         variant_type = d.pop("variant_type", UNSET)
 
@@ -126,6 +147,7 @@ class GetIssueVariantsResponse200DataItem:
         get_issue_variants_response_200_data_item = cls(
             id=id,
             variant_name=variant_name,
+            variant_name_i18n=variant_name_i18n,
             variant_type=variant_type,
             ratio=ratio,
             cover_url=cover_url,

@@ -1,12 +1,17 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
+
+if TYPE_CHECKING:
+    from ..models.list_series_response_200_data_item_aliases_i18n import ListSeriesResponse200DataItemAliasesI18N
+    from ..models.list_series_response_200_data_item_name_i18n import ListSeriesResponse200DataItemNameI18N
+
 
 T = TypeVar("T", bound="ListSeriesResponse200DataItem")
 
@@ -18,6 +23,10 @@ class ListSeriesResponse200DataItem:
         id (int | Unset):
         title_id (int | Unset):
         name (str | Unset):
+        name_i18n (ListSeriesResponse200DataItemNameI18N | Unset):
+        aliases_i18n (ListSeriesResponse200DataItemAliasesI18N | Unset):
+        original_locale (str | Unset):
+        original_name (None | str | Unset):
         slug (str | Unset):
         number (int | Unset):
         start_year (int | Unset):
@@ -40,6 +49,10 @@ class ListSeriesResponse200DataItem:
     id: int | Unset = UNSET
     title_id: int | Unset = UNSET
     name: str | Unset = UNSET
+    name_i18n: ListSeriesResponse200DataItemNameI18N | Unset = UNSET
+    aliases_i18n: ListSeriesResponse200DataItemAliasesI18N | Unset = UNSET
+    original_locale: str | Unset = UNSET
+    original_name: None | str | Unset = UNSET
     slug: str | Unset = UNSET
     number: int | Unset = UNSET
     start_year: int | Unset = UNSET
@@ -65,6 +78,22 @@ class ListSeriesResponse200DataItem:
         title_id = self.title_id
 
         name = self.name
+
+        name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.name_i18n, Unset):
+            name_i18n = self.name_i18n.to_dict()
+
+        aliases_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.aliases_i18n, Unset):
+            aliases_i18n = self.aliases_i18n.to_dict()
+
+        original_locale = self.original_locale
+
+        original_name: None | str | Unset
+        if isinstance(self.original_name, Unset):
+            original_name = UNSET
+        else:
+            original_name = self.original_name
 
         slug = self.slug
 
@@ -109,6 +138,14 @@ class ListSeriesResponse200DataItem:
             field_dict["title_id"] = title_id
         if name is not UNSET:
             field_dict["name"] = name
+        if name_i18n is not UNSET:
+            field_dict["name_i18n"] = name_i18n
+        if aliases_i18n is not UNSET:
+            field_dict["aliases_i18n"] = aliases_i18n
+        if original_locale is not UNSET:
+            field_dict["original_locale"] = original_locale
+        if original_name is not UNSET:
+            field_dict["original_name"] = original_name
         if slug is not UNSET:
             field_dict["slug"] = slug
         if number is not UNSET:
@@ -148,12 +185,40 @@ class ListSeriesResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.list_series_response_200_data_item_aliases_i18n import ListSeriesResponse200DataItemAliasesI18N  # noqa: PLC0415
+        from ..models.list_series_response_200_data_item_name_i18n import ListSeriesResponse200DataItemNameI18N  # noqa: PLC0415
+
         d = dict(src_dict)
         id = d.pop("id", UNSET)
 
         title_id = d.pop("title_id", UNSET)
 
         name = d.pop("name", UNSET)
+
+        _name_i18n = d.pop("name_i18n", UNSET)
+        name_i18n: ListSeriesResponse200DataItemNameI18N | Unset
+        if isinstance(_name_i18n, Unset):
+            name_i18n = UNSET
+        else:
+            name_i18n = ListSeriesResponse200DataItemNameI18N.from_dict(_name_i18n)
+
+        _aliases_i18n = d.pop("aliases_i18n", UNSET)
+        aliases_i18n: ListSeriesResponse200DataItemAliasesI18N | Unset
+        if isinstance(_aliases_i18n, Unset):
+            aliases_i18n = UNSET
+        else:
+            aliases_i18n = ListSeriesResponse200DataItemAliasesI18N.from_dict(_aliases_i18n)
+
+        original_locale = d.pop("original_locale", UNSET)
+
+        def _parse_original_name(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        original_name = _parse_original_name(d.pop("original_name", UNSET))
 
         slug = d.pop("slug", UNSET)
 
@@ -193,6 +258,10 @@ class ListSeriesResponse200DataItem:
             id=id,
             title_id=title_id,
             name=name,
+            name_i18n=name_i18n,
+            aliases_i18n=aliases_i18n,
+            original_locale=original_locale,
+            original_name=original_name,
             slug=slug,
             number=number,
             start_year=start_year,

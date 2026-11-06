@@ -75,6 +75,10 @@ def sync_detailed(
 
      Returns all series on the user's pull list (series they're tracking for new releases).
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+    `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
 
@@ -106,6 +110,10 @@ def sync(
 
      Returns all series on the user's pull list (series they're tracking for new releases).
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+    `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
 
@@ -131,6 +139,10 @@ async def asyncio_detailed(
     """List pull list.
 
      Returns all series on the user's pull list (series they're tracking for new releases).
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+    `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -160,6 +172,10 @@ async def asyncio(
     """List pull list.
 
      Returns all series on the user's pull list (series they're tracking for new releases).
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
+    `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
 
     Args:
         per_page (int | Unset): Items per page (max 100).

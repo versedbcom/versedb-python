@@ -14,11 +14,17 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     per_page: int | Unset = UNSET,
+    type_: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["per_page"] = per_page
+
+    params["type"] = type_
+
+    params["q"] = q
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -70,6 +76,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
+    type_: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[ListFollowsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List follows.
 
@@ -77,6 +85,10 @@ def sync_detailed(
 
     Args:
         per_page (int | Unset): Items per page (max 100).
+        type_ (str | Unset): Only follows of this followable type (the morph alias, e.g. Title,
+            Character, Creator, User).
+        q (str | Unset): Only follows whose followed entity matches this search (name; username
+            for users).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -88,6 +100,8 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         per_page=per_page,
+        type_=type_,
+        q=q,
     )
 
     response = client.get_httpx_client().request(
@@ -101,6 +115,8 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
+    type_: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> ListFollowsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List follows.
 
@@ -108,6 +124,10 @@ def sync(
 
     Args:
         per_page (int | Unset): Items per page (max 100).
+        type_ (str | Unset): Only follows of this followable type (the morph alias, e.g. Title,
+            Character, Creator, User).
+        q (str | Unset): Only follows whose followed entity matches this search (name; username
+            for users).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -120,6 +140,8 @@ def sync(
     return sync_detailed(
         client=client,
         per_page=per_page,
+        type_=type_,
+        q=q,
     ).parsed
 
 
@@ -127,6 +149,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
+    type_: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> Response[ListFollowsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List follows.
 
@@ -134,6 +158,10 @@ async def asyncio_detailed(
 
     Args:
         per_page (int | Unset): Items per page (max 100).
+        type_ (str | Unset): Only follows of this followable type (the morph alias, e.g. Title,
+            Character, Creator, User).
+        q (str | Unset): Only follows whose followed entity matches this search (name; username
+            for users).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,6 +173,8 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         per_page=per_page,
+        type_=type_,
+        q=q,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -156,6 +186,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
+    type_: str | Unset = UNSET,
+    q: str | Unset = UNSET,
 ) -> ListFollowsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List follows.
 
@@ -163,6 +195,10 @@ async def asyncio(
 
     Args:
         per_page (int | Unset): Items per page (max 100).
+        type_ (str | Unset): Only follows of this followable type (the morph alias, e.g. Title,
+            Character, Creator, User).
+        q (str | Unset): Only follows whose followed entity matches this search (name; username
+            for users).
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -176,5 +212,7 @@ async def asyncio(
         await asyncio_detailed(
             client=client,
             per_page=per_page,
+            type_=type_,
+            q=q,
         )
     ).parsed

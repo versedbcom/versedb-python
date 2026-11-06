@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,6 +13,7 @@ if TYPE_CHECKING:
         GetIssueDetailsResponse200DataCharactersItem,
     )
     from ..models.get_issue_details_response_200_data_creators_item import GetIssueDetailsResponse200DataCreatorsItem
+    from ..models.get_issue_details_response_200_data_name_i18n import GetIssueDetailsResponse200DataNameI18N
     from ..models.get_issue_details_response_200_data_publisher import GetIssueDetailsResponse200DataPublisher
     from ..models.get_issue_details_response_200_data_series import GetIssueDetailsResponse200DataSeries
     from ..models.get_issue_details_response_200_data_title import GetIssueDetailsResponse200DataTitle
@@ -30,6 +31,7 @@ class GetIssueDetailsResponse200Data:
         series_id (int | Unset):
         issue_number (str | Unset):
         name (str | Unset):
+        name_i18n (GetIssueDetailsResponse200DataNameI18N | Unset):
         solicitation (str | Unset):
         release_date (str | Unset):
         cover_date (str | Unset):
@@ -41,6 +43,9 @@ class GetIssueDetailsResponse200Data:
         page_count (int | Unset):
         price (str | Unset):
         upc (str | Unset):
+        lunar_code (str | Unset):
+        universal_code (None | str | Unset):
+        diamond_code (str | Unset):
         series (GetIssueDetailsResponse200DataSeries | Unset):
         title (GetIssueDetailsResponse200DataTitle | Unset):
         publisher (GetIssueDetailsResponse200DataPublisher | Unset):
@@ -53,6 +58,7 @@ class GetIssueDetailsResponse200Data:
     series_id: int | Unset = UNSET
     issue_number: str | Unset = UNSET
     name: str | Unset = UNSET
+    name_i18n: GetIssueDetailsResponse200DataNameI18N | Unset = UNSET
     solicitation: str | Unset = UNSET
     release_date: str | Unset = UNSET
     cover_date: str | Unset = UNSET
@@ -64,6 +70,9 @@ class GetIssueDetailsResponse200Data:
     page_count: int | Unset = UNSET
     price: str | Unset = UNSET
     upc: str | Unset = UNSET
+    lunar_code: str | Unset = UNSET
+    universal_code: None | str | Unset = UNSET
+    diamond_code: str | Unset = UNSET
     series: GetIssueDetailsResponse200DataSeries | Unset = UNSET
     title: GetIssueDetailsResponse200DataTitle | Unset = UNSET
     publisher: GetIssueDetailsResponse200DataPublisher | Unset = UNSET
@@ -81,6 +90,10 @@ class GetIssueDetailsResponse200Data:
         issue_number = self.issue_number
 
         name = self.name
+
+        name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.name_i18n, Unset):
+            name_i18n = self.name_i18n.to_dict()
 
         solicitation = self.solicitation
 
@@ -103,6 +116,16 @@ class GetIssueDetailsResponse200Data:
         price = self.price
 
         upc = self.upc
+
+        lunar_code = self.lunar_code
+
+        universal_code: None | str | Unset
+        if isinstance(self.universal_code, Unset):
+            universal_code = UNSET
+        else:
+            universal_code = self.universal_code
+
+        diamond_code = self.diamond_code
 
         series: dict[str, Any] | Unset = UNSET
         if not isinstance(self.series, Unset):
@@ -143,6 +166,8 @@ class GetIssueDetailsResponse200Data:
             field_dict["issue_number"] = issue_number
         if name is not UNSET:
             field_dict["name"] = name
+        if name_i18n is not UNSET:
+            field_dict["name_i18n"] = name_i18n
         if solicitation is not UNSET:
             field_dict["solicitation"] = solicitation
         if release_date is not UNSET:
@@ -165,6 +190,12 @@ class GetIssueDetailsResponse200Data:
             field_dict["price"] = price
         if upc is not UNSET:
             field_dict["upc"] = upc
+        if lunar_code is not UNSET:
+            field_dict["lunar_code"] = lunar_code
+        if universal_code is not UNSET:
+            field_dict["universal_code"] = universal_code
+        if diamond_code is not UNSET:
+            field_dict["diamond_code"] = diamond_code
         if series is not UNSET:
             field_dict["series"] = series
         if title is not UNSET:
@@ -186,15 +217,10 @@ class GetIssueDetailsResponse200Data:
         from ..models.get_issue_details_response_200_data_creators_item import (
             GetIssueDetailsResponse200DataCreatorsItem,  # noqa: PLC0415
         )
-        from ..models.get_issue_details_response_200_data_publisher import (
-            GetIssueDetailsResponse200DataPublisher,  # noqa: PLC0415
-        )
-        from ..models.get_issue_details_response_200_data_series import (
-            GetIssueDetailsResponse200DataSeries,  # noqa: PLC0415
-        )
-        from ..models.get_issue_details_response_200_data_title import (
-            GetIssueDetailsResponse200DataTitle,  # noqa: PLC0415
-        )
+        from ..models.get_issue_details_response_200_data_name_i18n import GetIssueDetailsResponse200DataNameI18N  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_publisher import GetIssueDetailsResponse200DataPublisher  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_series import GetIssueDetailsResponse200DataSeries  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_title import GetIssueDetailsResponse200DataTitle  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id", UNSET)
@@ -206,6 +232,13 @@ class GetIssueDetailsResponse200Data:
         issue_number = d.pop("issue_number", UNSET)
 
         name = d.pop("name", UNSET)
+
+        _name_i18n = d.pop("name_i18n", UNSET)
+        name_i18n: GetIssueDetailsResponse200DataNameI18N | Unset
+        if isinstance(_name_i18n, Unset):
+            name_i18n = UNSET
+        else:
+            name_i18n = GetIssueDetailsResponse200DataNameI18N.from_dict(_name_i18n)
 
         solicitation = d.pop("solicitation", UNSET)
 
@@ -228,6 +261,19 @@ class GetIssueDetailsResponse200Data:
         price = d.pop("price", UNSET)
 
         upc = d.pop("upc", UNSET)
+
+        lunar_code = d.pop("lunar_code", UNSET)
+
+        def _parse_universal_code(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        universal_code = _parse_universal_code(d.pop("universal_code", UNSET))
+
+        diamond_code = d.pop("diamond_code", UNSET)
 
         _series = d.pop("series", UNSET)
         series: GetIssueDetailsResponse200DataSeries | Unset
@@ -274,6 +320,7 @@ class GetIssueDetailsResponse200Data:
             series_id=series_id,
             issue_number=issue_number,
             name=name,
+            name_i18n=name_i18n,
             solicitation=solicitation,
             release_date=release_date,
             cover_date=cover_date,
@@ -285,6 +332,9 @@ class GetIssueDetailsResponse200Data:
             page_count=page_count,
             price=price,
             upc=upc,
+            lunar_code=lunar_code,
+            universal_code=universal_code,
+            diamond_code=diamond_code,
             series=series,
             title=title,
             publisher=publisher,

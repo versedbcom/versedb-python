@@ -9,18 +9,27 @@ from ...client import AuthenticatedClient, Client
 from ...models.get_issue_creators_response_200 import GetIssueCreatorsResponse200
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/issues/{id}/creators".format(
             id=quote(str(id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -65,6 +74,7 @@ def sync_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[GetIssueCreatorsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get issue creators.
 
@@ -72,6 +82,8 @@ def sync_detailed(
 
     Args:
         id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -83,6 +95,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -96,6 +109,7 @@ def sync(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> GetIssueCreatorsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get issue creators.
 
@@ -103,6 +117,8 @@ def sync(
 
     Args:
         id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,6 +131,7 @@ def sync(
     return sync_detailed(
         id=id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -122,6 +139,7 @@ async def asyncio_detailed(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[GetIssueCreatorsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """Get issue creators.
 
@@ -129,6 +147,8 @@ async def asyncio_detailed(
 
     Args:
         id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -140,6 +160,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         id=id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -151,6 +172,7 @@ async def asyncio(
     id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> GetIssueCreatorsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """Get issue creators.
 
@@ -158,6 +180,8 @@ async def asyncio(
 
     Args:
         id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -171,5 +195,6 @@ async def asyncio(
         await asyncio_detailed(
             id=id,
             client=client,
+            languages=languages,
         )
     ).parsed

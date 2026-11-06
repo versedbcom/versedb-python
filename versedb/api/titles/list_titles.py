@@ -18,6 +18,9 @@ def _get_kwargs(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
@@ -34,6 +37,12 @@ def _get_kwargs(
     params["publisher_ids"] = publisher_ids
 
     params["hide_unreleased"] = hide_unreleased
+
+    params["medium"] = medium
+
+    params["languages"] = languages
+
+    params["ongoing"] = ongoing
 
     params["sort"] = sort
 
@@ -95,6 +104,9 @@ def sync_detailed(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
@@ -112,6 +124,12 @@ def sync_detailed(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
@@ -132,6 +150,9 @@ def sync_detailed(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
@@ -152,6 +173,9 @@ def sync(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
@@ -169,6 +193,12 @@ def sync(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
@@ -190,6 +220,9 @@ def sync(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
@@ -204,6 +237,9 @@ async def asyncio_detailed(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
@@ -221,6 +257,12 @@ async def asyncio_detailed(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
@@ -241,6 +283,9 @@ async def asyncio_detailed(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
@@ -259,6 +304,9 @@ async def asyncio(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
@@ -276,6 +324,12 @@ async def asyncio(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
@@ -298,6 +352,9 @@ async def asyncio(
             publisher=publisher,
             publisher_ids=publisher_ids,
             hide_unreleased=hide_unreleased,
+            medium=medium,
+            languages=languages,
+            ongoing=ongoing,
             sort=sort,
             direction=direction,
             limit=limit,

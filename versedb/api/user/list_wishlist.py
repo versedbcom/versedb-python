@@ -75,6 +75,8 @@ def sync_detailed(
 
      Returns the authenticated user's wishlist issues, most recently added first.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
 
@@ -106,6 +108,8 @@ def sync(
 
      Returns the authenticated user's wishlist issues, most recently added first.
 
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
+
     Args:
         per_page (int | Unset): Items per page (max 100).
 
@@ -131,6 +135,8 @@ async def asyncio_detailed(
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -160,6 +166,8 @@ async def asyncio(
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).

@@ -10,18 +10,27 @@ from ...models.get_series_details_response_200 import GetSeriesDetailsResponse20
 from ...models.get_series_details_response_404 import GetSeriesDetailsResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     series_id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/series/{series_id}".format(
             series_id=quote(str(series_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -71,6 +80,7 @@ def sync_detailed(
     series_id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[GetSeriesDetailsResponse200 | GetSeriesDetailsResponse404 | TooManyRequestsError | UnauthorizedError]:
     """Get series details.
 
@@ -79,6 +89,8 @@ def sync_detailed(
 
     Args:
         series_id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -90,6 +102,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         series_id=series_id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -103,6 +116,7 @@ def sync(
     series_id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> GetSeriesDetailsResponse200 | GetSeriesDetailsResponse404 | TooManyRequestsError | UnauthorizedError | None:
     """Get series details.
 
@@ -111,6 +125,8 @@ def sync(
 
     Args:
         series_id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,6 +139,7 @@ def sync(
     return sync_detailed(
         series_id=series_id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -130,6 +147,7 @@ async def asyncio_detailed(
     series_id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[GetSeriesDetailsResponse200 | GetSeriesDetailsResponse404 | TooManyRequestsError | UnauthorizedError]:
     """Get series details.
 
@@ -138,6 +156,8 @@ async def asyncio_detailed(
 
     Args:
         series_id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -149,6 +169,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         series_id=series_id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -160,6 +181,7 @@ async def asyncio(
     series_id: int,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> GetSeriesDetailsResponse200 | GetSeriesDetailsResponse404 | TooManyRequestsError | UnauthorizedError | None:
     """Get series details.
 
@@ -168,6 +190,8 @@ async def asyncio(
 
     Args:
         series_id (int):
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -181,5 +205,6 @@ async def asyncio(
         await asyncio_detailed(
             series_id=series_id,
             client=client,
+            languages=languages,
         )
     ).parsed

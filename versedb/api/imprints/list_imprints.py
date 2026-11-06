@@ -16,6 +16,7 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     publisher_id: int | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -25,6 +26,8 @@ def _get_kwargs(
     params["publisher_id"] = publisher_id
 
     params["limit"] = limit
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -78,15 +81,18 @@ def sync_detailed(
     q: str | Unset = UNSET,
     publisher_id: int | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[ListImprintsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List imprints
 
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -100,6 +106,7 @@ def sync_detailed(
         q=q,
         publisher_id=publisher_id,
         limit=limit,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -115,15 +122,18 @@ def sync(
     q: str | Unset = UNSET,
     publisher_id: int | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> ListImprintsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List imprints
 
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -138,6 +148,7 @@ def sync(
         q=q,
         publisher_id=publisher_id,
         limit=limit,
+        languages=languages,
     ).parsed
 
 
@@ -147,15 +158,18 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     publisher_id: int | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> Response[ListImprintsResponse200 | TooManyRequestsError | UnauthorizedError]:
     """List imprints
 
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -169,6 +183,7 @@ async def asyncio_detailed(
         q=q,
         publisher_id=publisher_id,
         limit=limit,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -182,15 +197,18 @@ async def asyncio(
     q: str | Unset = UNSET,
     publisher_id: int | Unset = UNSET,
     limit: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> ListImprintsResponse200 | TooManyRequestsError | UnauthorizedError | None:
     """List imprints
 
      Returns: id, name, slug, publisher
 
     Args:
-        q (str | Unset): Search by imprint name.
+        q (str | Unset): Search by imprint name, tolerating small typos.
         publisher_id (int | Unset): Filter by publisher ID.
         limit (int | Unset): Number of results per page (max 50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -206,5 +224,6 @@ async def asyncio(
             q=q,
             publisher_id=publisher_id,
             limit=limit,
+            languages=languages,
         )
     ).parsed
