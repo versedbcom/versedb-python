@@ -19,17 +19,14 @@ T = TypeVar("T", bound="CreateListBody")
 class CreateListBody:
     """
     Attributes:
-        title (str): List title (max 100 chars).
-        description (None | str | Unset): List description (max 2000 chars).
-        entity_type (None | str | Unset): The kind of item a smart-list rule matches (issues, series, characters,
-            creators, story_arcs, teams). Required, and never `mixed`, when `rules` is supplied; ignored without it, because
-            a list you fill by hand holds any combination of types.
-        is_ranked (bool | Unset): Whether items are ranked/ordered. Defaults to true.
-        is_private (bool | Unset): Whether the list is private. Requires a Pro subscription. Defaults to false.
-        rules (CreateListBodyRulesType0 | None | Unset): A smart-list rule. Supply it to have the list built and kept
-            current from a query instead of by hand. Requires a Pro subscription, and forces `is_ranked` to false because
-            the rule carries its own sort. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft
-            against `/lists/rule-preview`.
+        title (str): The name of the list (3 to 100 characters).
+        description (None | str | Unset): An optional description (up to 2000 characters).
+        entity_type (None | str | Unset): The kind of item a smart-list `rules` query matches; ignored without `rules`.
+        is_ranked (bool | Unset): Whether items in the list are ordered. Defaults to `true`.
+        is_private (bool | Unset): Whether the list is private. Requires a Pro subscription. Defaults to `false`.
+        rules (CreateListBodyRulesType0 | None | Unset): A smart-list rule, which builds the list from a query and keeps
+            it current instead of filling it by hand. Requires a Pro subscription and `entity_type` (never `mixed`), and
+            sets `is_ranked` to false, since the rule carries its own sort.
     """
 
     title: str

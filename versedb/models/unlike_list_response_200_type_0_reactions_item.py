@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="UnlikeListResponse200Type0ReactionsItem")
 
 
@@ -15,16 +13,16 @@ T = TypeVar("T", bound="UnlikeListResponse200Type0ReactionsItem")
 class UnlikeListResponse200Type0ReactionsItem:
     """
     Attributes:
-        reaction (str | Unset):
-        emoji (str | Unset):
-        label (str | Unset):
-        count (int | Unset):
+        reaction (str):
+        emoji (str):
+        label (str):
+        count (int):
     """
 
-    reaction: str | Unset = UNSET
-    emoji: str | Unset = UNSET
-    label: str | Unset = UNSET
-    count: int | Unset = UNSET
+    reaction: str
+    emoji: str
+    label: str
+    count: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -38,28 +36,27 @@ class UnlikeListResponse200Type0ReactionsItem:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if reaction is not UNSET:
-            field_dict["reaction"] = reaction
-        if emoji is not UNSET:
-            field_dict["emoji"] = emoji
-        if label is not UNSET:
-            field_dict["label"] = label
-        if count is not UNSET:
-            field_dict["count"] = count
+        field_dict.update(
+            {
+                "reaction": reaction,
+                "emoji": emoji,
+                "label": label,
+                "count": count,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        reaction = d.pop("reaction", UNSET)
+        reaction = d.pop("reaction")
 
-        emoji = d.pop("emoji", UNSET)
+        emoji = d.pop("emoji")
 
-        label = d.pop("label", UNSET)
+        label = d.pop("label")
 
-        count = d.pop("count", UNSET)
+        count = d.pop("count")
 
         unlike_list_response_200_type_0_reactions_item = cls(
             reaction=reaction,

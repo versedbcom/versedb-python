@@ -7,16 +7,25 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_variant_details_response_200 import GetVariantDetailsResponse200
+from ...models.get_variant_details_response_403 import GetVariantDetailsResponse403
 from ...models.get_variant_details_response_404 import GetVariantDetailsResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     issue_id: int,
     variant_id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
@@ -24,6 +33,7 @@ def _get_kwargs(
             issue_id=quote(str(issue_id), safe=""),
             variant_id=quote(str(variant_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -31,7 +41,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetVariantDetailsResponse200.from_dict(response.json())
 
@@ -41,6 +58,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetVariantDetailsResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 404:
         response_404 = GetVariantDetailsResponse404.from_dict(response.json())
@@ -60,7 +82,13 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -74,26 +102,36 @@ def sync_detailed(
     variant_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get variant details.
 
      Returns a specific variant cover with full details.
 
     Args:
-        issue_id (int):
-        variant_id (int):
+        issue_id (int): The issue ID.
+        variant_id (int): The variant ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse403 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         issue_id=issue_id,
         variant_id=variant_id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -108,27 +146,38 @@ def sync(
     variant_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get variant details.
 
      Returns a specific variant cover with full details.
 
     Args:
-        issue_id (int):
-        variant_id (int):
+        issue_id (int): The issue ID.
+        variant_id (int): The variant ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError
+        GetVariantDetailsResponse200 | GetVariantDetailsResponse403 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         issue_id=issue_id,
         variant_id=variant_id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -137,26 +186,36 @@ async def asyncio_detailed(
     variant_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get variant details.
 
      Returns a specific variant cover with full details.
 
     Args:
-        issue_id (int):
-        variant_id (int):
+        issue_id (int): The issue ID.
+        variant_id (int): The variant ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetVariantDetailsResponse200 | GetVariantDetailsResponse403 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         issue_id=issue_id,
         variant_id=variant_id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -169,21 +228,31 @@ async def asyncio(
     variant_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetVariantDetailsResponse200
+    | GetVariantDetailsResponse403
+    | GetVariantDetailsResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get variant details.
 
      Returns a specific variant cover with full details.
 
     Args:
-        issue_id (int):
-        variant_id (int):
+        issue_id (int): The issue ID.
+        variant_id (int): The variant ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetVariantDetailsResponse200 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError
+        GetVariantDetailsResponse200 | GetVariantDetailsResponse403 | GetVariantDetailsResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -191,5 +260,6 @@ async def asyncio(
             issue_id=issue_id,
             variant_id=variant_id,
             client=client,
+            languages=languages,
         )
     ).parsed

@@ -9,7 +9,9 @@ from ...client import AuthenticatedClient, Client
 from ...models.add_item_to_list_body import AddItemToListBody
 from ...models.add_item_to_list_response_201 import AddItemToListResponse201
 from ...models.add_item_to_list_response_403 import AddItemToListResponse403
+from ...models.add_item_to_list_response_404 import AddItemToListResponse404
 from ...models.add_item_to_list_response_409 import AddItemToListResponse409
+from ...models.add_item_to_list_response_422 import AddItemToListResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import Response
@@ -42,7 +44,9 @@ def _parse_response(
 ) -> (
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -62,10 +66,20 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = AddItemToListResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 409:
         response_409 = AddItemToListResponse409.from_dict(response.json())
 
         return response_409
+
+    if response.status_code == 422:
+        response_422 = AddItemToListResponse422.from_dict(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -83,7 +97,9 @@ def _build_response(
 ) -> Response[
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -103,7 +119,9 @@ def sync_detailed(
 ) -> Response[
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -112,7 +130,7 @@ def sync_detailed(
      Adds an entity to a list. Free users: 100 items/list, PRO users: 500 items/list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (AddItemToListBody):
 
     Raises:
@@ -120,7 +138,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse409 | TooManyRequestsError | UnauthorizedError]
+        Response[AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse404 | AddItemToListResponse409 | AddItemToListResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -143,7 +161,9 @@ def sync(
 ) -> (
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -153,7 +173,7 @@ def sync(
      Adds an entity to a list. Free users: 100 items/list, PRO users: 500 items/list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (AddItemToListBody):
 
     Raises:
@@ -161,7 +181,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse409 | TooManyRequestsError | UnauthorizedError
+        AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse404 | AddItemToListResponse409 | AddItemToListResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -179,7 +199,9 @@ async def asyncio_detailed(
 ) -> Response[
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -188,7 +210,7 @@ async def asyncio_detailed(
      Adds an entity to a list. Free users: 100 items/list, PRO users: 500 items/list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (AddItemToListBody):
 
     Raises:
@@ -196,7 +218,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse409 | TooManyRequestsError | UnauthorizedError]
+        Response[AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse404 | AddItemToListResponse409 | AddItemToListResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -217,7 +239,9 @@ async def asyncio(
 ) -> (
     AddItemToListResponse201
     | AddItemToListResponse403
+    | AddItemToListResponse404
     | AddItemToListResponse409
+    | AddItemToListResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -227,7 +251,7 @@ async def asyncio(
      Adds an entity to a list. Free users: 100 items/list, PRO users: 500 items/list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (AddItemToListBody):
 
     Raises:
@@ -235,7 +259,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse409 | TooManyRequestsError | UnauthorizedError
+        AddItemToListResponse201 | AddItemToListResponse403 | AddItemToListResponse404 | AddItemToListResponse409 | AddItemToListResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

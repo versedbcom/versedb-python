@@ -6,15 +6,21 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
-    from ..models.get_a_specific_podcast_response_200_data_images import GetASpecificPodcastResponse200DataImages
-    from ..models.get_a_specific_podcast_response_200_data_platform_links import (
-        GetASpecificPodcastResponse200DataPlatformLinks,
+    from ..models.get_a_specific_podcast_response_200_data_images_type_0 import (
+        GetASpecificPodcastResponse200DataImagesType0,
     )
-    from ..models.get_a_specific_podcast_response_200_data_social_links import (
-        GetASpecificPodcastResponse200DataSocialLinks,
+    from ..models.get_a_specific_podcast_response_200_data_platform_links_type_0 import (
+        GetASpecificPodcastResponse200DataPlatformLinksType0,
+    )
+    from ..models.get_a_specific_podcast_response_200_data_platform_links_type_5 import (
+        GetASpecificPodcastResponse200DataPlatformLinksType5,
+    )
+    from ..models.get_a_specific_podcast_response_200_data_social_links_type_0 import (
+        GetASpecificPodcastResponse200DataSocialLinksType0,
+    )
+    from ..models.get_a_specific_podcast_response_200_data_website_url_type_4 import (
+        GetASpecificPodcastResponse200DataWebsiteUrlType4,
     )
 
 
@@ -25,183 +31,345 @@ T = TypeVar("T", bound="GetASpecificPodcastResponse200Data")
 class GetASpecificPodcastResponse200Data:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        type_ (str | Unset):
-        language (str | Unset):
-        logo_url (str | Unset):
-        images (GetASpecificPodcastResponse200DataImages | Unset):
-        website_url (str | Unset):
-        rss_feed_url (str | Unset):
-        youtube_channel_id (None | str | Unset):
-        social_links (GetASpecificPodcastResponse200DataSocialLinks | Unset):
-        platform_links (GetASpecificPodcastResponse200DataPlatformLinks | Unset):
-        follower_count (int | Unset):
-        subscriber_count (int | Unset):
-        categories (list[str] | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        type_ (str):
+        language (None | str):
+        logo_url (None | str):
+        images (GetASpecificPodcastResponse200DataImagesType0 | None):
+        website_url (bool | float | GetASpecificPodcastResponse200DataWebsiteUrlType4 | list[Any] | None | str):
+            social_links.website as stored (a URL in production), or null; always printed.
+        rss_feed_url (None | str):
+        youtube_channel_id (None | str):
+        social_links (GetASpecificPodcastResponse200DataSocialLinksType0 | list[Any] | None): Links by name, or null; an
+            empty map prints as `[]`.
+        platform_links (bool | float | GetASpecificPodcastResponse200DataPlatformLinksType0 |
+            GetASpecificPodcastResponse200DataPlatformLinksType5 | list[Any] | None | str): Links by name, or null; an empty
+            map prints as `[]`.
+        follower_count (int):
+        subscriber_count (int | None):
+        categories (list[str]): The category names.
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    type_: str | Unset = UNSET
-    language: str | Unset = UNSET
-    logo_url: str | Unset = UNSET
-    images: GetASpecificPodcastResponse200DataImages | Unset = UNSET
-    website_url: str | Unset = UNSET
-    rss_feed_url: str | Unset = UNSET
-    youtube_channel_id: None | str | Unset = UNSET
-    social_links: GetASpecificPodcastResponse200DataSocialLinks | Unset = UNSET
-    platform_links: GetASpecificPodcastResponse200DataPlatformLinks | Unset = UNSET
-    follower_count: int | Unset = UNSET
-    subscriber_count: int | Unset = UNSET
-    categories: list[str] | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    type_: str
+    language: None | str
+    logo_url: None | str
+    images: GetASpecificPodcastResponse200DataImagesType0 | None
+    website_url: bool | float | GetASpecificPodcastResponse200DataWebsiteUrlType4 | list[Any] | None | str
+    rss_feed_url: None | str
+    youtube_channel_id: None | str
+    social_links: GetASpecificPodcastResponse200DataSocialLinksType0 | list[Any] | None
+    platform_links: (
+        bool
+        | float
+        | GetASpecificPodcastResponse200DataPlatformLinksType0
+        | GetASpecificPodcastResponse200DataPlatformLinksType5
+        | list[Any]
+        | None
+        | str
+    )
+    follower_count: int
+    subscriber_count: int | None
+    categories: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_a_specific_podcast_response_200_data_images_type_0 import (
+            GetASpecificPodcastResponse200DataImagesType0,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_platform_links_type_0 import (
+            GetASpecificPodcastResponse200DataPlatformLinksType0,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_platform_links_type_5 import (
+            GetASpecificPodcastResponse200DataPlatformLinksType5,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_social_links_type_0 import (
+            GetASpecificPodcastResponse200DataSocialLinksType0,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_website_url_type_4 import (
+            GetASpecificPodcastResponse200DataWebsiteUrlType4,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
 
         type_ = self.type_
 
+        language: None | str
         language = self.language
 
+        logo_url: None | str
         logo_url = self.logo_url
 
-        images: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.images, Unset):
+        images: dict[str, Any] | None
+        if isinstance(self.images, GetASpecificPodcastResponse200DataImagesType0):
             images = self.images.to_dict()
+        else:
+            images = self.images
 
-        website_url = self.website_url
+        website_url: bool | dict[str, Any] | float | list[Any] | None | str
+        if isinstance(self.website_url, list):
+            website_url = self.website_url
 
+        elif isinstance(self.website_url, GetASpecificPodcastResponse200DataWebsiteUrlType4):
+            website_url = self.website_url.to_dict()
+        else:
+            website_url = self.website_url
+
+        rss_feed_url: None | str
         rss_feed_url = self.rss_feed_url
 
-        youtube_channel_id: None | str | Unset
-        if isinstance(self.youtube_channel_id, Unset):
-            youtube_channel_id = UNSET
-        else:
-            youtube_channel_id = self.youtube_channel_id
+        youtube_channel_id: None | str
+        youtube_channel_id = self.youtube_channel_id
 
-        social_links: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.social_links, Unset):
+        social_links: dict[str, Any] | list[Any] | None
+        if isinstance(self.social_links, GetASpecificPodcastResponse200DataSocialLinksType0):
             social_links = self.social_links.to_dict()
+        elif isinstance(self.social_links, list):
+            social_links = self.social_links
 
-        platform_links: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.platform_links, Unset):
+        else:
+            social_links = self.social_links
+
+        platform_links: bool | dict[str, Any] | float | list[Any] | None | str
+        if isinstance(self.platform_links, GetASpecificPodcastResponse200DataPlatformLinksType0):
             platform_links = self.platform_links.to_dict()
+        elif isinstance(self.platform_links, list):
+            platform_links = self.platform_links
+
+        elif isinstance(self.platform_links, GetASpecificPodcastResponse200DataPlatformLinksType5):
+            platform_links = self.platform_links.to_dict()
+        else:
+            platform_links = self.platform_links
 
         follower_count = self.follower_count
 
+        subscriber_count: int | None
         subscriber_count = self.subscriber_count
 
-        categories: list[str] | Unset = UNSET
-        if not isinstance(self.categories, Unset):
-            categories = self.categories
+        categories = self.categories
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if type_ is not UNSET:
-            field_dict["type"] = type_
-        if language is not UNSET:
-            field_dict["language"] = language
-        if logo_url is not UNSET:
-            field_dict["logo_url"] = logo_url
-        if images is not UNSET:
-            field_dict["images"] = images
-        if website_url is not UNSET:
-            field_dict["website_url"] = website_url
-        if rss_feed_url is not UNSET:
-            field_dict["rss_feed_url"] = rss_feed_url
-        if youtube_channel_id is not UNSET:
-            field_dict["youtube_channel_id"] = youtube_channel_id
-        if social_links is not UNSET:
-            field_dict["social_links"] = social_links
-        if platform_links is not UNSET:
-            field_dict["platform_links"] = platform_links
-        if follower_count is not UNSET:
-            field_dict["follower_count"] = follower_count
-        if subscriber_count is not UNSET:
-            field_dict["subscriber_count"] = subscriber_count
-        if categories is not UNSET:
-            field_dict["categories"] = categories
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "type": type_,
+                "language": language,
+                "logo_url": logo_url,
+                "images": images,
+                "website_url": website_url,
+                "rss_feed_url": rss_feed_url,
+                "youtube_channel_id": youtube_channel_id,
+                "social_links": social_links,
+                "platform_links": platform_links,
+                "follower_count": follower_count,
+                "subscriber_count": subscriber_count,
+                "categories": categories,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_a_specific_podcast_response_200_data_images import (
-            GetASpecificPodcastResponse200DataImages,  # noqa: PLC0415
+        from ..models.get_a_specific_podcast_response_200_data_images_type_0 import (
+            GetASpecificPodcastResponse200DataImagesType0,  # noqa: PLC0415
         )
-        from ..models.get_a_specific_podcast_response_200_data_platform_links import (
-            GetASpecificPodcastResponse200DataPlatformLinks,  # noqa: PLC0415
+        from ..models.get_a_specific_podcast_response_200_data_platform_links_type_0 import (
+            GetASpecificPodcastResponse200DataPlatformLinksType0,  # noqa: PLC0415
         )
-        from ..models.get_a_specific_podcast_response_200_data_social_links import (
-            GetASpecificPodcastResponse200DataSocialLinks,  # noqa: PLC0415
+        from ..models.get_a_specific_podcast_response_200_data_platform_links_type_5 import (
+            GetASpecificPodcastResponse200DataPlatformLinksType5,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_social_links_type_0 import (
+            GetASpecificPodcastResponse200DataSocialLinksType0,  # noqa: PLC0415
+        )
+        from ..models.get_a_specific_podcast_response_200_data_website_url_type_4 import (
+            GetASpecificPodcastResponse200DataWebsiteUrlType4,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
-
-        slug = d.pop("slug", UNSET)
-
-        type_ = d.pop("type", UNSET)
-
-        language = d.pop("language", UNSET)
-
-        logo_url = d.pop("logo_url", UNSET)
-
-        _images = d.pop("images", UNSET)
-        images: GetASpecificPodcastResponse200DataImages | Unset
-        if isinstance(_images, Unset):
-            images = UNSET
-        else:
-            images = GetASpecificPodcastResponse200DataImages.from_dict(_images)
-
-        website_url = d.pop("website_url", UNSET)
-
-        rss_feed_url = d.pop("rss_feed_url", UNSET)
-
-        def _parse_youtube_channel_id(data: object) -> None | str | Unset:
+        def _parse_name(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(None | str, data)
+
+        name = _parse_name(d.pop("name"))
+
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        youtube_channel_id = _parse_youtube_channel_id(d.pop("youtube_channel_id", UNSET))
+        slug = _parse_slug(d.pop("slug"))
 
-        _social_links = d.pop("social_links", UNSET)
-        social_links: GetASpecificPodcastResponse200DataSocialLinks | Unset
-        if isinstance(_social_links, Unset):
-            social_links = UNSET
-        else:
-            social_links = GetASpecificPodcastResponse200DataSocialLinks.from_dict(_social_links)
+        type_ = d.pop("type")
 
-        _platform_links = d.pop("platform_links", UNSET)
-        platform_links: GetASpecificPodcastResponse200DataPlatformLinks | Unset
-        if isinstance(_platform_links, Unset):
-            platform_links = UNSET
-        else:
-            platform_links = GetASpecificPodcastResponse200DataPlatformLinks.from_dict(_platform_links)
+        def _parse_language(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        follower_count = d.pop("follower_count", UNSET)
+        language = _parse_language(d.pop("language"))
 
-        subscriber_count = d.pop("subscriber_count", UNSET)
+        def _parse_logo_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        categories = cast(list[str], d.pop("categories", UNSET))
+        logo_url = _parse_logo_url(d.pop("logo_url"))
+
+        def _parse_images(data: object) -> GetASpecificPodcastResponse200DataImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = GetASpecificPodcastResponse200DataImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetASpecificPodcastResponse200DataImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        def _parse_website_url(
+            data: object,
+        ) -> bool | float | GetASpecificPodcastResponse200DataWebsiteUrlType4 | list[Any] | None | str:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                website_url_type_3 = cast(list[Any], data)
+
+                return website_url_type_3
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                website_url_type_4 = GetASpecificPodcastResponse200DataWebsiteUrlType4.from_dict(data)
+
+                return website_url_type_4
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(bool | float | GetASpecificPodcastResponse200DataWebsiteUrlType4 | list[Any] | None | str, data)
+
+        website_url = _parse_website_url(d.pop("website_url"))
+
+        def _parse_rss_feed_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        rss_feed_url = _parse_rss_feed_url(d.pop("rss_feed_url"))
+
+        def _parse_youtube_channel_id(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        youtube_channel_id = _parse_youtube_channel_id(d.pop("youtube_channel_id"))
+
+        def _parse_social_links(data: object) -> GetASpecificPodcastResponse200DataSocialLinksType0 | list[Any] | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                social_links_type_0 = GetASpecificPodcastResponse200DataSocialLinksType0.from_dict(data)
+
+                return social_links_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                social_links_type_1 = cast(list[Any], data)
+
+                return social_links_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetASpecificPodcastResponse200DataSocialLinksType0 | list[Any] | None, data)
+
+        social_links = _parse_social_links(d.pop("social_links"))
+
+        def _parse_platform_links(
+            data: object,
+        ) -> (
+            bool
+            | float
+            | GetASpecificPodcastResponse200DataPlatformLinksType0
+            | GetASpecificPodcastResponse200DataPlatformLinksType5
+            | list[Any]
+            | None
+            | str
+        ):
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                platform_links_type_0 = GetASpecificPodcastResponse200DataPlatformLinksType0.from_dict(data)
+
+                return platform_links_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, list):
+                    raise TypeError()
+                platform_links_type_4 = cast(list[Any], data)
+
+                return platform_links_type_4
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                platform_links_type_5 = GetASpecificPodcastResponse200DataPlatformLinksType5.from_dict(data)
+
+                return platform_links_type_5
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(
+                bool
+                | float
+                | GetASpecificPodcastResponse200DataPlatformLinksType0
+                | GetASpecificPodcastResponse200DataPlatformLinksType5
+                | list[Any]
+                | None
+                | str,
+                data,
+            )
+
+        platform_links = _parse_platform_links(d.pop("platform_links"))
+
+        follower_count = d.pop("follower_count")
+
+        def _parse_subscriber_count(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        subscriber_count = _parse_subscriber_count(d.pop("subscriber_count"))
+
+        categories = cast(list[str], d.pop("categories"))
 
         get_a_specific_podcast_response_200_data = cls(
             id=id,

@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="GetSeriesDetailsResponse200DataTeamsItem")
 
@@ -15,59 +13,75 @@ T = TypeVar("T", bound="GetSeriesDetailsResponse200DataTeamsItem")
 class GetSeriesDetailsResponse200DataTeamsItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        image_url (str | Unset):
-        members_count (int | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        image_url (None | str):
+        members_count (int):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    image_url: str | Unset = UNSET
-    members_count: int | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    image_url: None | str
+    members_count: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
 
+        image_url: None | str
         image_url = self.image_url
 
         members_count = self.members_count
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if image_url is not UNSET:
-            field_dict["image_url"] = image_url
-        if members_count is not UNSET:
-            field_dict["members_count"] = members_count
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "image_url": image_url,
+                "members_count": members_count,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        slug = d.pop("slug", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        image_url = d.pop("image_url", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        members_count = d.pop("members_count", UNSET)
+        slug = _parse_slug(d.pop("slug"))
+
+        def _parse_image_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        image_url = _parse_image_url(d.pop("image_url"))
+
+        members_count = d.pop("members_count")
 
         get_series_details_response_200_data_teams_item = cls(
             id=id,

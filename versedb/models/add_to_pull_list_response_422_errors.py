@@ -6,54 +6,43 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="AddToPullListResponse422Errors")
 
 
 @_attrs_define
 class AddToPullListResponse422Errors:
-    """
-    Attributes:
-        series_id (list[str] | Unset):
-    """
-
-    series_id: list[str] | Unset = UNSET
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, list[str]] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        series_id: list[str] | Unset = UNSET
-        if not isinstance(self.series_id, Unset):
-            series_id = self.series_id
 
         field_dict: dict[str, Any] = {}
-        field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if series_id is not UNSET:
-            field_dict["series_id"] = series_id
+        for prop_name, prop in self.additional_properties.items():
+            field_dict[prop_name] = prop
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        series_id = cast(list[str], d.pop("series_id", UNSET))
+        add_to_pull_list_response_422_errors = cls()
 
-        add_to_pull_list_response_422_errors = cls(
-            series_id=series_id,
-        )
+        additional_properties = {}
+        for prop_name, prop_dict in d.items():
+            additional_property = cast(list[str], prop_dict)
 
-        add_to_pull_list_response_422_errors.additional_properties = d
+            additional_properties[prop_name] = additional_property
+
+        add_to_pull_list_response_422_errors.additional_properties = additional_properties
         return add_to_pull_list_response_422_errors
 
     @property
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> list[str]:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: list[str]) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

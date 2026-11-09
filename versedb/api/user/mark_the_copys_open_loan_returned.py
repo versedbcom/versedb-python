@@ -8,8 +8,9 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.mark_the_copys_open_loan_returned_body import MarkTheCopysOpenLoanReturnedBody
 from ...models.mark_the_copys_open_loan_returned_response_200 import MarkTheCopysOpenLoanReturnedResponse200
-from ...models.mark_the_copys_open_loan_returned_response_404_type_0 import MarkTheCopysOpenLoanReturnedResponse404Type0
-from ...models.mark_the_copys_open_loan_returned_response_404_type_1 import MarkTheCopysOpenLoanReturnedResponse404Type1
+from ...models.mark_the_copys_open_loan_returned_response_403 import MarkTheCopysOpenLoanReturnedResponse403
+from ...models.mark_the_copys_open_loan_returned_response_404 import MarkTheCopysOpenLoanReturnedResponse404
+from ...models.mark_the_copys_open_loan_returned_response_422 import MarkTheCopysOpenLoanReturnedResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -42,8 +43,9 @@ def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -58,28 +60,20 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = MarkTheCopysOpenLoanReturnedResponse403.from_dict(response.json())
+
+        return response_403
+
     if response.status_code == 404:
-
-        def _parse_response_404(
-            data: object,
-        ) -> MarkTheCopysOpenLoanReturnedResponse404Type0 | MarkTheCopysOpenLoanReturnedResponse404Type1:
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                response_404_type_0 = MarkTheCopysOpenLoanReturnedResponse404Type0.from_dict(data)
-
-                return response_404_type_0
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            if not isinstance(data, dict):
-                raise TypeError()
-            response_404_type_1 = MarkTheCopysOpenLoanReturnedResponse404Type1.from_dict(data)
-
-            return response_404_type_1
-
-        response_404 = _parse_response_404(response.json())
+        response_404 = MarkTheCopysOpenLoanReturnedResponse404.from_dict(response.json())
 
         return response_404
+
+    if response.status_code == 422:
+        response_422 = MarkTheCopysOpenLoanReturnedResponse422.from_dict(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -96,8 +90,9 @@ def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -116,18 +111,19 @@ def sync_detailed(
     body: MarkTheCopysOpenLoanReturnedBody | Unset = UNSET,
 ) -> Response[
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Mark the copy's open loan returned.
 
-     Closes the open loan and hands custody back to the owner. A copy with no open loan is a
-    404, so a repeat call does not silently succeed.
+     Closes the copy's open loan. A copy with no open loan is a 404, so a repeat call does not silently
+    succeed.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (MarkTheCopysOpenLoanReturnedBody | Unset):
 
     Raises:
@@ -135,7 +131,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse404Type0 | MarkTheCopysOpenLoanReturnedResponse404Type1 | TooManyRequestsError | UnauthorizedError]
+        Response[MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse403 | MarkTheCopysOpenLoanReturnedResponse404 | MarkTheCopysOpenLoanReturnedResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -157,19 +153,20 @@ def sync(
     body: MarkTheCopysOpenLoanReturnedBody | Unset = UNSET,
 ) -> (
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Mark the copy's open loan returned.
 
-     Closes the open loan and hands custody back to the owner. A copy with no open loan is a
-    404, so a repeat call does not silently succeed.
+     Closes the copy's open loan. A copy with no open loan is a 404, so a repeat call does not silently
+    succeed.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (MarkTheCopysOpenLoanReturnedBody | Unset):
 
     Raises:
@@ -177,7 +174,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse404Type0 | MarkTheCopysOpenLoanReturnedResponse404Type1 | TooManyRequestsError | UnauthorizedError
+        MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse403 | MarkTheCopysOpenLoanReturnedResponse404 | MarkTheCopysOpenLoanReturnedResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -194,18 +191,19 @@ async def asyncio_detailed(
     body: MarkTheCopysOpenLoanReturnedBody | Unset = UNSET,
 ) -> Response[
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Mark the copy's open loan returned.
 
-     Closes the open loan and hands custody back to the owner. A copy with no open loan is a
-    404, so a repeat call does not silently succeed.
+     Closes the copy's open loan. A copy with no open loan is a 404, so a repeat call does not silently
+    succeed.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (MarkTheCopysOpenLoanReturnedBody | Unset):
 
     Raises:
@@ -213,7 +211,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse404Type0 | MarkTheCopysOpenLoanReturnedResponse404Type1 | TooManyRequestsError | UnauthorizedError]
+        Response[MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse403 | MarkTheCopysOpenLoanReturnedResponse404 | MarkTheCopysOpenLoanReturnedResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -233,19 +231,20 @@ async def asyncio(
     body: MarkTheCopysOpenLoanReturnedBody | Unset = UNSET,
 ) -> (
     MarkTheCopysOpenLoanReturnedResponse200
-    | MarkTheCopysOpenLoanReturnedResponse404Type0
-    | MarkTheCopysOpenLoanReturnedResponse404Type1
+    | MarkTheCopysOpenLoanReturnedResponse403
+    | MarkTheCopysOpenLoanReturnedResponse404
+    | MarkTheCopysOpenLoanReturnedResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Mark the copy's open loan returned.
 
-     Closes the open loan and hands custody back to the owner. A copy with no open loan is a
-    404, so a repeat call does not silently succeed.
+     Closes the copy's open loan. A copy with no open loan is a 404, so a repeat call does not silently
+    succeed.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (MarkTheCopysOpenLoanReturnedBody | Unset):
 
     Raises:
@@ -253,7 +252,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse404Type0 | MarkTheCopysOpenLoanReturnedResponse404Type1 | TooManyRequestsError | UnauthorizedError
+        MarkTheCopysOpenLoanReturnedResponse200 | MarkTheCopysOpenLoanReturnedResponse403 | MarkTheCopysOpenLoanReturnedResponse404 | MarkTheCopysOpenLoanReturnedResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

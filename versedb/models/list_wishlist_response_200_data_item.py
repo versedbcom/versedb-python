@@ -10,6 +10,7 @@ from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.list_wishlist_response_200_data_item_entity import ListWishlistResponse200DataItemEntity
+    from ..models.list_wishlist_response_200_data_item_variant import ListWishlistResponse200DataItemVariant
 
 
 T = TypeVar("T", bound="ListWishlistResponse200DataItem")
@@ -19,34 +20,42 @@ T = TypeVar("T", bound="ListWishlistResponse200DataItem")
 class ListWishlistResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        position (None | str | Unset):
-        note (None | str | Unset):
-        created_at (str | Unset):
-        updated_at (str | Unset):
-        variant_id (None | str | Unset):
-        entity_type (str | Unset):
-        entity (ListWishlistResponse200DataItemEntity | Unset):
+        id (int):
+        position (int | None):
+        created_at (str):
+        updated_at (str):
+        variant_id (int | None):
+        entity_type (str):
+        note (None | str | Unset): Left out for a `read:showcase` token.
+        variant (ListWishlistResponse200DataItemVariant | Unset): The pinned cover, while it exists.
+        entity (ListWishlistResponse200DataItemEntity | Unset): Left out once the issue is gone.
     """
 
-    id: int | Unset = UNSET
-    position: None | str | Unset = UNSET
+    id: int
+    position: int | None
+    created_at: str
+    updated_at: str
+    variant_id: int | None
+    entity_type: str
     note: None | str | Unset = UNSET
-    created_at: str | Unset = UNSET
-    updated_at: str | Unset = UNSET
-    variant_id: None | str | Unset = UNSET
-    entity_type: str | Unset = UNSET
+    variant: ListWishlistResponse200DataItemVariant | Unset = UNSET
     entity: ListWishlistResponse200DataItemEntity | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
-        position: None | str | Unset
-        if isinstance(self.position, Unset):
-            position = UNSET
-        else:
-            position = self.position
+        position: int | None
+        position = self.position
+
+        created_at = self.created_at
+
+        updated_at = self.updated_at
+
+        variant_id: int | None
+        variant_id = self.variant_id
+
+        entity_type = self.entity_type
 
         note: None | str | Unset
         if isinstance(self.note, Unset):
@@ -54,17 +63,9 @@ class ListWishlistResponse200DataItem:
         else:
             note = self.note
 
-        created_at = self.created_at
-
-        updated_at = self.updated_at
-
-        variant_id: None | str | Unset
-        if isinstance(self.variant_id, Unset):
-            variant_id = UNSET
-        else:
-            variant_id = self.variant_id
-
-        entity_type = self.entity_type
+        variant: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.variant, Unset):
+            variant = self.variant.to_dict()
 
         entity: dict[str, Any] | Unset = UNSET
         if not isinstance(self.entity, Unset):
@@ -72,21 +73,20 @@ class ListWishlistResponse200DataItem:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if position is not UNSET:
-            field_dict["position"] = position
+        field_dict.update(
+            {
+                "id": id,
+                "position": position,
+                "created_at": created_at,
+                "updated_at": updated_at,
+                "variant_id": variant_id,
+                "entity_type": entity_type,
+            }
+        )
         if note is not UNSET:
             field_dict["note"] = note
-        if created_at is not UNSET:
-            field_dict["created_at"] = created_at
-        if updated_at is not UNSET:
-            field_dict["updated_at"] = updated_at
-        if variant_id is not UNSET:
-            field_dict["variant_id"] = variant_id
-        if entity_type is not UNSET:
-            field_dict["entity_type"] = entity_type
+        if variant is not UNSET:
+            field_dict["variant"] = variant
         if entity is not UNSET:
             field_dict["entity"] = entity
 
@@ -94,21 +94,31 @@ class ListWishlistResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_wishlist_response_200_data_item_entity import (
-            ListWishlistResponse200DataItemEntity,  # noqa: PLC0415
-        )
+        from ..models.list_wishlist_response_200_data_item_entity import ListWishlistResponse200DataItemEntity  # noqa: PLC0415
+        from ..models.list_wishlist_response_200_data_item_variant import ListWishlistResponse200DataItemVariant  # noqa: PLC0415
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        def _parse_position(data: object) -> None | str | Unset:
+        def _parse_position(data: object) -> int | None:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(int | None, data)
 
-        position = _parse_position(d.pop("position", UNSET))
+        position = _parse_position(d.pop("position"))
+
+        created_at = d.pop("created_at")
+
+        updated_at = d.pop("updated_at")
+
+        def _parse_variant_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        entity_type = d.pop("entity_type")
 
         def _parse_note(data: object) -> None | str | Unset:
             if data is None:
@@ -119,20 +129,12 @@ class ListWishlistResponse200DataItem:
 
         note = _parse_note(d.pop("note", UNSET))
 
-        created_at = d.pop("created_at", UNSET)
-
-        updated_at = d.pop("updated_at", UNSET)
-
-        def _parse_variant_id(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
-
-        entity_type = d.pop("entity_type", UNSET)
+        _variant = d.pop("variant", UNSET)
+        variant: ListWishlistResponse200DataItemVariant | Unset
+        if isinstance(_variant, Unset):
+            variant = UNSET
+        else:
+            variant = ListWishlistResponse200DataItemVariant.from_dict(_variant)
 
         _entity = d.pop("entity", UNSET)
         entity: ListWishlistResponse200DataItemEntity | Unset
@@ -144,11 +146,12 @@ class ListWishlistResponse200DataItem:
         list_wishlist_response_200_data_item = cls(
             id=id,
             position=position,
-            note=note,
             created_at=created_at,
             updated_at=updated_at,
             variant_id=variant_id,
             entity_type=entity_type,
+            note=note,
+            variant=variant,
             entity=entity,
         )
 

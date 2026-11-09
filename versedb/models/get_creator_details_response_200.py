@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.get_creator_details_response_200_data import GetCreatorDetailsResponse200Data
 
@@ -19,22 +17,22 @@ T = TypeVar("T", bound="GetCreatorDetailsResponse200")
 class GetCreatorDetailsResponse200:
     """
     Attributes:
-        data (GetCreatorDetailsResponse200Data | Unset):
+        data (GetCreatorDetailsResponse200Data):
     """
 
-    data: GetCreatorDetailsResponse200Data | Unset = UNSET
+    data: GetCreatorDetailsResponse200Data
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        data = self.data.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
 
         return field_dict
 
@@ -43,12 +41,7 @@ class GetCreatorDetailsResponse200:
         from ..models.get_creator_details_response_200_data import GetCreatorDetailsResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: GetCreatorDetailsResponse200Data | Unset
-        if isinstance(_data, Unset):
-            data = UNSET
-        else:
-            data = GetCreatorDetailsResponse200Data.from_dict(_data)
+        data = GetCreatorDetailsResponse200Data.from_dict(d.pop("data"))
 
         get_creator_details_response_200 = cls(
             data=data,

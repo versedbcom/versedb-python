@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_read_status_response_200 import ListReadStatusResponse200
+from ...models.list_read_status_response_403 import ListReadStatusResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -15,6 +16,8 @@ def _get_kwargs(
     *,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -22,6 +25,10 @@ def _get_kwargs(
     params["per_page"] = per_page
 
     params["unreviewed"] = unreviewed
+
+    params["q"] = q
+
+    params["sort"] = sort
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -36,7 +43,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListReadStatusResponse200.from_dict(response.json())
 
@@ -46,6 +53,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListReadStatusResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -60,7 +72,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -74,27 +86,36 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
-) -> Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]:
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+) -> Response[ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     )
 
     response = client.get_httpx_client().request(
@@ -109,28 +130,37 @@ def sync(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
-) -> ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+) -> ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError
+        ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         client=client,
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     ).parsed
 
 
@@ -139,27 +169,36 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
-) -> Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]:
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+) -> Response[ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         per_page=per_page,
         unreviewed=unreviewed,
+        q=q,
+        sort=sort,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -172,22 +211,29 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     unreviewed: bool | Unset = UNSET,
-) -> ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+) -> ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List read status.
 
      Returns all issues the user has marked as read with timestamps.
+
+    Needs `read:user` or `read:showcase`; both get the same response.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
         unreviewed (bool | Unset): When true, only returns reads for issues the user has not yet
             reviewed.
+        q (str | Unset): Search your reads by series name or issue number.
+        sort (str | Unset): One of `read_at_desc`, `read_at_asc`, `title_asc`, `title_desc`.
+            Default: newest marked first.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListReadStatusResponse200 | TooManyRequestsError | UnauthorizedError
+        ListReadStatusResponse200 | ListReadStatusResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -195,5 +241,7 @@ async def asyncio(
             client=client,
             per_page=per_page,
             unreviewed=unreviewed,
+            q=q,
+            sort=sort,
         )
     ).parsed

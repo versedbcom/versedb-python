@@ -8,8 +8,10 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.lend_a_copy_out_body import LendACopyOutBody
 from ...models.lend_a_copy_out_response_200 import LendACopyOutResponse200
+from ...models.lend_a_copy_out_response_403 import LendACopyOutResponse403
 from ...models.lend_a_copy_out_response_404 import LendACopyOutResponse404
 from ...models.lend_a_copy_out_response_409 import LendACopyOutResponse409
+from ...models.lend_a_copy_out_response_422 import LendACopyOutResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import Response
@@ -41,8 +43,10 @@ def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -57,6 +61,11 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = LendACopyOutResponse403.from_dict(response.json())
+
+        return response_403
+
     if response.status_code == 404:
         response_404 = LendACopyOutResponse404.from_dict(response.json())
 
@@ -66,6 +75,11 @@ def _parse_response(
         response_409 = LendACopyOutResponse409.from_dict(response.json())
 
         return response_409
+
+    if response.status_code == 422:
+        response_422 = LendACopyOutResponse422.from_dict(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -82,8 +96,10 @@ def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -102,19 +118,20 @@ def sync_detailed(
     body: LendACopyOutBody,
 ) -> Response[
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Lend a copy out.
 
-     A copy already out is a 409 rather than a silent replacement: two open loans on one
-    physical comic is a mistake to report, and overwriting the first would lose who actually
-    has it. Return it, then lend it again.
+     Records that one of the user's copies is out on loan. A copy already out is a 409 rather than a
+    replacement: mark it returned, then lend it again.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (LendACopyOutBody):
 
     Raises:
@@ -122,7 +139,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LendACopyOutResponse200 | LendACopyOutResponse404 | LendACopyOutResponse409 | TooManyRequestsError | UnauthorizedError]
+        Response[LendACopyOutResponse200 | LendACopyOutResponse403 | LendACopyOutResponse404 | LendACopyOutResponse409 | LendACopyOutResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -144,20 +161,21 @@ def sync(
     body: LendACopyOutBody,
 ) -> (
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Lend a copy out.
 
-     A copy already out is a 409 rather than a silent replacement: two open loans on one
-    physical comic is a mistake to report, and overwriting the first would lose who actually
-    has it. Return it, then lend it again.
+     Records that one of the user's copies is out on loan. A copy already out is a 409 rather than a
+    replacement: mark it returned, then lend it again.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (LendACopyOutBody):
 
     Raises:
@@ -165,7 +183,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LendACopyOutResponse200 | LendACopyOutResponse404 | LendACopyOutResponse409 | TooManyRequestsError | UnauthorizedError
+        LendACopyOutResponse200 | LendACopyOutResponse403 | LendACopyOutResponse404 | LendACopyOutResponse409 | LendACopyOutResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -182,19 +200,20 @@ async def asyncio_detailed(
     body: LendACopyOutBody,
 ) -> Response[
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Lend a copy out.
 
-     A copy already out is a 409 rather than a silent replacement: two open loans on one
-    physical comic is a mistake to report, and overwriting the first would lose who actually
-    has it. Return it, then lend it again.
+     Records that one of the user's copies is out on loan. A copy already out is a 409 rather than a
+    replacement: mark it returned, then lend it again.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (LendACopyOutBody):
 
     Raises:
@@ -202,7 +221,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LendACopyOutResponse200 | LendACopyOutResponse404 | LendACopyOutResponse409 | TooManyRequestsError | UnauthorizedError]
+        Response[LendACopyOutResponse200 | LendACopyOutResponse403 | LendACopyOutResponse404 | LendACopyOutResponse409 | LendACopyOutResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -222,20 +241,21 @@ async def asyncio(
     body: LendACopyOutBody,
 ) -> (
     LendACopyOutResponse200
+    | LendACopyOutResponse403
     | LendACopyOutResponse404
     | LendACopyOutResponse409
+    | LendACopyOutResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Lend a copy out.
 
-     A copy already out is a 409 rather than a silent replacement: two open loans on one
-    physical comic is a mistake to report, and overwriting the first would lose who actually
-    has it. Return it, then lend it again.
+     Records that one of the user's copies is out on loan. A copy already out is a 409 rather than a
+    replacement: mark it returned, then lend it again.
 
     Args:
-        collection_item_id (int):
+        collection_item_id (int): The collection item ID.
         body (LendACopyOutBody):
 
     Raises:
@@ -243,7 +263,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LendACopyOutResponse200 | LendACopyOutResponse404 | LendACopyOutResponse409 | TooManyRequestsError | UnauthorizedError
+        LendACopyOutResponse200 | LendACopyOutResponse403 | LendACopyOutResponse404 | LendACopyOutResponse409 | LendACopyOutResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

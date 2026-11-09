@@ -32,7 +32,7 @@ jobs:
           commit-message: Regenerate from the current User API spec
           title: Regenerate from the current User API spec
           body: |
-            The nightly run found changes in https://versedb.com/api/docs.openapi.
+            The nightly run found changes in https://versedb.com/api/v1/openapi.json.
 
             Check the diff for renamed or removed functions before merging. To
             release, bump `version` in `pyproject.toml` and publish a GitHub

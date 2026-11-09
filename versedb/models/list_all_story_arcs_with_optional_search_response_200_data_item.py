@@ -1,19 +1,23 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
-    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_images import (
-        ListAllStoryArcsWithOptionalSearchResponse200DataItemImages,
+    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_aliases_i18n import (
+        ListAllStoryArcsWithOptionalSearchResponse200DataItemAliasesI18N,
     )
-    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_primary_universe import (
-        ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse,
+    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_images_type_0 import (
+        ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0,
+    )
+    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_name_i18n import (
+        ListAllStoryArcsWithOptionalSearchResponse200DataItemNameI18N,
+    )
+    from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_primary_universe_type_0 import (
+        ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0,
     )
 
 
@@ -24,114 +28,208 @@ T = TypeVar("T", bound="ListAllStoryArcsWithOptionalSearchResponse200DataItem")
 class ListAllStoryArcsWithOptionalSearchResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        type_ (str | Unset):
-        status (str | Unset):
-        image_url (str | Unset):
-        images (ListAllStoryArcsWithOptionalSearchResponse200DataItemImages | Unset):
-        issues_count (int | Unset):
-        primary_universe (ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        type_ (None | str): main_story, side_story, tie_in_arc, mini_series_arc, crossover_event, prelude, epilogue or
+            other.
+        status (None | str): active, ended, upcoming or cancelled.
+        image_url (None | str):
+        images (ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0 | None):
+        issues_count (int | None):
+        name_i18n (ListAllStoryArcsWithOptionalSearchResponse200DataItemNameI18N): One name per language, keyed by BCP
+            47 tag.
+        aliases_i18n (ListAllStoryArcsWithOptionalSearchResponse200DataItemAliasesI18N): Alternative names per language.
+        original_locale (None | str): The language the story arc is from, a BCP 47 tag.
+        primary_universe (ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0 | None):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    type_: str | Unset = UNSET
-    status: str | Unset = UNSET
-    image_url: str | Unset = UNSET
-    images: ListAllStoryArcsWithOptionalSearchResponse200DataItemImages | Unset = UNSET
-    issues_count: int | Unset = UNSET
-    primary_universe: ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    type_: None | str
+    status: None | str
+    image_url: None | str
+    images: ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0 | None
+    issues_count: int | None
+    name_i18n: ListAllStoryArcsWithOptionalSearchResponse200DataItemNameI18N
+    aliases_i18n: ListAllStoryArcsWithOptionalSearchResponse200DataItemAliasesI18N
+    original_locale: None | str
+    primary_universe: ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0 | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_images_type_0 import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_primary_universe_type_0 import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
 
+        type_: None | str
         type_ = self.type_
 
+        status: None | str
         status = self.status
 
+        image_url: None | str
         image_url = self.image_url
 
-        images: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.images, Unset):
+        images: dict[str, Any] | None
+        if isinstance(self.images, ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0):
             images = self.images.to_dict()
+        else:
+            images = self.images
 
+        issues_count: int | None
         issues_count = self.issues_count
 
-        primary_universe: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.primary_universe, Unset):
+        name_i18n = self.name_i18n.to_dict()
+
+        aliases_i18n = self.aliases_i18n.to_dict()
+
+        original_locale: None | str
+        original_locale = self.original_locale
+
+        primary_universe: dict[str, Any] | None
+        if isinstance(self.primary_universe, ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0):
             primary_universe = self.primary_universe.to_dict()
+        else:
+            primary_universe = self.primary_universe
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if type_ is not UNSET:
-            field_dict["type"] = type_
-        if status is not UNSET:
-            field_dict["status"] = status
-        if image_url is not UNSET:
-            field_dict["image_url"] = image_url
-        if images is not UNSET:
-            field_dict["images"] = images
-        if issues_count is not UNSET:
-            field_dict["issues_count"] = issues_count
-        if primary_universe is not UNSET:
-            field_dict["primary_universe"] = primary_universe
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "type": type_,
+                "status": status,
+                "image_url": image_url,
+                "images": images,
+                "issues_count": issues_count,
+                "name_i18n": name_i18n,
+                "aliases_i18n": aliases_i18n,
+                "original_locale": original_locale,
+                "primary_universe": primary_universe,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_images import (
-            ListAllStoryArcsWithOptionalSearchResponse200DataItemImages,  # noqa: PLC0415
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_aliases_i18n import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemAliasesI18N,  # noqa: PLC0415
         )
-        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_primary_universe import (
-            ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse,  # noqa: PLC0415
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_images_type_0 import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_name_i18n import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemNameI18N,  # noqa: PLC0415
+        )
+        from ..models.list_all_story_arcs_with_optional_search_response_200_data_item_primary_universe_type_0 import (
+            ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        slug = d.pop("slug", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        type_ = d.pop("type", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        status = d.pop("status", UNSET)
+        slug = _parse_slug(d.pop("slug"))
 
-        image_url = d.pop("image_url", UNSET)
+        def _parse_type_(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _images = d.pop("images", UNSET)
-        images: ListAllStoryArcsWithOptionalSearchResponse200DataItemImages | Unset
-        if isinstance(_images, Unset):
-            images = UNSET
-        else:
-            images = ListAllStoryArcsWithOptionalSearchResponse200DataItemImages.from_dict(_images)
+        type_ = _parse_type_(d.pop("type"))
 
-        issues_count = d.pop("issues_count", UNSET)
+        def _parse_status(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _primary_universe = d.pop("primary_universe", UNSET)
-        primary_universe: ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse | Unset
-        if isinstance(_primary_universe, Unset):
-            primary_universe = UNSET
-        else:
-            primary_universe = ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverse.from_dict(
-                _primary_universe
-            )
+        status = _parse_status(d.pop("status"))
+
+        def _parse_image_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        image_url = _parse_image_url(d.pop("image_url"))
+
+        def _parse_images(data: object) -> ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListAllStoryArcsWithOptionalSearchResponse200DataItemImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        def _parse_issues_count(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        issues_count = _parse_issues_count(d.pop("issues_count"))
+
+        name_i18n = ListAllStoryArcsWithOptionalSearchResponse200DataItemNameI18N.from_dict(d.pop("name_i18n"))
+
+        aliases_i18n = ListAllStoryArcsWithOptionalSearchResponse200DataItemAliasesI18N.from_dict(d.pop("aliases_i18n"))
+
+        def _parse_original_locale(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        original_locale = _parse_original_locale(d.pop("original_locale"))
+
+        def _parse_primary_universe(
+            data: object,
+        ) -> ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                primary_universe_type_0 = (
+                    ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0.from_dict(data)
+                )
+
+                return primary_universe_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListAllStoryArcsWithOptionalSearchResponse200DataItemPrimaryUniverseType0 | None, data)
+
+        primary_universe = _parse_primary_universe(d.pop("primary_universe"))
 
         list_all_story_arcs_with_optional_search_response_200_data_item = cls(
             id=id,
@@ -142,6 +240,9 @@ class ListAllStoryArcsWithOptionalSearchResponse200DataItem:
             image_url=image_url,
             images=images,
             issues_count=issues_count,
+            name_i18n=name_i18n,
+            aliases_i18n=aliases_i18n,
+            original_locale=original_locale,
             primary_universe=primary_universe,
         )
 

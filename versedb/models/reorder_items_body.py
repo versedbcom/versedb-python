@@ -13,7 +13,8 @@ T = TypeVar("T", bound="ReorderItemsBody")
 class ReorderItemsBody:
     """
     Attributes:
-        item_ids (list[int]): The list item IDs in their new order. All IDs must belong to this list with no duplicates.
+        item_ids (list[int]): An ordered array of list item IDs representing the new order. All IDs must belong to this
+            list with no duplicates.
     """
 
     item_ids: list[int]

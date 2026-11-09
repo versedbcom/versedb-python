@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+if TYPE_CHECKING:
+    from ..models.view_your_monthly_reading_calendar_response_200_data_item import (
+        ViewYourMonthlyReadingCalendarResponse200DataItem,
+    )
+
 
 T = TypeVar("T", bound="ViewYourMonthlyReadingCalendarResponse200")
 
@@ -15,22 +19,23 @@ T = TypeVar("T", bound="ViewYourMonthlyReadingCalendarResponse200")
 class ViewYourMonthlyReadingCalendarResponse200:
     """
     Attributes:
-        data (list[Any] | Unset):
-        current_page (int | Unset):
-        last_page (int | Unset):
-        total (int | Unset):
+        data (list[ViewYourMonthlyReadingCalendarResponse200DataItem]):
+        current_page (int):
+        last_page (int):
+        total (int):
     """
 
-    data: list[Any] | Unset = UNSET
-    current_page: int | Unset = UNSET
-    last_page: int | Unset = UNSET
-    total: int | Unset = UNSET
+    data: list[ViewYourMonthlyReadingCalendarResponse200DataItem]
+    current_page: int
+    last_page: int
+    total: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: list[Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+            data.append(data_item)
 
         current_page = self.current_page
 
@@ -40,28 +45,36 @@ class ViewYourMonthlyReadingCalendarResponse200:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
-        if current_page is not UNSET:
-            field_dict["current_page"] = current_page
-        if last_page is not UNSET:
-            field_dict["last_page"] = last_page
-        if total is not UNSET:
-            field_dict["total"] = total
+        field_dict.update(
+            {
+                "data": data,
+                "current_page": current_page,
+                "last_page": last_page,
+                "total": total,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.view_your_monthly_reading_calendar_response_200_data_item import (
+            ViewYourMonthlyReadingCalendarResponse200DataItem,  # noqa: PLC0415
+        )
+
         d = dict(src_dict)
-        data = cast(list[Any], d.pop("data", UNSET))
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = ViewYourMonthlyReadingCalendarResponse200DataItem.from_dict(data_item_data)
 
-        current_page = d.pop("current_page", UNSET)
+            data.append(data_item)
 
-        last_page = d.pop("last_page", UNSET)
+        current_page = d.pop("current_page")
 
-        total = d.pop("total", UNSET)
+        last_page = d.pop("last_page")
+
+        total = d.pop("total")
 
         view_your_monthly_reading_calendar_response_200 = cls(
             data=data,

@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.view_your_reading_goal_response_200_data import ViewYourReadingGoalResponse200Data
 
@@ -19,48 +17,38 @@ T = TypeVar("T", bound="ViewYourReadingGoalResponse200")
 class ViewYourReadingGoalResponse200:
     """
     Attributes:
-        data (ViewYourReadingGoalResponse200Data | Unset):
-        years (list[int] | Unset):
+        data (ViewYourReadingGoalResponse200Data):
+        years (list[int]):
     """
 
-    data: ViewYourReadingGoalResponse200Data | Unset = UNSET
-    years: list[int] | Unset = UNSET
+    data: ViewYourReadingGoalResponse200Data
+    years: list[int]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        data = self.data.to_dict()
 
-        years: list[int] | Unset = UNSET
-        if not isinstance(self.years, Unset):
-            years = self.years
+        years = self.years
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
-        if years is not UNSET:
-            field_dict["years"] = years
+        field_dict.update(
+            {
+                "data": data,
+                "years": years,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.view_your_reading_goal_response_200_data import (
-            ViewYourReadingGoalResponse200Data,  # noqa: PLC0415
-        )
+        from ..models.view_your_reading_goal_response_200_data import ViewYourReadingGoalResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: ViewYourReadingGoalResponse200Data | Unset
-        if isinstance(_data, Unset):
-            data = UNSET
-        else:
-            data = ViewYourReadingGoalResponse200Data.from_dict(_data)
+        data = ViewYourReadingGoalResponse200Data.from_dict(d.pop("data"))
 
-        years = cast(list[int], d.pop("years", UNSET))
+        years = cast(list[int], d.pop("years"))
 
         view_your_reading_goal_response_200 = cls(
             data=data,

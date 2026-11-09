@@ -9,6 +9,7 @@ from ...client import AuthenticatedClient, Client
 from ...models.merge_a_list_into_this_one_body import MergeAListIntoThisOneBody
 from ...models.merge_a_list_into_this_one_response_200 import MergeAListIntoThisOneResponse200
 from ...models.merge_a_list_into_this_one_response_403 import MergeAListIntoThisOneResponse403
+from ...models.merge_a_list_into_this_one_response_404 import MergeAListIntoThisOneResponse404
 from ...models.merge_a_list_into_this_one_response_422 import MergeAListIntoThisOneResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -42,6 +43,7 @@ def _parse_response(
 ) -> (
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -61,6 +63,11 @@ def _parse_response(
         response_403 = MergeAListIntoThisOneResponse403.from_dict(response.json())
 
         return response_403
+
+    if response.status_code == 404:
+        response_404 = MergeAListIntoThisOneResponse404.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 422:
         response_422 = MergeAListIntoThisOneResponse422.from_dict(response.json())
@@ -83,6 +90,7 @@ def _build_response(
 ) -> Response[
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -103,18 +111,19 @@ def sync_detailed(
 ) -> Response[
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Merge a list into this one.
 
-     Pulls every item from the source list into this (destination) list, skipping items already
-    present (by entity + variant) and appending the rest. Both lists must be owned by the
-    authenticated user. Merging items of a different type opens this list to any type.
+     Pulls every item from the source list into this (destination) list, skipping items already present
+    (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user.
+    Merging items of a different type opens this list to any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (MergeAListIntoThisOneBody):
 
     Raises:
@@ -122,7 +131,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse404 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -145,6 +154,7 @@ def sync(
 ) -> (
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -152,12 +162,12 @@ def sync(
 ):
     """Merge a list into this one.
 
-     Pulls every item from the source list into this (destination) list, skipping items already
-    present (by entity + variant) and appending the rest. Both lists must be owned by the
-    authenticated user. Merging items of a different type opens this list to any type.
+     Pulls every item from the source list into this (destination) list, skipping items already present
+    (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user.
+    Merging items of a different type opens this list to any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (MergeAListIntoThisOneBody):
 
     Raises:
@@ -165,7 +175,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError
+        MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse404 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -183,18 +193,19 @@ async def asyncio_detailed(
 ) -> Response[
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Merge a list into this one.
 
-     Pulls every item from the source list into this (destination) list, skipping items already
-    present (by entity + variant) and appending the rest. Both lists must be owned by the
-    authenticated user. Merging items of a different type opens this list to any type.
+     Pulls every item from the source list into this (destination) list, skipping items already present
+    (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user.
+    Merging items of a different type opens this list to any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (MergeAListIntoThisOneBody):
 
     Raises:
@@ -202,7 +213,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse404 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -223,6 +234,7 @@ async def asyncio(
 ) -> (
     MergeAListIntoThisOneResponse200
     | MergeAListIntoThisOneResponse403
+    | MergeAListIntoThisOneResponse404
     | MergeAListIntoThisOneResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -230,12 +242,12 @@ async def asyncio(
 ):
     """Merge a list into this one.
 
-     Pulls every item from the source list into this (destination) list, skipping items already
-    present (by entity + variant) and appending the rest. Both lists must be owned by the
-    authenticated user. Merging items of a different type opens this list to any type.
+     Pulls every item from the source list into this (destination) list, skipping items already present
+    (by entity + variant) and appending the rest. Both lists must be owned by the authenticated user.
+    Merging items of a different type opens this list to any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (MergeAListIntoThisOneBody):
 
     Raises:
@@ -243,7 +255,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError
+        MergeAListIntoThisOneResponse200 | MergeAListIntoThisOneResponse403 | MergeAListIntoThisOneResponse404 | MergeAListIntoThisOneResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

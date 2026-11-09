@@ -8,7 +8,11 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.mark_as_read_body import MarkAsReadBody
 from ...models.mark_as_read_response_201 import MarkAsReadResponse201
-from ...models.mark_as_read_response_422 import MarkAsReadResponse422
+from ...models.mark_as_read_response_403 import MarkAsReadResponse403
+from ...models.mark_as_read_response_404 import MarkAsReadResponse404
+from ...models.mark_as_read_response_422_type_0 import MarkAsReadResponse422Type0
+from ...models.mark_as_read_response_422_type_1 import MarkAsReadResponse422Type1
+from ...models.mark_as_read_response_422_type_2 import MarkAsReadResponse422Type2
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -39,7 +43,17 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 201:
         response_201 = MarkAsReadResponse201.from_dict(response.json())
 
@@ -50,8 +64,44 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = MarkAsReadResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = MarkAsReadResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 422:
-        response_422 = MarkAsReadResponse422.from_dict(response.json())
+
+        def _parse_response_422(
+            data: object,
+        ) -> MarkAsReadResponse422Type0 | MarkAsReadResponse422Type1 | MarkAsReadResponse422Type2:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_0 = MarkAsReadResponse422Type0.from_dict(data)
+
+                return response_422_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_1 = MarkAsReadResponse422Type1.from_dict(data)
+
+                return response_422_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_422_type_2 = MarkAsReadResponse422Type2.from_dict(data)
+
+            return response_422_type_2
+
+        response_422 = _parse_response_422(response.json())
 
         return response_422
 
@@ -68,7 +118,16 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,13 +141,22 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: MarkAsReadBody | Unset = UNSET,
-) -> Response[MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Mark as read.
 
      Marks an issue (optionally a specific variant) as read with the current timestamp.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (MarkAsReadBody | Unset):
 
     Raises:
@@ -96,7 +164,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[MarkAsReadResponse201 | MarkAsReadResponse403 | MarkAsReadResponse404 | MarkAsReadResponse422Type0 | MarkAsReadResponse422Type1 | MarkAsReadResponse422Type2 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -116,13 +184,23 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: MarkAsReadBody | Unset = UNSET,
-) -> MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Mark as read.
 
      Marks an issue (optionally a specific variant) as read with the current timestamp.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (MarkAsReadBody | Unset):
 
     Raises:
@@ -130,7 +208,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError
+        MarkAsReadResponse201 | MarkAsReadResponse403 | MarkAsReadResponse404 | MarkAsReadResponse422Type0 | MarkAsReadResponse422Type1 | MarkAsReadResponse422Type2 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -145,13 +223,22 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: MarkAsReadBody | Unset = UNSET,
-) -> Response[MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Mark as read.
 
      Marks an issue (optionally a specific variant) as read with the current timestamp.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (MarkAsReadBody | Unset):
 
     Raises:
@@ -159,7 +246,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[MarkAsReadResponse201 | MarkAsReadResponse403 | MarkAsReadResponse404 | MarkAsReadResponse422Type0 | MarkAsReadResponse422Type1 | MarkAsReadResponse422Type2 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -177,13 +264,23 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: MarkAsReadBody | Unset = UNSET,
-) -> MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    MarkAsReadResponse201
+    | MarkAsReadResponse403
+    | MarkAsReadResponse404
+    | MarkAsReadResponse422Type0
+    | MarkAsReadResponse422Type1
+    | MarkAsReadResponse422Type2
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Mark as read.
 
      Marks an issue (optionally a specific variant) as read with the current timestamp.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (MarkAsReadBody | Unset):
 
     Raises:
@@ -191,7 +288,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        MarkAsReadResponse201 | MarkAsReadResponse422 | TooManyRequestsError | UnauthorizedError
+        MarkAsReadResponse201 | MarkAsReadResponse403 | MarkAsReadResponse404 | MarkAsReadResponse422Type0 | MarkAsReadResponse422Type1 | MarkAsReadResponse422Type2 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

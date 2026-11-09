@@ -93,7 +93,7 @@ def sync_detailed(
      Returns a single list with all its items. Private lists are only visible to owners.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         sort (str | Unset): How to order the items. Omit for the list's own order — by
             position when it is ranked, newest added first when it is not. `recent` and `oldest`
             work on any list; the remaining values are the sortable fields for the list's entity
@@ -131,7 +131,7 @@ def sync(
      Returns a single list with all its items. Private lists are only visible to owners.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         sort (str | Unset): How to order the items. Omit for the list's own order — by
             position when it is ranked, newest added first when it is not. `recent` and `oldest`
             work on any list; the remaining values are the sortable fields for the list's entity
@@ -164,7 +164,7 @@ async def asyncio_detailed(
      Returns a single list with all its items. Private lists are only visible to owners.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         sort (str | Unset): How to order the items. Omit for the list's own order — by
             position when it is ranked, newest added first when it is not. `recent` and `oldest`
             work on any list; the remaining values are the sortable fields for the list's entity
@@ -200,7 +200,7 @@ async def asyncio(
      Returns a single list with all its items. Private lists are only visible to owners.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         sort (str | Unset): How to order the items. Omit for the list's own order — by
             position when it is ranked, newest added first when it is not. `recent` and `oldest`
             work on any list; the remaining values are the sortable fields for the list's entity

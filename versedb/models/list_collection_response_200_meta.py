@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+if TYPE_CHECKING:
+    from ..models.list_collection_response_200_meta_links_item import ListCollectionResponse200MetaLinksItem
+
 
 T = TypeVar("T", bound="ListCollectionResponse200Meta")
 
@@ -15,80 +17,106 @@ T = TypeVar("T", bound="ListCollectionResponse200Meta")
 class ListCollectionResponse200Meta:
     """
     Attributes:
-        current_page (int | Unset):
-        from_ (int | Unset):
-        last_page (int | Unset):
-        path (str | Unset):
-        per_page (int | Unset):
-        to (int | Unset):
-        total (int | Unset):
+        current_page (int):
+        from_ (int | None):
+        last_page (int):
+        links (list[ListCollectionResponse200MetaLinksItem]):
+        path (str):
+        per_page (int):
+        to (int | None):
+        total (int):
     """
 
-    current_page: int | Unset = UNSET
-    from_: int | Unset = UNSET
-    last_page: int | Unset = UNSET
-    path: str | Unset = UNSET
-    per_page: int | Unset = UNSET
-    to: int | Unset = UNSET
-    total: int | Unset = UNSET
+    current_page: int
+    from_: int | None
+    last_page: int
+    links: list[ListCollectionResponse200MetaLinksItem]
+    path: str
+    per_page: int
+    to: int | None
+    total: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         current_page = self.current_page
 
+        from_: int | None
         from_ = self.from_
 
         last_page = self.last_page
+
+        links = []
+        for links_item_data in self.links:
+            links_item = links_item_data.to_dict()
+            links.append(links_item)
 
         path = self.path
 
         per_page = self.per_page
 
+        to: int | None
         to = self.to
 
         total = self.total
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if current_page is not UNSET:
-            field_dict["current_page"] = current_page
-        if from_ is not UNSET:
-            field_dict["from"] = from_
-        if last_page is not UNSET:
-            field_dict["last_page"] = last_page
-        if path is not UNSET:
-            field_dict["path"] = path
-        if per_page is not UNSET:
-            field_dict["per_page"] = per_page
-        if to is not UNSET:
-            field_dict["to"] = to
-        if total is not UNSET:
-            field_dict["total"] = total
+        field_dict.update(
+            {
+                "current_page": current_page,
+                "from": from_,
+                "last_page": last_page,
+                "links": links,
+                "path": path,
+                "per_page": per_page,
+                "to": to,
+                "total": total,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.list_collection_response_200_meta_links_item import ListCollectionResponse200MetaLinksItem  # noqa: PLC0415
+
         d = dict(src_dict)
-        current_page = d.pop("current_page", UNSET)
+        current_page = d.pop("current_page")
 
-        from_ = d.pop("from", UNSET)
+        def _parse_from_(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        last_page = d.pop("last_page", UNSET)
+        from_ = _parse_from_(d.pop("from"))
 
-        path = d.pop("path", UNSET)
+        last_page = d.pop("last_page")
 
-        per_page = d.pop("per_page", UNSET)
+        links = []
+        _links = d.pop("links")
+        for links_item_data in _links:
+            links_item = ListCollectionResponse200MetaLinksItem.from_dict(links_item_data)
 
-        to = d.pop("to", UNSET)
+            links.append(links_item)
 
-        total = d.pop("total", UNSET)
+        path = d.pop("path")
+
+        per_page = d.pop("per_page")
+
+        def _parse_to(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        to = _parse_to(d.pop("to"))
+
+        total = d.pop("total")
 
         list_collection_response_200_meta = cls(
             current_page=current_page,
             from_=from_,
             last_page=last_page,
+            links=links,
             path=path,
             per_page=per_page,
             to=to,

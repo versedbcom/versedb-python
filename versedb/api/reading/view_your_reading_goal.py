@@ -8,6 +8,7 @@ from ...client import AuthenticatedClient, Client
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.view_your_reading_goal_response_200 import ViewYourReadingGoalResponse200
 from ...models.view_your_reading_goal_response_401 import ViewYourReadingGoalResponse401
+from ...models.view_your_reading_goal_response_403 import ViewYourReadingGoalResponse403
 from ...types import UNSET, Response, Unset
 
 
@@ -33,7 +34,13 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | None:
+) -> (
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+    | None
+):
     if response.status_code == 200:
         response_200 = ViewYourReadingGoalResponse200.from_dict(response.json())
 
@@ -43,6 +50,11 @@ def _parse_response(
         response_401 = ViewYourReadingGoalResponse401.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ViewYourReadingGoalResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -57,7 +69,12 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401]:
+) -> Response[
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,10 +87,18 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     year: int | Unset = UNSET,
-) -> Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401]:
+) -> Response[
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+]:
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -83,7 +108,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401]
+        Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | ViewYourReadingGoalResponse403]
     """
 
     kwargs = _get_kwargs(
@@ -101,10 +126,19 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     year: int | Unset = UNSET,
-) -> TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | None:
+) -> (
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+    | None
+):
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -114,7 +148,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401
+        TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | ViewYourReadingGoalResponse403
     """
 
     return sync_detailed(
@@ -127,10 +161,18 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     year: int | Unset = UNSET,
-) -> Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401]:
+) -> Response[
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+]:
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -140,7 +182,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401]
+        Response[TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | ViewYourReadingGoalResponse403]
     """
 
     kwargs = _get_kwargs(
@@ -156,10 +198,19 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     year: int | Unset = UNSET,
-) -> TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | None:
+) -> (
+    TooManyRequestsError
+    | ViewYourReadingGoalResponse200
+    | ViewYourReadingGoalResponse401
+    | ViewYourReadingGoalResponse403
+    | None
+):
     """View your reading goal.
 
      Available to every authenticated member. Returns only the caller's goal.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets the goal without
+    `notify_milestones`, `notify_lapses` and `email_updates`.
 
     Args:
         year (int | Unset): UTC year; defaults to the current year.
@@ -169,7 +220,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401
+        TooManyRequestsError | ViewYourReadingGoalResponse200 | ViewYourReadingGoalResponse401 | ViewYourReadingGoalResponse403
     """
 
     return (

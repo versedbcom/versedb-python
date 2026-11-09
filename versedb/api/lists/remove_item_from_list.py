@@ -92,11 +92,11 @@ def sync_detailed(
 ]:
     """Remove item from list.
 
-     Removes an item from a list. Other items' positions are automatically adjusted.
+     Removes an item from a list. Other items' positions are kept.
 
     Args:
-        list_id (int):
-        item_id (int):
+        list_id (int): The list ID.
+        item_id (int): The list item ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -133,11 +133,11 @@ def sync(
 ):
     """Remove item from list.
 
-     Removes an item from a list. Other items' positions are automatically adjusted.
+     Removes an item from a list. Other items' positions are kept.
 
     Args:
-        list_id (int):
-        item_id (int):
+        list_id (int): The list ID.
+        item_id (int): The list item ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,11 +164,11 @@ async def asyncio_detailed(
 ]:
     """Remove item from list.
 
-     Removes an item from a list. Other items' positions are automatically adjusted.
+     Removes an item from a list. Other items' positions are kept.
 
     Args:
-        list_id (int):
-        item_id (int):
+        list_id (int): The list ID.
+        item_id (int): The list item ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -203,11 +203,11 @@ async def asyncio(
 ):
     """Remove item from list.
 
-     Removes an item from a list. Other items' positions are automatically adjusted.
+     Removes an item from a list. Other items' positions are kept.
 
     Args:
-        list_id (int):
-        item_id (int):
+        list_id (int): The list ID.
+        item_id (int): The list item ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

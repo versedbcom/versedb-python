@@ -9,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.get_character_issues_response_200_data_item_name_i18n import (
+        GetCharacterIssuesResponse200DataItemNameI18N,
+    )
     from ..models.get_character_issues_response_200_data_item_series import GetCharacterIssuesResponse200DataItemSeries
 
 
@@ -22,6 +25,7 @@ class GetCharacterIssuesResponse200DataItem:
         id (int | Unset):
         number (str | Unset):
         name (str | Unset):
+        name_i18n (GetCharacterIssuesResponse200DataItemNameI18N | Unset):
         release_date (str | Unset):
         cover_url (str | Unset):
         series (GetCharacterIssuesResponse200DataItemSeries | Unset):
@@ -30,6 +34,7 @@ class GetCharacterIssuesResponse200DataItem:
     id: int | Unset = UNSET
     number: str | Unset = UNSET
     name: str | Unset = UNSET
+    name_i18n: GetCharacterIssuesResponse200DataItemNameI18N | Unset = UNSET
     release_date: str | Unset = UNSET
     cover_url: str | Unset = UNSET
     series: GetCharacterIssuesResponse200DataItemSeries | Unset = UNSET
@@ -41,6 +46,10 @@ class GetCharacterIssuesResponse200DataItem:
         number = self.number
 
         name = self.name
+
+        name_i18n: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.name_i18n, Unset):
+            name_i18n = self.name_i18n.to_dict()
 
         release_date = self.release_date
 
@@ -59,6 +68,8 @@ class GetCharacterIssuesResponse200DataItem:
             field_dict["number"] = number
         if name is not UNSET:
             field_dict["name"] = name
+        if name_i18n is not UNSET:
+            field_dict["name_i18n"] = name_i18n
         if release_date is not UNSET:
             field_dict["release_date"] = release_date
         if cover_url is not UNSET:
@@ -70,6 +81,9 @@ class GetCharacterIssuesResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_character_issues_response_200_data_item_name_i18n import (
+            GetCharacterIssuesResponse200DataItemNameI18N,  # noqa: PLC0415
+        )
         from ..models.get_character_issues_response_200_data_item_series import (
             GetCharacterIssuesResponse200DataItemSeries,  # noqa: PLC0415
         )
@@ -80,6 +94,13 @@ class GetCharacterIssuesResponse200DataItem:
         number = d.pop("number", UNSET)
 
         name = d.pop("name", UNSET)
+
+        _name_i18n = d.pop("name_i18n", UNSET)
+        name_i18n: GetCharacterIssuesResponse200DataItemNameI18N | Unset
+        if isinstance(_name_i18n, Unset):
+            name_i18n = UNSET
+        else:
+            name_i18n = GetCharacterIssuesResponse200DataItemNameI18N.from_dict(_name_i18n)
 
         release_date = d.pop("release_date", UNSET)
 
@@ -96,6 +117,7 @@ class GetCharacterIssuesResponse200DataItem:
             id=id,
             number=number,
             name=name,
+            name_i18n=name_i18n,
             release_date=release_date,
             cover_url=cover_url,
             series=series,

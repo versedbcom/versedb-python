@@ -15,8 +15,9 @@ T = TypeVar("T", bound="MergeAListIntoThisOneBody")
 class MergeAListIntoThisOneBody:
     """
     Attributes:
-        source_list_id (int): The list to merge in.
-        delete_source (bool | Unset): Delete the source list after merging. Defaults to false.
+        source_list_id (int): The list whose items are pulled into this list. Must be owned by the authenticated user.
+        delete_source (bool | Unset): Whether to delete the source list after its items are merged in. Defaults to
+            `false`.
     """
 
     source_list_id: int

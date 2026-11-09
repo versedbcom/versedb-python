@@ -11,9 +11,9 @@ T = TypeVar("T", bound="CreateListBodyRulesType0")
 
 @_attrs_define
 class CreateListBodyRulesType0:
-    """A smart-list rule. Supply it to have the list built and kept current from a query instead of by hand. Requires a Pro
-    subscription, and forces `is_ranked` to false because the rule carries its own sort. Fetch the field catalog from
-    `/lists/rule-vocabulary` and validate a draft against `/lists/rule-preview`.
+    """A smart-list rule, which builds the list from a query and keeps it current instead of filling it by hand. Requires a
+    Pro subscription and `entity_type` (never `mixed`), and sets `is_ranked` to false, since the rule carries its own
+    sort.
 
     """
 

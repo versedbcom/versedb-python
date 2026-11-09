@@ -11,6 +11,8 @@ T = TypeVar("T", bound="ViewYearlyReadingStatisticsResponse200DataMonths")
 
 @_attrs_define
 class ViewYearlyReadingStatisticsResponse200DataMonths:
+    """Reads in each month, keyed 1 to 12."""
+
     additional_properties: dict[str, int] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

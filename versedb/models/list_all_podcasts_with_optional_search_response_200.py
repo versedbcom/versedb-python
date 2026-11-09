@@ -6,11 +6,12 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.list_all_podcasts_with_optional_search_response_200_data_item import (
         ListAllPodcastsWithOptionalSearchResponse200DataItem,
+    )
+    from ..models.list_all_podcasts_with_optional_search_response_200_links import (
+        ListAllPodcastsWithOptionalSearchResponse200Links,
     )
     from ..models.list_all_podcasts_with_optional_search_response_200_meta import (
         ListAllPodcastsWithOptionalSearchResponse200Meta,
@@ -24,41 +25,45 @@ T = TypeVar("T", bound="ListAllPodcastsWithOptionalSearchResponse200")
 class ListAllPodcastsWithOptionalSearchResponse200:
     """
     Attributes:
-        data (list[ListAllPodcastsWithOptionalSearchResponse200DataItem] | Unset):
-        meta (ListAllPodcastsWithOptionalSearchResponse200Meta | Unset):
-        languages (list[str] | Unset):
+        data (list[ListAllPodcastsWithOptionalSearchResponse200DataItem]):
+        links (ListAllPodcastsWithOptionalSearchResponse200Links):
+        meta (ListAllPodcastsWithOptionalSearchResponse200Meta):
+        languages (list[str]):
+        categories (list[str]):
     """
 
-    data: list[ListAllPodcastsWithOptionalSearchResponse200DataItem] | Unset = UNSET
-    meta: ListAllPodcastsWithOptionalSearchResponse200Meta | Unset = UNSET
-    languages: list[str] | Unset = UNSET
+    data: list[ListAllPodcastsWithOptionalSearchResponse200DataItem]
+    links: ListAllPodcastsWithOptionalSearchResponse200Links
+    meta: ListAllPodcastsWithOptionalSearchResponse200Meta
+    languages: list[str]
+    categories: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = []
-            for data_item_data in self.data:
-                data_item = data_item_data.to_dict()
-                data.append(data_item)
+        data = []
+        for data_item_data in self.data:
+            data_item = data_item_data.to_dict()
+            data.append(data_item)
 
-        meta: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.meta, Unset):
-            meta = self.meta.to_dict()
+        links = self.links.to_dict()
 
-        languages: list[str] | Unset = UNSET
-        if not isinstance(self.languages, Unset):
-            languages = self.languages
+        meta = self.meta.to_dict()
+
+        languages = self.languages
+
+        categories = self.categories
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
-        if meta is not UNSET:
-            field_dict["meta"] = meta
-        if languages is not UNSET:
-            field_dict["languages"] = languages
+        field_dict.update(
+            {
+                "data": data,
+                "links": links,
+                "meta": meta,
+                "languages": languages,
+                "categories": categories,
+            }
+        )
 
         return field_dict
 
@@ -67,33 +72,35 @@ class ListAllPodcastsWithOptionalSearchResponse200:
         from ..models.list_all_podcasts_with_optional_search_response_200_data_item import (
             ListAllPodcastsWithOptionalSearchResponse200DataItem,  # noqa: PLC0415
         )
+        from ..models.list_all_podcasts_with_optional_search_response_200_links import (
+            ListAllPodcastsWithOptionalSearchResponse200Links,  # noqa: PLC0415
+        )
         from ..models.list_all_podcasts_with_optional_search_response_200_meta import (
             ListAllPodcastsWithOptionalSearchResponse200Meta,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: list[ListAllPodcastsWithOptionalSearchResponse200DataItem] | Unset = UNSET
-        if _data is not UNSET:
-            data = []
-            for data_item_data in _data:
-                data_item = ListAllPodcastsWithOptionalSearchResponse200DataItem.from_dict(data_item_data)
+        data = []
+        _data = d.pop("data")
+        for data_item_data in _data:
+            data_item = ListAllPodcastsWithOptionalSearchResponse200DataItem.from_dict(data_item_data)
 
-                data.append(data_item)
+            data.append(data_item)
 
-        _meta = d.pop("meta", UNSET)
-        meta: ListAllPodcastsWithOptionalSearchResponse200Meta | Unset
-        if isinstance(_meta, Unset):
-            meta = UNSET
-        else:
-            meta = ListAllPodcastsWithOptionalSearchResponse200Meta.from_dict(_meta)
+        links = ListAllPodcastsWithOptionalSearchResponse200Links.from_dict(d.pop("links"))
 
-        languages = cast(list[str], d.pop("languages", UNSET))
+        meta = ListAllPodcastsWithOptionalSearchResponse200Meta.from_dict(d.pop("meta"))
+
+        languages = cast(list[str], d.pop("languages"))
+
+        categories = cast(list[str], d.pop("categories"))
 
         list_all_podcasts_with_optional_search_response_200 = cls(
             data=data,
+            links=links,
             meta=meta,
             languages=languages,
+            categories=categories,
         )
 
         list_all_podcasts_with_optional_search_response_200.additional_properties = d

@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_issues_response_200 import ListIssuesResponse200
+from ...models.list_issues_response_403 import ListIssuesResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -22,6 +23,9 @@ def _get_kwargs(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -31,6 +35,7 @@ def _get_kwargs(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -53,6 +58,12 @@ def _get_kwargs(
 
     params["character_ids"] = character_ids
 
+    params["creator_ids"] = creator_ids
+
+    params["creator_role_ids"] = creator_role_ids
+
+    params["team_ids"] = team_ids
+
     params["genre_ids"] = genre_ids
 
     params["languages"] = languages
@@ -71,6 +82,8 @@ def _get_kwargs(
 
     params["limit"] = limit
 
+    params["page"] = page
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
@@ -84,7 +97,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListIssuesResponse200.from_dict(response.json())
 
@@ -94,6 +107,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListIssuesResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -108,7 +126,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -129,6 +147,9 @@ def sync_detailed(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -138,7 +159,8 @@ def sync_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List issues.
 
      Returns paginated issues with optional search, filtering, and sorting.
@@ -156,6 +178,12 @@ def sync_detailed(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -167,13 +195,14 @@ def sync_detailed(
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -186,6 +215,9 @@ def sync_detailed(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -195,6 +227,7 @@ def sync_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -216,6 +249,9 @@ def sync(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -225,7 +261,8 @@ def sync(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List issues.
 
      Returns paginated issues with optional search, filtering, and sorting.
@@ -243,6 +280,12 @@ def sync(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -254,13 +297,14 @@ def sync(
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -274,6 +318,9 @@ def sync(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -283,6 +330,7 @@ def sync(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -298,6 +346,9 @@ async def asyncio_detailed(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -307,7 +358,8 @@ async def asyncio_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List issues.
 
      Returns paginated issues with optional search, filtering, and sorting.
@@ -325,6 +377,12 @@ async def asyncio_detailed(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -336,13 +394,14 @@ async def asyncio_detailed(
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -355,6 +414,9 @@ async def asyncio_detailed(
         series_ids=series_ids,
         title_ids=title_ids,
         character_ids=character_ids,
+        creator_ids=creator_ids,
+        creator_role_ids=creator_role_ids,
+        team_ids=team_ids,
         genre_ids=genre_ids,
         languages=languages,
         medium=medium,
@@ -364,6 +426,7 @@ async def asyncio_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -383,6 +446,9 @@ async def asyncio(
     series_ids: str | Unset = UNSET,
     title_ids: str | Unset = UNSET,
     character_ids: str | Unset = UNSET,
+    creator_ids: str | Unset = UNSET,
+    creator_role_ids: str | Unset = UNSET,
+    team_ids: str | Unset = UNSET,
     genre_ids: str | Unset = UNSET,
     languages: str | Unset = UNSET,
     medium: str | Unset = UNSET,
@@ -392,7 +458,8 @@ async def asyncio(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List issues.
 
      Returns paginated issues with optional search, filtering, and sorting.
@@ -410,6 +477,12 @@ async def asyncio(
             series belongs to any of them.
         character_ids (str | Unset): Comma-separated character IDs, up to 10; an issue must
             feature every one.
+        creator_ids (str | Unset): Comma-separated creator IDs, up to 10; an issue must credit
+            every one.
+        creator_role_ids (str | Unset): Comma-separated creator role IDs; with creator_ids, each
+            creator must be credited in one of these roles.
+        team_ids (str | Unset): Comma-separated team IDs, up to 10; an issue must feature every
+            one.
         genre_ids (str | Unset): Comma-separated genre IDs; matches issues whose series carries
             any of them.
         languages (str | Unset): Comma-separated series language codes (en, ja, fr, ...).
@@ -421,13 +494,14 @@ async def asyncio(
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListIssuesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListIssuesResponse200 | ListIssuesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -442,6 +516,9 @@ async def asyncio(
             series_ids=series_ids,
             title_ids=title_ids,
             character_ids=character_ids,
+            creator_ids=creator_ids,
+            creator_role_ids=creator_role_ids,
+            team_ids=team_ids,
             genre_ids=genre_ids,
             languages=languages,
             medium=medium,
@@ -451,5 +528,6 @@ async def asyncio(
             sort=sort,
             direction=direction,
             limit=limit,
+            page=page,
         )
     ).parsed

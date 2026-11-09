@@ -11,9 +11,8 @@ T = TypeVar("T", bound="UpdateListBodyRules")
 
 @_attrs_define
 class UpdateListBodyRules:
-    """A replacement smart-list rule. Accepted only on a list that was created rule-built — a rule is tuned here, never
-    introduced or removed. Fetch the field catalog from `/lists/rule-vocabulary` and validate a draft against
-    `/lists/rule-preview`.
+    """Replaces the smart-list rule. Only a list built from a rule takes one, and the list is rebuilt from the new rule
+    unless its updates are paused.
 
     """
 

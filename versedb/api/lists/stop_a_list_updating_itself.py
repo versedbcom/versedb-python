@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.stop_a_list_updating_itself_response_200 import StopAListUpdatingItselfResponse200
+from ...models.stop_a_list_updating_itself_response_403 import StopAListUpdatingItselfResponse403
+from ...models.stop_a_list_updating_itself_response_404 import StopAListUpdatingItselfResponse404
 from ...models.stop_a_list_updating_itself_response_422 import StopAListUpdatingItselfResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -31,6 +33,8 @@ def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
     StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
     | StopAListUpdatingItselfResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -45,6 +49,16 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = StopAListUpdatingItselfResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = StopAListUpdatingItselfResponse404.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 422:
         response_422 = StopAListUpdatingItselfResponse422.from_dict(response.json())
@@ -65,7 +79,12 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
+    StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
+    | StopAListUpdatingItselfResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -80,23 +99,28 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
+    StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
+    | StopAListUpdatingItselfResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Stop a list updating itself.
 
-     One-way: drops a smart list's rule and keeps every item the last refresh left,
-    handing the contents back for editing by hand. A rule is only ever attached when
-    a list is created, so it cannot be put back.
+     One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents
+    back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put
+    back.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse403 | StopAListUpdatingItselfResponse404 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -116,6 +140,8 @@ def sync(
     client: AuthenticatedClient | Client,
 ) -> (
     StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
     | StopAListUpdatingItselfResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -123,19 +149,19 @@ def sync(
 ):
     """Stop a list updating itself.
 
-     One-way: drops a smart list's rule and keeps every item the last refresh left,
-    handing the contents back for editing by hand. A rule is only ever attached when
-    a list is created, so it cannot be put back.
+     One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents
+    back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put
+    back.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
+        StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse403 | StopAListUpdatingItselfResponse404 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -149,23 +175,28 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
+    StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
+    | StopAListUpdatingItselfResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Stop a list updating itself.
 
-     One-way: drops a smart list's rule and keeps every item the last refresh left,
-    handing the contents back for editing by hand. A rule is only ever attached when
-    a list is created, so it cannot be put back.
+     One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents
+    back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put
+    back.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse403 | StopAListUpdatingItselfResponse404 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -183,6 +214,8 @@ async def asyncio(
     client: AuthenticatedClient | Client,
 ) -> (
     StopAListUpdatingItselfResponse200
+    | StopAListUpdatingItselfResponse403
+    | StopAListUpdatingItselfResponse404
     | StopAListUpdatingItselfResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -190,19 +223,19 @@ async def asyncio(
 ):
     """Stop a list updating itself.
 
-     One-way: drops a smart list's rule and keeps every item the last refresh left,
-    handing the contents back for editing by hand. A rule is only ever attached when
-    a list is created, so it cannot be put back.
+     One-way: drops a smart list's rule and keeps every item the last refresh left, handing the contents
+    back for editing by hand. A rule is only ever attached when a list is created, so it cannot be put
+    back.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
+        StopAListUpdatingItselfResponse200 | StopAListUpdatingItselfResponse403 | StopAListUpdatingItselfResponse404 | StopAListUpdatingItselfResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

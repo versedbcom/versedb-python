@@ -10,7 +10,12 @@ from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...models.update_collection_item_body import UpdateCollectionItemBody
 from ...models.update_collection_item_response_200 import UpdateCollectionItemResponse200
-from ...models.update_collection_item_response_404 import UpdateCollectionItemResponse404
+from ...models.update_collection_item_response_403 import UpdateCollectionItemResponse403
+from ...models.update_collection_item_response_404_type_0 import UpdateCollectionItemResponse404Type0
+from ...models.update_collection_item_response_404_type_1 import UpdateCollectionItemResponse404Type1
+from ...models.update_collection_item_response_422_type_0 import UpdateCollectionItemResponse422Type0
+from ...models.update_collection_item_response_422_type_1 import UpdateCollectionItemResponse422Type1
+from ...models.update_collection_item_response_422_type_2 import UpdateCollectionItemResponse422Type2
 from ...types import UNSET, Response, Unset
 
 
@@ -51,7 +56,16 @@ def _get_kwargs(
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404 | None
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
+    | None
 ):
     if response.status_code == 200:
         response_200 = UpdateCollectionItemResponse200.from_dict(response.json())
@@ -63,10 +77,68 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = UpdateCollectionItemResponse403.from_dict(response.json())
+
+        return response_403
+
     if response.status_code == 404:
-        response_404 = UpdateCollectionItemResponse404.from_dict(response.json())
+
+        def _parse_response_404(
+            data: object,
+        ) -> UpdateCollectionItemResponse404Type0 | UpdateCollectionItemResponse404Type1:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_404_type_0 = UpdateCollectionItemResponse404Type0.from_dict(data)
+
+                return response_404_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_404_type_1 = UpdateCollectionItemResponse404Type1.from_dict(data)
+
+            return response_404_type_1
+
+        response_404 = _parse_response_404(response.json())
 
         return response_404
+
+    if response.status_code == 422:
+
+        def _parse_response_422(
+            data: object,
+        ) -> (
+            UpdateCollectionItemResponse422Type0
+            | UpdateCollectionItemResponse422Type1
+            | UpdateCollectionItemResponse422Type2
+        ):
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_0 = UpdateCollectionItemResponse422Type0.from_dict(data)
+
+                return response_422_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_1 = UpdateCollectionItemResponse422Type1.from_dict(data)
+
+                return response_422_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_422_type_2 = UpdateCollectionItemResponse422Type2.from_dict(data)
+
+            return response_422_type_2
+
+        response_422 = _parse_response_422(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -82,7 +154,15 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
 ]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -100,15 +180,24 @@ def sync_detailed(
     variant_id: int | Unset = UNSET,
     collection_item_id: int | Unset = UNSET,
 ) -> Response[
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
 ]:
     """Update collection item.
 
-     Updates metadata on an existing collection entry for an issue.
-    Supports partial updates: only send the fields you want to change.
+     Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body),
+    else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent
+    change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         variant_id (int | Unset): Specific variant ID to update (when user has multiple entries).
         collection_item_id (int | Unset): Specific collection item ID to update.
         body (UpdateCollectionItemBody | Unset):
@@ -118,7 +207,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404]
+        Response[TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse403 | UpdateCollectionItemResponse404Type0 | UpdateCollectionItemResponse404Type1 | UpdateCollectionItemResponse422Type0 | UpdateCollectionItemResponse422Type1 | UpdateCollectionItemResponse422Type2]
     """
 
     kwargs = _get_kwargs(
@@ -143,15 +232,25 @@ def sync(
     variant_id: int | Unset = UNSET,
     collection_item_id: int | Unset = UNSET,
 ) -> (
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404 | None
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
+    | None
 ):
     """Update collection item.
 
-     Updates metadata on an existing collection entry for an issue.
-    Supports partial updates: only send the fields you want to change.
+     Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body),
+    else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent
+    change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         variant_id (int | Unset): Specific variant ID to update (when user has multiple entries).
         collection_item_id (int | Unset): Specific collection item ID to update.
         body (UpdateCollectionItemBody | Unset):
@@ -161,7 +260,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404
+        TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse403 | UpdateCollectionItemResponse404Type0 | UpdateCollectionItemResponse404Type1 | UpdateCollectionItemResponse422Type0 | UpdateCollectionItemResponse422Type1 | UpdateCollectionItemResponse422Type2
     """
 
     return sync_detailed(
@@ -181,15 +280,24 @@ async def asyncio_detailed(
     variant_id: int | Unset = UNSET,
     collection_item_id: int | Unset = UNSET,
 ) -> Response[
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
 ]:
     """Update collection item.
 
-     Updates metadata on an existing collection entry for an issue.
-    Supports partial updates: only send the fields you want to change.
+     Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body),
+    else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent
+    change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         variant_id (int | Unset): Specific variant ID to update (when user has multiple entries).
         collection_item_id (int | Unset): Specific collection item ID to update.
         body (UpdateCollectionItemBody | Unset):
@@ -199,7 +307,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404]
+        Response[TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse403 | UpdateCollectionItemResponse404Type0 | UpdateCollectionItemResponse404Type1 | UpdateCollectionItemResponse422Type0 | UpdateCollectionItemResponse422Type1 | UpdateCollectionItemResponse422Type2]
     """
 
     kwargs = _get_kwargs(
@@ -222,15 +330,25 @@ async def asyncio(
     variant_id: int | Unset = UNSET,
     collection_item_id: int | Unset = UNSET,
 ) -> (
-    TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404 | None
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateCollectionItemResponse200
+    | UpdateCollectionItemResponse403
+    | UpdateCollectionItemResponse404Type0
+    | UpdateCollectionItemResponse404Type1
+    | UpdateCollectionItemResponse422Type0
+    | UpdateCollectionItemResponse422Type1
+    | UpdateCollectionItemResponse422Type2
+    | None
 ):
     """Update collection item.
 
-     Updates metadata on an existing collection entry for an issue.
-    Supports partial updates: only send the fields you want to change.
+     Updates one of the user's copies of the issue: the copy `collection_item_id` names (query or body),
+    else the oldest copy (of the query's `variant_id` cover when one is sent). Only the fields sent
+    change; `tags` replaces the copy's tags. `is_read` and `read_at` set the issue's read status too.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         variant_id (int | Unset): Specific variant ID to update (when user has multiple entries).
         collection_item_id (int | Unset): Specific collection item ID to update.
         body (UpdateCollectionItemBody | Unset):
@@ -240,7 +358,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse404
+        TooManyRequestsError | UnauthorizedError | UpdateCollectionItemResponse200 | UpdateCollectionItemResponse403 | UpdateCollectionItemResponse404Type0 | UpdateCollectionItemResponse404Type1 | UpdateCollectionItemResponse422Type0 | UpdateCollectionItemResponse422Type1 | UpdateCollectionItemResponse422Type2
     """
 
     return (

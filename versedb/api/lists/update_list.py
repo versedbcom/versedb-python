@@ -11,6 +11,8 @@ from ...models.unauthorized_error import UnauthorizedError
 from ...models.update_list_body import UpdateListBody
 from ...models.update_list_response_200 import UpdateListResponse200
 from ...models.update_list_response_403 import UpdateListResponse403
+from ...models.update_list_response_404 import UpdateListResponse404
+from ...models.update_list_response_422 import UpdateListResponse422
 from ...types import UNSET, Response, Unset
 
 
@@ -39,7 +41,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+    | None
+):
     if response.status_code == 200:
         response_200 = UpdateListResponse200.from_dict(response.json())
 
@@ -55,6 +65,16 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = UpdateListResponse404.from_dict(response.json())
+
+        return response_404
+
+    if response.status_code == 422:
+        response_422 = UpdateListResponse422.from_dict(response.json())
+
+        return response_422
+
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
 
@@ -68,7 +88,14 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,13 +109,20 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateListBody | Unset = UNSET,
-) -> Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+]:
     """Update list.
 
      Updates a list's metadata. Wishlists can only update privacy settings.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (UpdateListBody | Unset):
 
     Raises:
@@ -96,7 +130,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403]
+        Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | UpdateListResponse404 | UpdateListResponse422]
     """
 
     kwargs = _get_kwargs(
@@ -116,13 +150,21 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateListBody | Unset = UNSET,
-) -> TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+    | None
+):
     """Update list.
 
      Updates a list's metadata. Wishlists can only update privacy settings.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (UpdateListBody | Unset):
 
     Raises:
@@ -130,7 +172,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403
+        TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | UpdateListResponse404 | UpdateListResponse422
     """
 
     return sync_detailed(
@@ -145,13 +187,20 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateListBody | Unset = UNSET,
-) -> Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+]:
     """Update list.
 
      Updates a list's metadata. Wishlists can only update privacy settings.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (UpdateListBody | Unset):
 
     Raises:
@@ -159,7 +208,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403]
+        Response[TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | UpdateListResponse404 | UpdateListResponse422]
     """
 
     kwargs = _get_kwargs(
@@ -177,13 +226,21 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: UpdateListBody | Unset = UNSET,
-) -> TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UpdateListResponse200
+    | UpdateListResponse403
+    | UpdateListResponse404
+    | UpdateListResponse422
+    | None
+):
     """Update list.
 
      Updates a list's metadata. Wishlists can only update privacy settings.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (UpdateListBody | Unset):
 
     Raises:
@@ -191,7 +248,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403
+        TooManyRequestsError | UnauthorizedError | UpdateListResponse200 | UpdateListResponse403 | UpdateListResponse404 | UpdateListResponse422
     """
 
     return (

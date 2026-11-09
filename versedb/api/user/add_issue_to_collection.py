@@ -9,7 +9,10 @@ from ...client import AuthenticatedClient, Client
 from ...models.add_issue_to_collection_body import AddIssueToCollectionBody
 from ...models.add_issue_to_collection_response_201 import AddIssueToCollectionResponse201
 from ...models.add_issue_to_collection_response_403 import AddIssueToCollectionResponse403
-from ...models.add_issue_to_collection_response_422 import AddIssueToCollectionResponse422
+from ...models.add_issue_to_collection_response_404 import AddIssueToCollectionResponse404
+from ...models.add_issue_to_collection_response_422_type_0 import AddIssueToCollectionResponse422Type0
+from ...models.add_issue_to_collection_response_422_type_1 import AddIssueToCollectionResponse422Type1
+from ...models.add_issue_to_collection_response_422_type_2 import AddIssueToCollectionResponse422Type2
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -43,7 +46,10 @@ def _parse_response(
 ) -> (
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -63,8 +69,43 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = AddIssueToCollectionResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 422:
-        response_422 = AddIssueToCollectionResponse422.from_dict(response.json())
+
+        def _parse_response_422(
+            data: object,
+        ) -> (
+            AddIssueToCollectionResponse422Type0
+            | AddIssueToCollectionResponse422Type1
+            | AddIssueToCollectionResponse422Type2
+        ):
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_0 = AddIssueToCollectionResponse422Type0.from_dict(data)
+
+                return response_422_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_1 = AddIssueToCollectionResponse422Type1.from_dict(data)
+
+                return response_422_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_422_type_2 = AddIssueToCollectionResponse422Type2.from_dict(data)
+
+            return response_422_type_2
+
+        response_422 = _parse_response_422(response.json())
 
         return response_422
 
@@ -84,7 +125,10 @@ def _build_response(
 ) -> Response[
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -104,17 +148,21 @@ def sync_detailed(
 ) -> Response[
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Add issue to collection.
 
-     Adds an issue to the user's default collection. Works for all users (no PRO required).
-    This is the recommended endpoint for mobile collection management.
+     Adds a copy of the issue to the user's collection; every field is optional. When the issue was on
+    the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app
+    can offer it. `follow_up` says whether to offer marking it read or reviewing it.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddIssueToCollectionBody | Unset):
 
     Raises:
@@ -122,7 +170,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse404 | AddIssueToCollectionResponse422Type0 | AddIssueToCollectionResponse422Type1 | AddIssueToCollectionResponse422Type2 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -145,18 +193,22 @@ def sync(
 ) -> (
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Add issue to collection.
 
-     Adds an issue to the user's default collection. Works for all users (no PRO required).
-    This is the recommended endpoint for mobile collection management.
+     Adds a copy of the issue to the user's collection; every field is optional. When the issue was on
+    the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app
+    can offer it. `follow_up` says whether to offer marking it read or reviewing it.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddIssueToCollectionBody | Unset):
 
     Raises:
@@ -164,7 +216,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse422 | TooManyRequestsError | UnauthorizedError
+        AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse404 | AddIssueToCollectionResponse422Type0 | AddIssueToCollectionResponse422Type1 | AddIssueToCollectionResponse422Type2 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -182,17 +234,21 @@ async def asyncio_detailed(
 ) -> Response[
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Add issue to collection.
 
-     Adds an issue to the user's default collection. Works for all users (no PRO required).
-    This is the recommended endpoint for mobile collection management.
+     Adds a copy of the issue to the user's collection; every field is optional. When the issue was on
+    the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app
+    can offer it. `follow_up` says whether to offer marking it read or reviewing it.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddIssueToCollectionBody | Unset):
 
     Raises:
@@ -200,7 +256,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse404 | AddIssueToCollectionResponse422Type0 | AddIssueToCollectionResponse422Type1 | AddIssueToCollectionResponse422Type2 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -221,18 +277,22 @@ async def asyncio(
 ) -> (
     AddIssueToCollectionResponse201
     | AddIssueToCollectionResponse403
-    | AddIssueToCollectionResponse422
+    | AddIssueToCollectionResponse404
+    | AddIssueToCollectionResponse422Type0
+    | AddIssueToCollectionResponse422Type1
+    | AddIssueToCollectionResponse422Type2
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     """Add issue to collection.
 
-     Adds an issue to the user's default collection. Works for all users (no PRO required).
-    This is the recommended endpoint for mobile collection management.
+     Adds a copy of the issue to the user's collection; every field is optional. When the issue was on
+    the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app
+    can offer it. `follow_up` says whether to offer marking it read or reviewing it.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddIssueToCollectionBody | Unset):
 
     Raises:
@@ -240,7 +300,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse422 | TooManyRequestsError | UnauthorizedError
+        AddIssueToCollectionResponse201 | AddIssueToCollectionResponse403 | AddIssueToCollectionResponse404 | AddIssueToCollectionResponse422Type0 | AddIssueToCollectionResponse422Type1 | AddIssueToCollectionResponse422Type2 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

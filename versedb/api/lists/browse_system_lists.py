@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.browse_system_lists_response_200 import BrowseSystemListsResponse200
+from ...models.browse_system_lists_response_403 import BrowseSystemListsResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -16,6 +17,7 @@ def _get_kwargs(
     entity_type: str | Unset = UNSET,
     sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -25,6 +27,8 @@ def _get_kwargs(
     params["sort"] = sort
 
     params["limit"] = limit
+
+    params["page"] = page
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -39,7 +43,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = BrowseSystemListsResponse200.from_dict(response.json())
 
@@ -49,6 +53,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = BrowseSystemListsResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -63,7 +72,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,7 +87,8 @@ def sync_detailed(
     entity_type: str | Unset = UNSET,
     sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Browse system lists.
 
      Returns platform-curated lists (no user owner). These are editorial picks and featured content.
@@ -88,19 +98,21 @@ def sync_detailed(
             story_arcs, teams).
         sort (str | Unset): Sort order (newest, popular).
         limit (int | Unset): Items per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         entity_type=entity_type,
         sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -116,7 +128,8 @@ def sync(
     entity_type: str | Unset = UNSET,
     sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Browse system lists.
 
      Returns platform-curated lists (no user owner). These are editorial picks and featured content.
@@ -126,13 +139,14 @@ def sync(
             story_arcs, teams).
         sort (str | Unset): Sort order (newest, popular).
         limit (int | Unset): Items per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError
+        BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -140,6 +154,7 @@ def sync(
         entity_type=entity_type,
         sort=sort,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -149,7 +164,8 @@ async def asyncio_detailed(
     entity_type: str | Unset = UNSET,
     sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Browse system lists.
 
      Returns platform-curated lists (no user owner). These are editorial picks and featured content.
@@ -159,19 +175,21 @@ async def asyncio_detailed(
             story_arcs, teams).
         sort (str | Unset): Sort order (newest, popular).
         limit (int | Unset): Items per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         entity_type=entity_type,
         sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -185,7 +203,8 @@ async def asyncio(
     entity_type: str | Unset = UNSET,
     sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Browse system lists.
 
      Returns platform-curated lists (no user owner). These are editorial picks and featured content.
@@ -195,13 +214,14 @@ async def asyncio(
             story_arcs, teams).
         sort (str | Unset): Sort order (newest, popular).
         limit (int | Unset): Items per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        BrowseSystemListsResponse200 | TooManyRequestsError | UnauthorizedError
+        BrowseSystemListsResponse200 | BrowseSystemListsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -210,5 +230,6 @@ async def asyncio(
             entity_type=entity_type,
             sort=sort,
             limit=limit,
+            page=page,
         )
     ).parsed

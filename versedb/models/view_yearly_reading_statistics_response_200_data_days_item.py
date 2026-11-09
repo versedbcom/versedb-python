@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="ViewYearlyReadingStatisticsResponse200DataDaysItem")
 
@@ -15,19 +13,20 @@ T = TypeVar("T", bound="ViewYearlyReadingStatisticsResponse200DataDaysItem")
 class ViewYearlyReadingStatisticsResponse200DataDaysItem:
     """
     Attributes:
-        date (str | Unset):
-        count (int | Unset):
-        total (int | Unset):
-        expected (float | Unset):
+        date (None | str):
+        count (int):
+        total (int):
+        expected (float):
     """
 
-    date: str | Unset = UNSET
-    count: int | Unset = UNSET
-    total: int | Unset = UNSET
-    expected: float | Unset = UNSET
+    date: None | str
+    count: int
+    total: int
+    expected: float
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        date: None | str
         date = self.date
 
         count = self.count
@@ -38,28 +37,33 @@ class ViewYearlyReadingStatisticsResponse200DataDaysItem:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if date is not UNSET:
-            field_dict["date"] = date
-        if count is not UNSET:
-            field_dict["count"] = count
-        if total is not UNSET:
-            field_dict["total"] = total
-        if expected is not UNSET:
-            field_dict["expected"] = expected
+        field_dict.update(
+            {
+                "date": date,
+                "count": count,
+                "total": total,
+                "expected": expected,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        date = d.pop("date", UNSET)
 
-        count = d.pop("count", UNSET)
+        def _parse_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        total = d.pop("total", UNSET)
+        date = _parse_date(d.pop("date"))
 
-        expected = d.pop("expected", UNSET)
+        count = d.pop("count")
+
+        total = d.pop("total")
+
+        expected = d.pop("expected")
 
         view_yearly_reading_statistics_response_200_data_days_item = cls(
             date=date,

@@ -7,21 +7,31 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_an_event_response_200 import GetAnEventResponse200
+from ...models.get_an_event_response_403 import GetAnEventResponse403
 from ...models.get_an_event_response_404 import GetAnEventResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     event_id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/events/{event_id}".format(
             event_id=quote(str(event_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -29,7 +39,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetAnEventResponse200
+    | GetAnEventResponse403
+    | GetAnEventResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetAnEventResponse200.from_dict(response.json())
 
@@ -39,6 +56,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetAnEventResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 404:
         response_404 = GetAnEventResponse404.from_dict(response.json())
@@ -58,7 +80,9 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,24 +95,30 @@ def sync_detailed(
     event_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
+]:
     """Get an event.
 
-     Returns full event details including links and map data.
+     Returns full event details including links, map data, guests, exclusives and attendees.
 
     Args:
-        event_id (int):
+        event_id (int): The event ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         event_id=event_id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -102,25 +132,36 @@ def sync(
     event_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetAnEventResponse200
+    | GetAnEventResponse403
+    | GetAnEventResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get an event.
 
-     Returns full event details including links and map data.
+     Returns full event details including links, map data, guests, exclusives and attendees.
 
     Args:
-        event_id (int):
+        event_id (int): The event ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
+        GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         event_id=event_id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -128,24 +169,30 @@ async def asyncio_detailed(
     event_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
+]:
     """Get an event.
 
-     Returns full event details including links and map data.
+     Returns full event details including links, map data, guests, exclusives and attendees.
 
     Args:
-        event_id (int):
+        event_id (int): The event ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         event_id=event_id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -157,25 +204,36 @@ async def asyncio(
     event_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetAnEventResponse200
+    | GetAnEventResponse403
+    | GetAnEventResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get an event.
 
-     Returns full event details including links and map data.
+     Returns full event details including links, map data, guests, exclusives and attendees.
 
     Args:
-        event_id (int):
+        event_id (int): The event ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAnEventResponse200 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
+        GetAnEventResponse200 | GetAnEventResponse403 | GetAnEventResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
         await asyncio_detailed(
             event_id=event_id,
             client=client,
+            languages=languages,
         )
     ).parsed

@@ -9,7 +9,10 @@ from ...client import AuthenticatedClient, Client
 from ...models.add_to_wishlist_body import AddToWishlistBody
 from ...models.add_to_wishlist_response_200 import AddToWishlistResponse200
 from ...models.add_to_wishlist_response_201 import AddToWishlistResponse201
-from ...models.add_to_wishlist_response_422 import AddToWishlistResponse422
+from ...models.add_to_wishlist_response_403 import AddToWishlistResponse403
+from ...models.add_to_wishlist_response_404 import AddToWishlistResponse404
+from ...models.add_to_wishlist_response_422_type_0 import AddToWishlistResponse422Type0
+from ...models.add_to_wishlist_response_422_type_1 import AddToWishlistResponse422Type1
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -43,7 +46,10 @@ def _parse_response(
 ) -> (
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -63,8 +69,34 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = AddToWishlistResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = AddToWishlistResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 422:
-        response_422 = AddToWishlistResponse422.from_dict(response.json())
+
+        def _parse_response_422(data: object) -> AddToWishlistResponse422Type0 | AddToWishlistResponse422Type1:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_422_type_0 = AddToWishlistResponse422Type0.from_dict(data)
+
+                return response_422_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_422_type_1 = AddToWishlistResponse422Type1.from_dict(data)
+
+            return response_422_type_1
+
+        response_422 = _parse_response_422(response.json())
 
         return response_422
 
@@ -84,7 +116,10 @@ def _build_response(
 ) -> Response[
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -104,7 +139,10 @@ def sync_detailed(
 ) -> Response[
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -114,7 +152,7 @@ def sync_detailed(
     with an issue already on the wishlist returns 200 without creating a duplicate.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddToWishlistBody | Unset):
 
     Raises:
@@ -122,7 +160,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse403 | AddToWishlistResponse404 | AddToWishlistResponse422Type0 | AddToWishlistResponse422Type1 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -145,7 +183,10 @@ def sync(
 ) -> (
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -156,7 +197,7 @@ def sync(
     with an issue already on the wishlist returns 200 without creating a duplicate.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddToWishlistBody | Unset):
 
     Raises:
@@ -164,7 +205,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse422 | TooManyRequestsError | UnauthorizedError
+        AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse403 | AddToWishlistResponse404 | AddToWishlistResponse422Type0 | AddToWishlistResponse422Type1 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -182,7 +223,10 @@ async def asyncio_detailed(
 ) -> Response[
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -192,7 +236,7 @@ async def asyncio_detailed(
     with an issue already on the wishlist returns 200 without creating a duplicate.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddToWishlistBody | Unset):
 
     Raises:
@@ -200,7 +244,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse403 | AddToWishlistResponse404 | AddToWishlistResponse422Type0 | AddToWishlistResponse422Type1 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -221,7 +265,10 @@ async def asyncio(
 ) -> (
     AddToWishlistResponse200
     | AddToWishlistResponse201
-    | AddToWishlistResponse422
+    | AddToWishlistResponse403
+    | AddToWishlistResponse404
+    | AddToWishlistResponse422Type0
+    | AddToWishlistResponse422Type1
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -232,7 +279,7 @@ async def asyncio(
     with an issue already on the wishlist returns 200 without creating a duplicate.
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
         body (AddToWishlistBody | Unset):
 
     Raises:
@@ -240,7 +287,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse422 | TooManyRequestsError | UnauthorizedError
+        AddToWishlistResponse200 | AddToWishlistResponse201 | AddToWishlistResponse403 | AddToWishlistResponse404 | AddToWishlistResponse422Type0 | AddToWishlistResponse422Type1 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

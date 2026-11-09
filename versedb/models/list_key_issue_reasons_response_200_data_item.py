@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="ListKeyIssueReasonsResponse200DataItem")
 
@@ -15,51 +13,68 @@ T = TypeVar("T", bound="ListKeyIssueReasonsResponse200DataItem")
 class ListKeyIssueReasonsResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        category (str | Unset):
-        description (str | Unset):
+        id (int):
+        name (None | str):
+        category (None | str): appearance, story, creator, market or media.
+        description (None | str):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    category: str | Unset = UNSET
-    description: str | Unset = UNSET
+    id: int
+    name: None | str
+    category: None | str
+    description: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        name: None | str
         name = self.name
 
+        category: None | str
         category = self.category
 
+        description: None | str
         description = self.description
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if category is not UNSET:
-            field_dict["category"] = category
-        if description is not UNSET:
-            field_dict["description"] = description
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "category": category,
+                "description": description,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        category = d.pop("category", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        description = d.pop("description", UNSET)
+        def _parse_category(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        category = _parse_category(d.pop("category"))
+
+        def _parse_description(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        description = _parse_description(d.pop("description"))
 
         list_key_issue_reasons_response_200_data_item = cls(
             id=id,

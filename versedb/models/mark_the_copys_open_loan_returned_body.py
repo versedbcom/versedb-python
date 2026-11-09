@@ -15,7 +15,7 @@ T = TypeVar("T", bound="MarkTheCopysOpenLoanReturnedBody")
 class MarkTheCopysOpenLoanReturnedBody:
     """
     Attributes:
-        returned_at (None | str | Unset): The day it came back (YYYY-MM-DD). Defaults to today. Must be a valid date.
+        returned_at (None | str | Unset): The day it came back (YYYY-MM-DD). Defaults to today.
     """
 
     returned_at: None | str | Unset = UNSET

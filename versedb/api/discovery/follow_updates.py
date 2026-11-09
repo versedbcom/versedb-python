@@ -6,6 +6,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.follow_updates_response_200 import FollowUpdatesResponse200
+from ...models.follow_updates_response_403 import FollowUpdatesResponse403
+from ...models.follow_updates_response_422 import FollowUpdatesResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -16,6 +18,7 @@ def _get_kwargs(
     days: int | Unset = UNSET,
     page: int | Unset = UNSET,
     per_page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -25,6 +28,8 @@ def _get_kwargs(
     params["page"] = page
 
     params["per_page"] = per_page
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -39,7 +44,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = FollowUpdatesResponse200.from_dict(response.json())
 
@@ -49,6 +61,16 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = FollowUpdatesResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 422:
+        response_422 = FollowUpdatesResponse422.from_dict(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -63,7 +85,13 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -78,7 +106,14 @@ def sync_detailed(
     days: int | Unset = UNSET,
     page: int | Unset = UNSET,
     per_page: int | Unset = UNSET,
-) -> Response[FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Follow updates.
 
      Returns recent releases from the titles, characters, creators, and teams the user
@@ -93,19 +128,22 @@ def sync_detailed(
         days (int | Unset): Lookback window in days (1-90).
         page (int | Unset): Page number for pagination.
         per_page (int | Unset): Items per page (1-50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[FollowUpdatesResponse200 | FollowUpdatesResponse403 | FollowUpdatesResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         days=days,
         page=page,
         per_page=per_page,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -121,7 +159,15 @@ def sync(
     days: int | Unset = UNSET,
     page: int | Unset = UNSET,
     per_page: int | Unset = UNSET,
-) -> FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Follow updates.
 
      Returns recent releases from the titles, characters, creators, and teams the user
@@ -136,13 +182,15 @@ def sync(
         days (int | Unset): Lookback window in days (1-90).
         page (int | Unset): Page number for pagination.
         per_page (int | Unset): Items per page (1-50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError
+        FollowUpdatesResponse200 | FollowUpdatesResponse403 | FollowUpdatesResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -150,6 +198,7 @@ def sync(
         days=days,
         page=page,
         per_page=per_page,
+        languages=languages,
     ).parsed
 
 
@@ -159,7 +208,14 @@ async def asyncio_detailed(
     days: int | Unset = UNSET,
     page: int | Unset = UNSET,
     per_page: int | Unset = UNSET,
-) -> Response[FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Follow updates.
 
      Returns recent releases from the titles, characters, creators, and teams the user
@@ -174,19 +230,22 @@ async def asyncio_detailed(
         days (int | Unset): Lookback window in days (1-90).
         page (int | Unset): Page number for pagination.
         per_page (int | Unset): Items per page (1-50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[FollowUpdatesResponse200 | FollowUpdatesResponse403 | FollowUpdatesResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         days=days,
         page=page,
         per_page=per_page,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -200,7 +259,15 @@ async def asyncio(
     days: int | Unset = UNSET,
     page: int | Unset = UNSET,
     per_page: int | Unset = UNSET,
-) -> FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    FollowUpdatesResponse200
+    | FollowUpdatesResponse403
+    | FollowUpdatesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Follow updates.
 
      Returns recent releases from the titles, characters, creators, and teams the user
@@ -215,13 +282,15 @@ async def asyncio(
         days (int | Unset): Lookback window in days (1-90).
         page (int | Unset): Page number for pagination.
         per_page (int | Unset): Items per page (1-50).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FollowUpdatesResponse200 | TooManyRequestsError | UnauthorizedError
+        FollowUpdatesResponse200 | FollowUpdatesResponse403 | FollowUpdatesResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -230,5 +299,6 @@ async def asyncio(
             days=days,
             page=page,
             per_page=per_page,
+            languages=languages,
         )
     ).parsed

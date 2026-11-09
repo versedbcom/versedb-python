@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_events_response_200 import ListEventsResponse200
+from ...models.list_events_response_403 import ListEventsResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -21,7 +22,12 @@ def _get_kwargs(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -42,7 +48,17 @@ def _get_kwargs(
 
     params["region"] = region
 
+    params["weekend"] = weekend
+
+    params["month"] = month
+
+    params["sort"] = sort
+
     params["limit"] = limit
+
+    params["page"] = page
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -57,7 +73,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListEventsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListEventsResponse200.from_dict(response.json())
 
@@ -67,6 +83,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListEventsResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -81,7 +102,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -101,15 +122,22 @@ def sync_detailed(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List events.
 
-     Returns: id, slug, name, type, dates, location info, logo_url
+     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
+    order with `sort`.
 
     Args:
-        q (str | Unset): Search by event name.
-        type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
+        type_ (str | Unset): Filter by type (convention or store_event).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
         is_online (bool | Unset): Filter online/in-person events.
@@ -117,14 +145,21 @@ def sync_detailed(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -136,7 +171,12 @@ def sync_detailed(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
+        page=page,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -157,15 +197,22 @@ def sync(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListEventsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
 
-     Returns: id, slug, name, type, dates, location info, logo_url
+     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
+    order with `sort`.
 
     Args:
-        q (str | Unset): Search by event name.
-        type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
+        type_ (str | Unset): Filter by type (convention or store_event).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
         is_online (bool | Unset): Filter online/in-person events.
@@ -173,14 +220,21 @@ def sync(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListEventsResponse200 | TooManyRequestsError | UnauthorizedError
+        ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -193,7 +247,12 @@ def sync(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
+        page=page,
+        languages=languages,
     ).parsed
 
 
@@ -208,15 +267,22 @@ async def asyncio_detailed(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List events.
 
-     Returns: id, slug, name, type, dates, location info, logo_url
+     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
+    order with `sort`.
 
     Args:
-        q (str | Unset): Search by event name.
-        type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
+        type_ (str | Unset): Filter by type (convention or store_event).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
         is_online (bool | Unset): Filter online/in-person events.
@@ -224,14 +290,21 @@ async def asyncio_detailed(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListEventsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -243,7 +316,12 @@ async def asyncio_detailed(
         is_fcbd=is_fcbd,
         country_code=country_code,
         region=region,
+        weekend=weekend,
+        month=month,
+        sort=sort,
         limit=limit,
+        page=page,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -262,15 +340,22 @@ async def asyncio(
     is_fcbd: bool | Unset = UNSET,
     country_code: str | Unset = UNSET,
     region: str | Unset = UNSET,
+    weekend: bool | Unset = UNSET,
+    month: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListEventsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
 
-     Returns: id, slug, name, type, dates, location info, logo_url
+     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
+    order with `sort`.
 
     Args:
-        q (str | Unset): Search by event name.
-        type_ (str | Unset): Filter by type (convention, store_event, signing, etc).
+        q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
+            events. Results are ordered by relevance unless `sort` is set.
+        type_ (str | Unset): Filter by type (convention or store_event).
         upcoming (bool | Unset): Only show upcoming events.
         past (bool | Unset): Only show past events.
         is_online (bool | Unset): Filter online/in-person events.
@@ -278,14 +363,21 @@ async def asyncio(
         country_code (str | Unset): Filter by country code.
         region (str | Unset): Filter by region, matched exactly against the stored value. Use the
             values from /events/regions.
+        weekend (bool | Unset): Only events running this Friday to Sunday.
+        month (str | Unset): Only events starting in this month, as YYYY-MM.
+        sort (str | Unset): One of date_asc, date_desc, name_asc, name_desc. Defaults to date_desc
+            with `past`, date_asc otherwise; a `q` search without `sort` keeps relevance order.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListEventsResponse200 | TooManyRequestsError | UnauthorizedError
+        ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -299,6 +391,11 @@ async def asyncio(
             is_fcbd=is_fcbd,
             country_code=country_code,
             region=region,
+            weekend=weekend,
+            month=month,
+            sort=sort,
             limit=limit,
+            page=page,
+            languages=languages,
         )
     ).parsed

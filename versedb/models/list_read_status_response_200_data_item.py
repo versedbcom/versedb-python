@@ -6,11 +6,10 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
-    from ..models.list_read_status_response_200_data_item_issue import ListReadStatusResponse200DataItemIssue
-    from ..models.list_read_status_response_200_data_item_series import ListReadStatusResponse200DataItemSeries
+    from ..models.list_read_status_response_200_data_item_readable_type_0 import (
+        ListReadStatusResponse200DataItemReadableType0,
+    )
 
 
 T = TypeVar("T", bound="ListReadStatusResponse200DataItem")
@@ -20,98 +19,145 @@ T = TypeVar("T", bound="ListReadStatusResponse200DataItem")
 class ListReadStatusResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        issue (ListReadStatusResponse200DataItemIssue | Unset):
-        series (ListReadStatusResponse200DataItemSeries | Unset):
-        variant_id (None | str | Unset):
-        read_at (str | Unset):
+        id (int):
+        user_id (int):
+        readable_type (str):
+        readable_id (int):
+        variant_id (int | None):
+        read_at (None | str):
+        created_at (None | str):
+        updated_at (None | str):
+        readable (ListReadStatusResponse200DataItemReadableType0 | None): Null once the issue is gone.
     """
 
-    id: int | Unset = UNSET
-    issue: ListReadStatusResponse200DataItemIssue | Unset = UNSET
-    series: ListReadStatusResponse200DataItemSeries | Unset = UNSET
-    variant_id: None | str | Unset = UNSET
-    read_at: str | Unset = UNSET
+    id: int
+    user_id: int
+    readable_type: str
+    readable_id: int
+    variant_id: int | None
+    read_at: None | str
+    created_at: None | str
+    updated_at: None | str
+    readable: ListReadStatusResponse200DataItemReadableType0 | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.list_read_status_response_200_data_item_readable_type_0 import (
+            ListReadStatusResponse200DataItemReadableType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
-        issue: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.issue, Unset):
-            issue = self.issue.to_dict()
+        user_id = self.user_id
 
-        series: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.series, Unset):
-            series = self.series.to_dict()
+        readable_type = self.readable_type
 
-        variant_id: None | str | Unset
-        if isinstance(self.variant_id, Unset):
-            variant_id = UNSET
-        else:
-            variant_id = self.variant_id
+        readable_id = self.readable_id
 
+        variant_id: int | None
+        variant_id = self.variant_id
+
+        read_at: None | str
         read_at = self.read_at
+
+        created_at: None | str
+        created_at = self.created_at
+
+        updated_at: None | str
+        updated_at = self.updated_at
+
+        readable: dict[str, Any] | None
+        if isinstance(self.readable, ListReadStatusResponse200DataItemReadableType0):
+            readable = self.readable.to_dict()
+        else:
+            readable = self.readable
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if issue is not UNSET:
-            field_dict["issue"] = issue
-        if series is not UNSET:
-            field_dict["series"] = series
-        if variant_id is not UNSET:
-            field_dict["variant_id"] = variant_id
-        if read_at is not UNSET:
-            field_dict["read_at"] = read_at
+        field_dict.update(
+            {
+                "id": id,
+                "user_id": user_id,
+                "readable_type": readable_type,
+                "readable_id": readable_id,
+                "variant_id": variant_id,
+                "read_at": read_at,
+                "created_at": created_at,
+                "updated_at": updated_at,
+                "readable": readable,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_read_status_response_200_data_item_issue import (
-            ListReadStatusResponse200DataItemIssue,  # noqa: PLC0415
-        )
-        from ..models.list_read_status_response_200_data_item_series import (
-            ListReadStatusResponse200DataItemSeries,  # noqa: PLC0415
+        from ..models.list_read_status_response_200_data_item_readable_type_0 import (
+            ListReadStatusResponse200DataItemReadableType0,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        _issue = d.pop("issue", UNSET)
-        issue: ListReadStatusResponse200DataItemIssue | Unset
-        if isinstance(_issue, Unset):
-            issue = UNSET
-        else:
-            issue = ListReadStatusResponse200DataItemIssue.from_dict(_issue)
+        user_id = d.pop("user_id")
 
-        _series = d.pop("series", UNSET)
-        series: ListReadStatusResponse200DataItemSeries | Unset
-        if isinstance(_series, Unset):
-            series = UNSET
-        else:
-            series = ListReadStatusResponse200DataItemSeries.from_dict(_series)
+        readable_type = d.pop("readable_type")
 
-        def _parse_variant_id(data: object) -> None | str | Unset:
+        readable_id = d.pop("readable_id")
+
+        def _parse_variant_id(data: object) -> int | None:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(int | None, data)
+
+        variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        def _parse_read_at(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
+        read_at = _parse_read_at(d.pop("read_at"))
 
-        read_at = d.pop("read_at", UNSET)
+        def _parse_created_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        created_at = _parse_created_at(d.pop("created_at"))
+
+        def _parse_updated_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        updated_at = _parse_updated_at(d.pop("updated_at"))
+
+        def _parse_readable(data: object) -> ListReadStatusResponse200DataItemReadableType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                readable_type_0 = ListReadStatusResponse200DataItemReadableType0.from_dict(data)
+
+                return readable_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListReadStatusResponse200DataItemReadableType0 | None, data)
+
+        readable = _parse_readable(d.pop("readable"))
 
         list_read_status_response_200_data_item = cls(
             id=id,
-            issue=issue,
-            series=series,
+            user_id=user_id,
+            readable_type=readable_type,
+            readable_id=readable_id,
             variant_id=variant_id,
             read_at=read_at,
+            created_at=created_at,
+            updated_at=updated_at,
+            readable=readable,
         )
 
         list_read_status_response_200_data_item.additional_properties = d

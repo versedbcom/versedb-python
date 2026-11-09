@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+if TYPE_CHECKING:
+    from ..models.like_list_or_react_to_it_response_422_errors import LikeListOrReactToItResponse422Errors
+
 
 T = TypeVar("T", bound="LikeListOrReactToItResponse422")
 
@@ -15,30 +17,50 @@ T = TypeVar("T", bound="LikeListOrReactToItResponse422")
 class LikeListOrReactToItResponse422:
     """
     Attributes:
-        message (str | Unset):
+        message (str):
+        errors (LikeListOrReactToItResponse422Errors):
+        available_reactions (list[str]):
     """
 
-    message: str | Unset = UNSET
+    message: str
+    errors: LikeListOrReactToItResponse422Errors
+    available_reactions: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
+        errors = self.errors.to_dict()
+
+        available_reactions = self.available_reactions
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
+        field_dict.update(
+            {
+                "message": message,
+                "errors": errors,
+                "available_reactions": available_reactions,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.like_list_or_react_to_it_response_422_errors import LikeListOrReactToItResponse422Errors  # noqa: PLC0415
+
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
+
+        errors = LikeListOrReactToItResponse422Errors.from_dict(d.pop("errors"))
+
+        available_reactions = cast(list[str], d.pop("available_reactions"))
 
         like_list_or_react_to_it_response_422 = cls(
             message=message,
+            errors=errors,
+            available_reactions=available_reactions,
         )
 
         like_list_or_react_to_it_response_422.additional_properties = d

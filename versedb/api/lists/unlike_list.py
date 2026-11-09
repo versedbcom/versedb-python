@@ -10,6 +10,8 @@ from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...models.unlike_list_response_200_type_0 import UnlikeListResponse200Type0
 from ...models.unlike_list_response_200_type_1 import UnlikeListResponse200Type1
+from ...models.unlike_list_response_403 import UnlikeListResponse403
+from ...models.unlike_list_response_404 import UnlikeListResponse404
 from ...types import Response
 
 
@@ -29,7 +31,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+    | None
+):
     if response.status_code == 200:
 
         def _parse_response_200(data: object) -> UnlikeListResponse200Type0 | UnlikeListResponse200Type1:
@@ -56,6 +66,16 @@ def _parse_response(
 
         return response_401
 
+    if response.status_code == 403:
+        response_403 = UnlikeListResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = UnlikeListResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
 
@@ -69,7 +89,14 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,20 +109,27 @@ def sync_detailed(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+]:
     """Unlike list.
 
      Removes the user's like or reaction from a list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1]
+        Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | UnlikeListResponse403 | UnlikeListResponse404]
     """
 
     kwargs = _get_kwargs(
@@ -113,20 +147,28 @@ def sync(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+    | None
+):
     """Unlike list.
 
      Removes the user's like or reaction from a list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1
+        TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | UnlikeListResponse403 | UnlikeListResponse404
     """
 
     return sync_detailed(
@@ -139,20 +181,27 @@ async def asyncio_detailed(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1]:
+) -> Response[
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+]:
     """Unlike list.
 
      Removes the user's like or reaction from a list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1]
+        Response[TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | UnlikeListResponse403 | UnlikeListResponse404]
     """
 
     kwargs = _get_kwargs(
@@ -168,20 +217,28 @@ async def asyncio(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | None:
+) -> (
+    TooManyRequestsError
+    | UnauthorizedError
+    | UnlikeListResponse200Type0
+    | UnlikeListResponse200Type1
+    | UnlikeListResponse403
+    | UnlikeListResponse404
+    | None
+):
     """Unlike list.
 
      Removes the user's like or reaction from a list.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1
+        TooManyRequestsError | UnauthorizedError | UnlikeListResponse200Type0 | UnlikeListResponse200Type1 | UnlikeListResponse403 | UnlikeListResponse404
     """
 
     return (

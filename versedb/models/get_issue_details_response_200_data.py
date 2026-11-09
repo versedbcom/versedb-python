@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -9,13 +9,31 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.get_issue_details_response_200_data_availabilities_item import (
+        GetIssueDetailsResponse200DataAvailabilitiesItem,
+    )
+    from ..models.get_issue_details_response_200_data_awards_item import GetIssueDetailsResponse200DataAwardsItem
     from ..models.get_issue_details_response_200_data_characters_item import (
         GetIssueDetailsResponse200DataCharactersItem,
     )
+    from ..models.get_issue_details_response_200_data_comic_events_item import (
+        GetIssueDetailsResponse200DataComicEventsItem,
+    )
     from ..models.get_issue_details_response_200_data_creators_item import GetIssueDetailsResponse200DataCreatorsItem
-    from ..models.get_issue_details_response_200_data_publisher import GetIssueDetailsResponse200DataPublisher
-    from ..models.get_issue_details_response_200_data_series import GetIssueDetailsResponse200DataSeries
+    from ..models.get_issue_details_response_200_data_images_type_0 import GetIssueDetailsResponse200DataImagesType0
+    from ..models.get_issue_details_response_200_data_imprint import GetIssueDetailsResponse200DataImprint
+    from ..models.get_issue_details_response_200_data_key_issue_reasons_item import (
+        GetIssueDetailsResponse200DataKeyIssueReasonsItem,
+    )
+    from ..models.get_issue_details_response_200_data_name_i18n import GetIssueDetailsResponse200DataNameI18N
+    from ..models.get_issue_details_response_200_data_publisher_type_0 import (
+        GetIssueDetailsResponse200DataPublisherType0,
+    )
+    from ..models.get_issue_details_response_200_data_series_type_0 import GetIssueDetailsResponse200DataSeriesType0
+    from ..models.get_issue_details_response_200_data_story_arcs_item import GetIssueDetailsResponse200DataStoryArcsItem
+    from ..models.get_issue_details_response_200_data_teams_item import GetIssueDetailsResponse200DataTeamsItem
     from ..models.get_issue_details_response_200_data_title import GetIssueDetailsResponse200DataTitle
+    from ..models.get_issue_details_response_200_data_universes_item import GetIssueDetailsResponse200DataUniversesItem
 
 
 T = TypeVar("T", bound="GetIssueDetailsResponse200Data")
@@ -25,216 +43,708 @@ T = TypeVar("T", bound="GetIssueDetailsResponse200Data")
 class GetIssueDetailsResponse200Data:
     """
     Attributes:
-        id (int | Unset):
-        slug (str | Unset):
-        series_id (int | Unset):
-        issue_number (str | Unset):
-        name (str | Unset):
-        solicitation (str | Unset):
-        release_date (str | Unset):
-        cover_date (str | Unset):
-        cover_url (str | Unset):
-        is_reprint (bool | Unset):
-        content_rating_label (str | Unset):
-        min_age (int | Unset):
-        is_nsfw (bool | Unset):
-        page_count (int | Unset):
-        price (str | Unset):
-        upc (str | Unset):
-        series (GetIssueDetailsResponse200DataSeries | Unset):
+        id (int):
+        slug (None | str):
+        series_id (int | None):
+        issue_number (None | str):
+        name (None | str):
+        solicitation (None | str):
+        release_date (None | str):
+        foc_date (None | str):
+        cover_date (None | str):
+        is_unreleased (bool):
+        cover_url (None | str):
+        images (GetIssueDetailsResponse200DataImagesType0 | None):
+        is_reprint (bool | None):
+        content_rating_label (None | str):
+        min_age (int | None):
+        is_nsfw (bool | None):
+        page_count (int | None):
+        price (None | str):
+        currency_code (None | str):
+        formatted_price (None | str):
+        isbn (None | str):
+        upc (None | str):
+        lunar_code (None | str):
+        universal_code (None | str):
+        diamond_code (None | str):
+        ean (None | str):
+        issn (None | str):
+        is_anthology (bool | None):
+        is_tie_in (bool):
+        adapted_from (None | str):
+        print_run (int | None):
+        locations (None | str):
+        sku (None | str):
+        variant_count (int):
+        reads_count (int):
+        series (GetIssueDetailsResponse200DataSeriesType0 | None):
+        awards (list[GetIssueDetailsResponse200DataAwardsItem]):
+        creators (list[GetIssueDetailsResponse200DataCreatorsItem]):
+        characters (list[GetIssueDetailsResponse200DataCharactersItem]):
+        teams (list[GetIssueDetailsResponse200DataTeamsItem]):
+        story_arcs (list[GetIssueDetailsResponse200DataStoryArcsItem]):
+        universes (list[GetIssueDetailsResponse200DataUniversesItem]):
+        comic_events (list[GetIssueDetailsResponse200DataComicEventsItem]):
+        key_issue_reasons (list[GetIssueDetailsResponse200DataKeyIssueReasonsItem]):
+        availabilities (list[GetIssueDetailsResponse200DataAvailabilitiesItem]):
+        name_i18n (GetIssueDetailsResponse200DataNameI18N): One name per language, keyed by BCP 47 tag.
+        average_rating (float | Unset):
+        review_count (int | Unset):
         title (GetIssueDetailsResponse200DataTitle | Unset):
-        publisher (GetIssueDetailsResponse200DataPublisher | Unset):
-        creators (list[GetIssueDetailsResponse200DataCreatorsItem] | Unset):
-        characters (list[GetIssueDetailsResponse200DataCharactersItem] | Unset):
+        publisher (GetIssueDetailsResponse200DataPublisherType0 | None | Unset):
+        imprint (GetIssueDetailsResponse200DataImprint | Unset):
     """
 
-    id: int | Unset = UNSET
-    slug: str | Unset = UNSET
-    series_id: int | Unset = UNSET
-    issue_number: str | Unset = UNSET
-    name: str | Unset = UNSET
-    solicitation: str | Unset = UNSET
-    release_date: str | Unset = UNSET
-    cover_date: str | Unset = UNSET
-    cover_url: str | Unset = UNSET
-    is_reprint: bool | Unset = UNSET
-    content_rating_label: str | Unset = UNSET
-    min_age: int | Unset = UNSET
-    is_nsfw: bool | Unset = UNSET
-    page_count: int | Unset = UNSET
-    price: str | Unset = UNSET
-    upc: str | Unset = UNSET
-    series: GetIssueDetailsResponse200DataSeries | Unset = UNSET
+    id: int
+    slug: None | str
+    series_id: int | None
+    issue_number: None | str
+    name: None | str
+    solicitation: None | str
+    release_date: None | str
+    foc_date: None | str
+    cover_date: None | str
+    is_unreleased: bool
+    cover_url: None | str
+    images: GetIssueDetailsResponse200DataImagesType0 | None
+    is_reprint: bool | None
+    content_rating_label: None | str
+    min_age: int | None
+    is_nsfw: bool | None
+    page_count: int | None
+    price: None | str
+    currency_code: None | str
+    formatted_price: None | str
+    isbn: None | str
+    upc: None | str
+    lunar_code: None | str
+    universal_code: None | str
+    diamond_code: None | str
+    ean: None | str
+    issn: None | str
+    is_anthology: bool | None
+    is_tie_in: bool
+    adapted_from: None | str
+    print_run: int | None
+    locations: None | str
+    sku: None | str
+    variant_count: int
+    reads_count: int
+    series: GetIssueDetailsResponse200DataSeriesType0 | None
+    awards: list[GetIssueDetailsResponse200DataAwardsItem]
+    creators: list[GetIssueDetailsResponse200DataCreatorsItem]
+    characters: list[GetIssueDetailsResponse200DataCharactersItem]
+    teams: list[GetIssueDetailsResponse200DataTeamsItem]
+    story_arcs: list[GetIssueDetailsResponse200DataStoryArcsItem]
+    universes: list[GetIssueDetailsResponse200DataUniversesItem]
+    comic_events: list[GetIssueDetailsResponse200DataComicEventsItem]
+    key_issue_reasons: list[GetIssueDetailsResponse200DataKeyIssueReasonsItem]
+    availabilities: list[GetIssueDetailsResponse200DataAvailabilitiesItem]
+    name_i18n: GetIssueDetailsResponse200DataNameI18N
+    average_rating: float | Unset = UNSET
+    review_count: int | Unset = UNSET
     title: GetIssueDetailsResponse200DataTitle | Unset = UNSET
-    publisher: GetIssueDetailsResponse200DataPublisher | Unset = UNSET
-    creators: list[GetIssueDetailsResponse200DataCreatorsItem] | Unset = UNSET
-    characters: list[GetIssueDetailsResponse200DataCharactersItem] | Unset = UNSET
+    publisher: GetIssueDetailsResponse200DataPublisherType0 | None | Unset = UNSET
+    imprint: GetIssueDetailsResponse200DataImprint | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_issue_details_response_200_data_images_type_0 import GetIssueDetailsResponse200DataImagesType0  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_publisher_type_0 import (
+            GetIssueDetailsResponse200DataPublisherType0,  # noqa: PLC0415
+        )
+        from ..models.get_issue_details_response_200_data_series_type_0 import GetIssueDetailsResponse200DataSeriesType0  # noqa: PLC0415
+
         id = self.id
 
+        slug: None | str
         slug = self.slug
 
+        series_id: int | None
         series_id = self.series_id
 
+        issue_number: None | str
         issue_number = self.issue_number
 
+        name: None | str
         name = self.name
 
+        solicitation: None | str
         solicitation = self.solicitation
 
+        release_date: None | str
         release_date = self.release_date
 
+        foc_date: None | str
+        foc_date = self.foc_date
+
+        cover_date: None | str
         cover_date = self.cover_date
 
+        is_unreleased = self.is_unreleased
+
+        cover_url: None | str
         cover_url = self.cover_url
 
+        images: dict[str, Any] | None
+        if isinstance(self.images, GetIssueDetailsResponse200DataImagesType0):
+            images = self.images.to_dict()
+        else:
+            images = self.images
+
+        is_reprint: bool | None
         is_reprint = self.is_reprint
 
+        content_rating_label: None | str
         content_rating_label = self.content_rating_label
 
+        min_age: int | None
         min_age = self.min_age
 
+        is_nsfw: bool | None
         is_nsfw = self.is_nsfw
 
+        page_count: int | None
         page_count = self.page_count
 
+        price: None | str
         price = self.price
 
+        currency_code: None | str
+        currency_code = self.currency_code
+
+        formatted_price: None | str
+        formatted_price = self.formatted_price
+
+        isbn: None | str
+        isbn = self.isbn
+
+        upc: None | str
         upc = self.upc
 
-        series: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.series, Unset):
+        lunar_code: None | str
+        lunar_code = self.lunar_code
+
+        universal_code: None | str
+        universal_code = self.universal_code
+
+        diamond_code: None | str
+        diamond_code = self.diamond_code
+
+        ean: None | str
+        ean = self.ean
+
+        issn: None | str
+        issn = self.issn
+
+        is_anthology: bool | None
+        is_anthology = self.is_anthology
+
+        is_tie_in = self.is_tie_in
+
+        adapted_from: None | str
+        adapted_from = self.adapted_from
+
+        print_run: int | None
+        print_run = self.print_run
+
+        locations: None | str
+        locations = self.locations
+
+        sku: None | str
+        sku = self.sku
+
+        variant_count = self.variant_count
+
+        reads_count = self.reads_count
+
+        series: dict[str, Any] | None
+        if isinstance(self.series, GetIssueDetailsResponse200DataSeriesType0):
             series = self.series.to_dict()
+        else:
+            series = self.series
+
+        awards = []
+        for awards_item_data in self.awards:
+            awards_item = awards_item_data.to_dict()
+            awards.append(awards_item)
+
+        creators = []
+        for creators_item_data in self.creators:
+            creators_item = creators_item_data.to_dict()
+            creators.append(creators_item)
+
+        characters = []
+        for characters_item_data in self.characters:
+            characters_item = characters_item_data.to_dict()
+            characters.append(characters_item)
+
+        teams = []
+        for teams_item_data in self.teams:
+            teams_item = teams_item_data.to_dict()
+            teams.append(teams_item)
+
+        story_arcs = []
+        for story_arcs_item_data in self.story_arcs:
+            story_arcs_item = story_arcs_item_data.to_dict()
+            story_arcs.append(story_arcs_item)
+
+        universes = []
+        for universes_item_data in self.universes:
+            universes_item = universes_item_data.to_dict()
+            universes.append(universes_item)
+
+        comic_events = []
+        for comic_events_item_data in self.comic_events:
+            comic_events_item = comic_events_item_data.to_dict()
+            comic_events.append(comic_events_item)
+
+        key_issue_reasons = []
+        for key_issue_reasons_item_data in self.key_issue_reasons:
+            key_issue_reasons_item = key_issue_reasons_item_data.to_dict()
+            key_issue_reasons.append(key_issue_reasons_item)
+
+        availabilities = []
+        for availabilities_item_data in self.availabilities:
+            availabilities_item = availabilities_item_data.to_dict()
+            availabilities.append(availabilities_item)
+
+        name_i18n = self.name_i18n.to_dict()
+
+        average_rating = self.average_rating
+
+        review_count = self.review_count
 
         title: dict[str, Any] | Unset = UNSET
         if not isinstance(self.title, Unset):
             title = self.title.to_dict()
 
-        publisher: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.publisher, Unset):
+        publisher: dict[str, Any] | None | Unset
+        if isinstance(self.publisher, Unset):
+            publisher = UNSET
+        elif isinstance(self.publisher, GetIssueDetailsResponse200DataPublisherType0):
             publisher = self.publisher.to_dict()
+        else:
+            publisher = self.publisher
 
-        creators: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.creators, Unset):
-            creators = []
-            for creators_item_data in self.creators:
-                creators_item = creators_item_data.to_dict()
-                creators.append(creators_item)
-
-        characters: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.characters, Unset):
-            characters = []
-            for characters_item_data in self.characters:
-                characters_item = characters_item_data.to_dict()
-                characters.append(characters_item)
+        imprint: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.imprint, Unset):
+            imprint = self.imprint.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if series_id is not UNSET:
-            field_dict["series_id"] = series_id
-        if issue_number is not UNSET:
-            field_dict["issue_number"] = issue_number
-        if name is not UNSET:
-            field_dict["name"] = name
-        if solicitation is not UNSET:
-            field_dict["solicitation"] = solicitation
-        if release_date is not UNSET:
-            field_dict["release_date"] = release_date
-        if cover_date is not UNSET:
-            field_dict["cover_date"] = cover_date
-        if cover_url is not UNSET:
-            field_dict["cover_url"] = cover_url
-        if is_reprint is not UNSET:
-            field_dict["is_reprint"] = is_reprint
-        if content_rating_label is not UNSET:
-            field_dict["content_rating_label"] = content_rating_label
-        if min_age is not UNSET:
-            field_dict["min_age"] = min_age
-        if is_nsfw is not UNSET:
-            field_dict["is_nsfw"] = is_nsfw
-        if page_count is not UNSET:
-            field_dict["page_count"] = page_count
-        if price is not UNSET:
-            field_dict["price"] = price
-        if upc is not UNSET:
-            field_dict["upc"] = upc
-        if series is not UNSET:
-            field_dict["series"] = series
+        field_dict.update(
+            {
+                "id": id,
+                "slug": slug,
+                "series_id": series_id,
+                "issue_number": issue_number,
+                "name": name,
+                "solicitation": solicitation,
+                "release_date": release_date,
+                "foc_date": foc_date,
+                "cover_date": cover_date,
+                "is_unreleased": is_unreleased,
+                "cover_url": cover_url,
+                "images": images,
+                "is_reprint": is_reprint,
+                "content_rating_label": content_rating_label,
+                "min_age": min_age,
+                "is_nsfw": is_nsfw,
+                "page_count": page_count,
+                "price": price,
+                "currency_code": currency_code,
+                "formatted_price": formatted_price,
+                "isbn": isbn,
+                "upc": upc,
+                "lunar_code": lunar_code,
+                "universal_code": universal_code,
+                "diamond_code": diamond_code,
+                "ean": ean,
+                "issn": issn,
+                "is_anthology": is_anthology,
+                "is_tie_in": is_tie_in,
+                "adapted_from": adapted_from,
+                "print_run": print_run,
+                "locations": locations,
+                "sku": sku,
+                "variant_count": variant_count,
+                "reads_count": reads_count,
+                "series": series,
+                "awards": awards,
+                "creators": creators,
+                "characters": characters,
+                "teams": teams,
+                "story_arcs": story_arcs,
+                "universes": universes,
+                "comic_events": comic_events,
+                "key_issue_reasons": key_issue_reasons,
+                "availabilities": availabilities,
+                "name_i18n": name_i18n,
+            }
+        )
+        if average_rating is not UNSET:
+            field_dict["average_rating"] = average_rating
+        if review_count is not UNSET:
+            field_dict["review_count"] = review_count
         if title is not UNSET:
             field_dict["title"] = title
         if publisher is not UNSET:
             field_dict["publisher"] = publisher
-        if creators is not UNSET:
-            field_dict["creators"] = creators
-        if characters is not UNSET:
-            field_dict["characters"] = characters
+        if imprint is not UNSET:
+            field_dict["imprint"] = imprint
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_issue_details_response_200_data_availabilities_item import (
+            GetIssueDetailsResponse200DataAvailabilitiesItem,  # noqa: PLC0415
+        )
+        from ..models.get_issue_details_response_200_data_awards_item import GetIssueDetailsResponse200DataAwardsItem  # noqa: PLC0415
         from ..models.get_issue_details_response_200_data_characters_item import (
             GetIssueDetailsResponse200DataCharactersItem,  # noqa: PLC0415
+        )
+        from ..models.get_issue_details_response_200_data_comic_events_item import (
+            GetIssueDetailsResponse200DataComicEventsItem,  # noqa: PLC0415
         )
         from ..models.get_issue_details_response_200_data_creators_item import (
             GetIssueDetailsResponse200DataCreatorsItem,  # noqa: PLC0415
         )
-        from ..models.get_issue_details_response_200_data_publisher import (
-            GetIssueDetailsResponse200DataPublisher,  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_images_type_0 import GetIssueDetailsResponse200DataImagesType0  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_imprint import GetIssueDetailsResponse200DataImprint  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_key_issue_reasons_item import (
+            GetIssueDetailsResponse200DataKeyIssueReasonsItem,  # noqa: PLC0415
         )
-        from ..models.get_issue_details_response_200_data_series import (
-            GetIssueDetailsResponse200DataSeries,  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_name_i18n import GetIssueDetailsResponse200DataNameI18N  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_publisher_type_0 import (
+            GetIssueDetailsResponse200DataPublisherType0,  # noqa: PLC0415
         )
-        from ..models.get_issue_details_response_200_data_title import (
-            GetIssueDetailsResponse200DataTitle,  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_series_type_0 import GetIssueDetailsResponse200DataSeriesType0  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_story_arcs_item import (
+            GetIssueDetailsResponse200DataStoryArcsItem,  # noqa: PLC0415
+        )
+        from ..models.get_issue_details_response_200_data_teams_item import GetIssueDetailsResponse200DataTeamsItem  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_title import GetIssueDetailsResponse200DataTitle  # noqa: PLC0415
+        from ..models.get_issue_details_response_200_data_universes_item import (
+            GetIssueDetailsResponse200DataUniversesItem,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        slug = d.pop("slug", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        series_id = d.pop("series_id", UNSET)
+        slug = _parse_slug(d.pop("slug"))
 
-        issue_number = d.pop("issue_number", UNSET)
+        def _parse_series_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        name = d.pop("name", UNSET)
+        series_id = _parse_series_id(d.pop("series_id"))
 
-        solicitation = d.pop("solicitation", UNSET)
+        def _parse_issue_number(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        release_date = d.pop("release_date", UNSET)
+        issue_number = _parse_issue_number(d.pop("issue_number"))
 
-        cover_date = d.pop("cover_date", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        cover_url = d.pop("cover_url", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        is_reprint = d.pop("is_reprint", UNSET)
+        def _parse_solicitation(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        content_rating_label = d.pop("content_rating_label", UNSET)
+        solicitation = _parse_solicitation(d.pop("solicitation"))
 
-        min_age = d.pop("min_age", UNSET)
+        def _parse_release_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        is_nsfw = d.pop("is_nsfw", UNSET)
+        release_date = _parse_release_date(d.pop("release_date"))
 
-        page_count = d.pop("page_count", UNSET)
+        def _parse_foc_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        price = d.pop("price", UNSET)
+        foc_date = _parse_foc_date(d.pop("foc_date"))
 
-        upc = d.pop("upc", UNSET)
+        def _parse_cover_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _series = d.pop("series", UNSET)
-        series: GetIssueDetailsResponse200DataSeries | Unset
-        if isinstance(_series, Unset):
-            series = UNSET
-        else:
-            series = GetIssueDetailsResponse200DataSeries.from_dict(_series)
+        cover_date = _parse_cover_date(d.pop("cover_date"))
+
+        is_unreleased = d.pop("is_unreleased")
+
+        def _parse_cover_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_url = _parse_cover_url(d.pop("cover_url"))
+
+        def _parse_images(data: object) -> GetIssueDetailsResponse200DataImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = GetIssueDetailsResponse200DataImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetIssueDetailsResponse200DataImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        def _parse_is_reprint(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_reprint = _parse_is_reprint(d.pop("is_reprint"))
+
+        def _parse_content_rating_label(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        content_rating_label = _parse_content_rating_label(d.pop("content_rating_label"))
+
+        def _parse_min_age(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        min_age = _parse_min_age(d.pop("min_age"))
+
+        def _parse_is_nsfw(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_nsfw = _parse_is_nsfw(d.pop("is_nsfw"))
+
+        def _parse_page_count(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        page_count = _parse_page_count(d.pop("page_count"))
+
+        def _parse_price(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        price = _parse_price(d.pop("price"))
+
+        def _parse_currency_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        currency_code = _parse_currency_code(d.pop("currency_code"))
+
+        def _parse_formatted_price(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        formatted_price = _parse_formatted_price(d.pop("formatted_price"))
+
+        def _parse_isbn(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        isbn = _parse_isbn(d.pop("isbn"))
+
+        def _parse_upc(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        upc = _parse_upc(d.pop("upc"))
+
+        def _parse_lunar_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        lunar_code = _parse_lunar_code(d.pop("lunar_code"))
+
+        def _parse_universal_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        universal_code = _parse_universal_code(d.pop("universal_code"))
+
+        def _parse_diamond_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        diamond_code = _parse_diamond_code(d.pop("diamond_code"))
+
+        def _parse_ean(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        ean = _parse_ean(d.pop("ean"))
+
+        def _parse_issn(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        issn = _parse_issn(d.pop("issn"))
+
+        def _parse_is_anthology(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_anthology = _parse_is_anthology(d.pop("is_anthology"))
+
+        is_tie_in = d.pop("is_tie_in")
+
+        def _parse_adapted_from(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        adapted_from = _parse_adapted_from(d.pop("adapted_from"))
+
+        def _parse_print_run(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        print_run = _parse_print_run(d.pop("print_run"))
+
+        def _parse_locations(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        locations = _parse_locations(d.pop("locations"))
+
+        def _parse_sku(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        sku = _parse_sku(d.pop("sku"))
+
+        variant_count = d.pop("variant_count")
+
+        reads_count = d.pop("reads_count")
+
+        def _parse_series(data: object) -> GetIssueDetailsResponse200DataSeriesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                series_type_0 = GetIssueDetailsResponse200DataSeriesType0.from_dict(data)
+
+                return series_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetIssueDetailsResponse200DataSeriesType0 | None, data)
+
+        series = _parse_series(d.pop("series"))
+
+        awards = []
+        _awards = d.pop("awards")
+        for awards_item_data in _awards:
+            awards_item = GetIssueDetailsResponse200DataAwardsItem.from_dict(awards_item_data)
+
+            awards.append(awards_item)
+
+        creators = []
+        _creators = d.pop("creators")
+        for creators_item_data in _creators:
+            creators_item = GetIssueDetailsResponse200DataCreatorsItem.from_dict(creators_item_data)
+
+            creators.append(creators_item)
+
+        characters = []
+        _characters = d.pop("characters")
+        for characters_item_data in _characters:
+            characters_item = GetIssueDetailsResponse200DataCharactersItem.from_dict(characters_item_data)
+
+            characters.append(characters_item)
+
+        teams = []
+        _teams = d.pop("teams")
+        for teams_item_data in _teams:
+            teams_item = GetIssueDetailsResponse200DataTeamsItem.from_dict(teams_item_data)
+
+            teams.append(teams_item)
+
+        story_arcs = []
+        _story_arcs = d.pop("story_arcs")
+        for story_arcs_item_data in _story_arcs:
+            story_arcs_item = GetIssueDetailsResponse200DataStoryArcsItem.from_dict(story_arcs_item_data)
+
+            story_arcs.append(story_arcs_item)
+
+        universes = []
+        _universes = d.pop("universes")
+        for universes_item_data in _universes:
+            universes_item = GetIssueDetailsResponse200DataUniversesItem.from_dict(universes_item_data)
+
+            universes.append(universes_item)
+
+        comic_events = []
+        _comic_events = d.pop("comic_events")
+        for comic_events_item_data in _comic_events:
+            comic_events_item = GetIssueDetailsResponse200DataComicEventsItem.from_dict(comic_events_item_data)
+
+            comic_events.append(comic_events_item)
+
+        key_issue_reasons = []
+        _key_issue_reasons = d.pop("key_issue_reasons")
+        for key_issue_reasons_item_data in _key_issue_reasons:
+            key_issue_reasons_item = GetIssueDetailsResponse200DataKeyIssueReasonsItem.from_dict(
+                key_issue_reasons_item_data
+            )
+
+            key_issue_reasons.append(key_issue_reasons_item)
+
+        availabilities = []
+        _availabilities = d.pop("availabilities")
+        for availabilities_item_data in _availabilities:
+            availabilities_item = GetIssueDetailsResponse200DataAvailabilitiesItem.from_dict(availabilities_item_data)
+
+            availabilities.append(availabilities_item)
+
+        name_i18n = GetIssueDetailsResponse200DataNameI18N.from_dict(d.pop("name_i18n"))
+
+        average_rating = d.pop("average_rating", UNSET)
+
+        review_count = d.pop("review_count", UNSET)
 
         _title = d.pop("title", UNSET)
         title: GetIssueDetailsResponse200DataTitle | Unset
@@ -243,30 +753,29 @@ class GetIssueDetailsResponse200Data:
         else:
             title = GetIssueDetailsResponse200DataTitle.from_dict(_title)
 
-        _publisher = d.pop("publisher", UNSET)
-        publisher: GetIssueDetailsResponse200DataPublisher | Unset
-        if isinstance(_publisher, Unset):
-            publisher = UNSET
+        def _parse_publisher(data: object) -> GetIssueDetailsResponse200DataPublisherType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                publisher_type_0 = GetIssueDetailsResponse200DataPublisherType0.from_dict(data)
+
+                return publisher_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetIssueDetailsResponse200DataPublisherType0 | None | Unset, data)
+
+        publisher = _parse_publisher(d.pop("publisher", UNSET))
+
+        _imprint = d.pop("imprint", UNSET)
+        imprint: GetIssueDetailsResponse200DataImprint | Unset
+        if isinstance(_imprint, Unset):
+            imprint = UNSET
         else:
-            publisher = GetIssueDetailsResponse200DataPublisher.from_dict(_publisher)
-
-        _creators = d.pop("creators", UNSET)
-        creators: list[GetIssueDetailsResponse200DataCreatorsItem] | Unset = UNSET
-        if _creators is not UNSET:
-            creators = []
-            for creators_item_data in _creators:
-                creators_item = GetIssueDetailsResponse200DataCreatorsItem.from_dict(creators_item_data)
-
-                creators.append(creators_item)
-
-        _characters = d.pop("characters", UNSET)
-        characters: list[GetIssueDetailsResponse200DataCharactersItem] | Unset = UNSET
-        if _characters is not UNSET:
-            characters = []
-            for characters_item_data in _characters:
-                characters_item = GetIssueDetailsResponse200DataCharactersItem.from_dict(characters_item_data)
-
-                characters.append(characters_item)
+            imprint = GetIssueDetailsResponse200DataImprint.from_dict(_imprint)
 
         get_issue_details_response_200_data = cls(
             id=id,
@@ -276,20 +785,50 @@ class GetIssueDetailsResponse200Data:
             name=name,
             solicitation=solicitation,
             release_date=release_date,
+            foc_date=foc_date,
             cover_date=cover_date,
+            is_unreleased=is_unreleased,
             cover_url=cover_url,
+            images=images,
             is_reprint=is_reprint,
             content_rating_label=content_rating_label,
             min_age=min_age,
             is_nsfw=is_nsfw,
             page_count=page_count,
             price=price,
+            currency_code=currency_code,
+            formatted_price=formatted_price,
+            isbn=isbn,
             upc=upc,
+            lunar_code=lunar_code,
+            universal_code=universal_code,
+            diamond_code=diamond_code,
+            ean=ean,
+            issn=issn,
+            is_anthology=is_anthology,
+            is_tie_in=is_tie_in,
+            adapted_from=adapted_from,
+            print_run=print_run,
+            locations=locations,
+            sku=sku,
+            variant_count=variant_count,
+            reads_count=reads_count,
             series=series,
-            title=title,
-            publisher=publisher,
+            awards=awards,
             creators=creators,
             characters=characters,
+            teams=teams,
+            story_arcs=story_arcs,
+            universes=universes,
+            comic_events=comic_events,
+            key_issue_reasons=key_issue_reasons,
+            availabilities=availabilities,
+            name_i18n=name_i18n,
+            average_rating=average_rating,
+            review_count=review_count,
+            title=title,
+            publisher=publisher,
+            imprint=imprint,
         )
 
         get_issue_details_response_200_data.additional_properties = d

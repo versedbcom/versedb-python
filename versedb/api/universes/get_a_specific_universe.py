@@ -7,20 +7,30 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_a_specific_universe_response_200 import GetASpecificUniverseResponse200
+from ...models.get_a_specific_universe_response_403 import GetASpecificUniverseResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     universe_id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/universes/{universe_id}".format(
             universe_id=quote(str(universe_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -28,7 +38,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     if response.status_code == 200:
         response_200 = GetASpecificUniverseResponse200.from_dict(response.json())
 
@@ -38,6 +50,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetASpecificUniverseResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -52,7 +69,9 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,7 +84,10 @@ def sync_detailed(
     universe_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     """Get a specific universe
 
      Returns: id, name
@@ -75,18 +97,21 @@ def sync_detailed(
     - /universes/{id}/characters - Get characters in a universe
 
     Args:
-        universe_id (int):
+        universe_id (int): The ID of the universe.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         universe_id=universe_id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -100,7 +125,10 @@ def sync(
     universe_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     """Get a specific universe
 
      Returns: id, name
@@ -110,19 +138,22 @@ def sync(
     - /universes/{id}/characters - Get characters in a universe
 
     Args:
-        universe_id (int):
+        universe_id (int): The ID of the universe.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError
+        GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         universe_id=universe_id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -130,7 +161,10 @@ async def asyncio_detailed(
     universe_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     """Get a specific universe
 
      Returns: id, name
@@ -140,18 +174,21 @@ async def asyncio_detailed(
     - /universes/{id}/characters - Get characters in a universe
 
     Args:
-        universe_id (int):
+        universe_id (int): The ID of the universe.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         universe_id=universe_id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -163,7 +200,10 @@ async def asyncio(
     universe_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     """Get a specific universe
 
      Returns: id, name
@@ -173,19 +213,22 @@ async def asyncio(
     - /universes/{id}/characters - Get characters in a universe
 
     Args:
-        universe_id (int):
+        universe_id (int): The ID of the universe.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetASpecificUniverseResponse200 | TooManyRequestsError | UnauthorizedError
+        GetASpecificUniverseResponse200 | GetASpecificUniverseResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
         await asyncio_detailed(
             universe_id=universe_id,
             client=client,
+            languages=languages,
         )
     ).parsed

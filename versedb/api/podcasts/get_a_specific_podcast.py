@@ -7,6 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_a_specific_podcast_response_200 import GetASpecificPodcastResponse200
+from ...models.get_a_specific_podcast_response_403 import GetASpecificPodcastResponse403
 from ...models.get_a_specific_podcast_response_404 import GetASpecificPodcastResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -29,7 +30,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetASpecificPodcastResponse200.from_dict(response.json())
 
@@ -39,6 +47,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetASpecificPodcastResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 404:
         response_404 = GetASpecificPodcastResponse404.from_dict(response.json())
@@ -59,7 +72,11 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -74,21 +91,25 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Get a specific podcast.
 
      Returns full detail for one podcast, including its feed, platform links, and categories.
 
     Args:
-        podcast_id (int):
+        podcast_id (int): The ID of the podcast.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetASpecificPodcastResponse200 | GetASpecificPodcastResponse403 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -106,20 +127,27 @@ def sync(
     podcast_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get a specific podcast.
 
      Returns full detail for one podcast, including its feed, platform links, and categories.
 
     Args:
-        podcast_id (int):
+        podcast_id (int): The ID of the podcast.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
+        GetASpecificPodcastResponse200 | GetASpecificPodcastResponse403 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -133,21 +161,25 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Get a specific podcast.
 
      Returns full detail for one podcast, including its feed, platform links, and categories.
 
     Args:
-        podcast_id (int):
+        podcast_id (int): The ID of the podcast.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetASpecificPodcastResponse200 | GetASpecificPodcastResponse403 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -163,20 +195,27 @@ async def asyncio(
     podcast_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetASpecificPodcastResponse200
+    | GetASpecificPodcastResponse403
+    | GetASpecificPodcastResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get a specific podcast.
 
      Returns full detail for one podcast, including its feed, platform links, and categories.
 
     Args:
-        podcast_id (int):
+        podcast_id (int): The ID of the podcast.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetASpecificPodcastResponse200 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
+        GetASpecificPodcastResponse200 | GetASpecificPodcastResponse403 | GetASpecificPodcastResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

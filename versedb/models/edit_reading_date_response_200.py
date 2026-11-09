@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="EditReadingDateResponse200")
 
 
@@ -15,10 +13,10 @@ T = TypeVar("T", bound="EditReadingDateResponse200")
 class EditReadingDateResponse200:
     """
     Attributes:
-        read_at (str | Unset):
+        read_at (str):
     """
 
-    read_at: str | Unset = UNSET
+    read_at: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -26,16 +24,18 @@ class EditReadingDateResponse200:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if read_at is not UNSET:
-            field_dict["read_at"] = read_at
+        field_dict.update(
+            {
+                "read_at": read_at,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        read_at = d.pop("read_at", UNSET)
+        read_at = d.pop("read_at")
 
         edit_reading_date_response_200 = cls(
             read_at=read_at,

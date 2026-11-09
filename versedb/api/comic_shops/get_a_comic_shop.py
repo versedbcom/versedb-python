@@ -7,21 +7,31 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_a_comic_shop_response_200 import GetAComicShopResponse200
+from ...models.get_a_comic_shop_response_403 import GetAComicShopResponse403
 from ...models.get_a_comic_shop_response_404 import GetAComicShopResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     shop_id: int,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/shops/{shop_id}".format(
             shop_id=quote(str(shop_id), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -29,7 +39,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetAComicShopResponse200.from_dict(response.json())
 
@@ -39,6 +56,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetAComicShopResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 404:
         response_404 = GetAComicShopResponse404.from_dict(response.json())
@@ -58,7 +80,13 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -71,7 +99,14 @@ def sync_detailed(
     shop_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get a comic shop.
 
      Returns full shop details including services offered.
@@ -81,19 +116,29 @@ def sync_detailed(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
-        shop_id (int):
+        shop_id (int): The shop ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetAComicShopResponse200 | GetAComicShopResponse403 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         shop_id=shop_id,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -107,7 +152,15 @@ def sync(
     shop_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get a comic shop.
 
      Returns full shop details including services offered.
@@ -117,20 +170,30 @@ def sync(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
-        shop_id (int):
+        shop_id (int): The shop ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError
+        GetAComicShopResponse200 | GetAComicShopResponse403 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         shop_id=shop_id,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -138,7 +201,14 @@ async def asyncio_detailed(
     shop_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get a comic shop.
 
      Returns full shop details including services offered.
@@ -148,19 +218,29 @@ async def asyncio_detailed(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
-        shop_id (int):
+        shop_id (int): The shop ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[GetAComicShopResponse200 | GetAComicShopResponse403 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         shop_id=shop_id,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -172,7 +252,15 @@ async def asyncio(
     shop_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetAComicShopResponse200
+    | GetAComicShopResponse403
+    | GetAComicShopResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get a comic shop.
 
      Returns full shop details including services offered.
@@ -182,20 +270,30 @@ async def asyncio(
     (a split shift reads `09:00-13:00,15:00-19:00`). A day missing from the map
     has unknown hours — that is not the same as the shop being closed that day.
 
+    `special_hours` lists dated exceptions to the weekly hours, ordered by start
+    date: holiday closures, stocktake days, late openings for a release. Each entry
+    has `from` and `to` (inclusive `YYYY-MM-DD` dates, equal for a single day),
+    `hours` in the same grammar as `operating_hours`, and an optional `note`. On the
+    dates it covers, an entry replaces the weekly hours. Entries that have already
+    ended are left out, so an empty list means no exceptions are coming up.
+
     Args:
-        shop_id (int):
+        shop_id (int): The shop ID.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetAComicShopResponse200 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError
+        GetAComicShopResponse200 | GetAComicShopResponse403 | GetAComicShopResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
         await asyncio_detailed(
             shop_id=shop_id,
             client=client,
+            languages=languages,
         )
     ).parsed

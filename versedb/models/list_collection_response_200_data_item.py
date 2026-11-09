@@ -9,8 +9,11 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.list_collection_response_200_data_item_collectable import ListCollectionResponse200DataItemCollectable
+    from ..models.list_collection_response_200_data_item_collectable_type_0 import (
+        ListCollectionResponse200DataItemCollectableType0,
+    )
     from ..models.list_collection_response_200_data_item_comic_shop import ListCollectionResponse200DataItemComicShop
+    from ..models.list_collection_response_200_data_item_loan_type_0 import ListCollectionResponse200DataItemLoanType0
 
 
 T = TypeVar("T", bound="ListCollectionResponse200DataItem")
@@ -20,95 +23,121 @@ T = TypeVar("T", bound="ListCollectionResponse200DataItem")
 class ListCollectionResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        user_id (int | Unset):
-        collectable_type (str | Unset):
-        collectable_id (int | Unset):
-        variant_id (None | str | Unset):
-        condition (str | Unset):
-        purchased_at (str | Unset):
-        notes (str | Unset):
-        format_ (str | Unset):
-        storage_location (str | Unset):
-        price_paid (float | Unset):
-        is_variant (bool | Unset):
-        variant_description (None | str | Unset):
-        variant_type (None | str | Unset):
-        graded (bool | Unset):
-        grade_score (str | Unset):
-        grading_company (str | Unset):
-        grading_number (str | Unset):
-        label_type (str | Unset):
-        page_quality (str | Unset):
-        grader_notes (None | str | Unset):
-        purchase_source (str | Unset):
-        comic_shop_id (int | Unset):
-        comic_shop (ListCollectionResponse200DataItemComicShop | Unset):
-        acquisition_method (str | Unset):
-        is_signed (bool | Unset):
-        signed_by (None | str | Unset):
-        signature_witness (None | str | Unset):
-        signature_authenticated (bool | Unset):
-        is_cgc_ss (bool | Unset):
-        print_number (int | Unset):
-        estimated_value (float | Unset):
-        value_last_updated (str | Unset):
-        for_sale (bool | Unset):
-        for_trade (bool | Unset):
-        is_public (bool | Unset):
-        cover_scan_url (None | str | Unset):
-        cover_scan_url_lg (None | str | Unset):
-        cover_scan_uploaded_at (None | str | Unset):
-        created_at (str | Unset):
-        updated_at (str | Unset):
-        collectable (ListCollectionResponse200DataItemCollectable | Unset):
+        id (int):
+        user_id (int):
+        collectable_type (str):
+        collectable_id (int):
+        variant_id (int | None):
+        condition (None | str):
+        format_ (None | str):
+        is_variant (bool | None):
+        variant_description (None | str):
+        variant_type (None | str):
+        graded (bool | None):
+        grade_score (None | str):
+        grading_company (None | str):
+        grading_number (None | str):
+        label_type (None | str):
+        page_quality (None | str):
+        is_signed (bool | None):
+        signed_by (None | str):
+        signature_witness (None | str):
+        signature_authenticated (bool):
+        is_cgc_ss (bool):
+        print_number (None | str):
+        status (None | str): `owned`, `for_sale` or `sold`.
+        for_sale (bool | None):
+        for_trade (bool | None):
+        is_public (bool | None):
+        cover_scan_url (None | str):
+        cover_scan_url_lg (None | str):
+        cover_scan_uploaded_at (None | str):
+        created_at (None | str):
+        updated_at (None | str):
+        collectable (ListCollectionResponse200DataItemCollectableType0 | None): Null once the issue is gone.
+        purchased_at (None | str | Unset): Left out for a `read:showcase` token.
+        notes (None | str | Unset): Left out for a `read:showcase` token.
+        storage_location (None | str | Unset): Left out for a `read:showcase` token.
+        price_paid (None | str | Unset): Left out for a `read:showcase` token.
+        grader_notes (None | str | Unset): Left out for a `read:showcase` token.
+        purchase_source (None | str | Unset): Left out for a `read:showcase` token.
+        comic_shop_id (int | None | Unset): Left out for a `read:showcase` token.
+        comic_shop (ListCollectionResponse200DataItemComicShop | Unset): The shop the copy came from, while it is
+            listed; left out otherwise and for a `read:showcase` token.
+        acquisition_method (None | str | Unset): Left out for a `read:showcase` token.
+        purchase_store (None | str | Unset): Left out for a `read:showcase` token.
+        custom_label (None | str | Unset): Left out for a `read:showcase` token.
+        bagged_at (None | str | Unset): Left out for a `read:showcase` token.
+        personal_rating (None | str | Unset): Left out for a `read:showcase` token.
+        tags (list[str] | Unset): Left out for a `read:showcase` token.
+        loan (ListCollectionResponse200DataItemLoanType0 | None | Unset): Left out for a `read:showcase` token.
+        estimated_value (None | str | Unset): Left out for a `read:showcase` token.
+        value_last_updated (None | str | Unset): Left out for a `read:showcase` token.
+        sold_at (None | str | Unset): Left out for a `read:showcase` token.
+        price_sold (None | str | Unset): Left out for a `read:showcase` token.
     """
 
-    id: int | Unset = UNSET
-    user_id: int | Unset = UNSET
-    collectable_type: str | Unset = UNSET
-    collectable_id: int | Unset = UNSET
-    variant_id: None | str | Unset = UNSET
-    condition: str | Unset = UNSET
-    purchased_at: str | Unset = UNSET
-    notes: str | Unset = UNSET
-    format_: str | Unset = UNSET
-    storage_location: str | Unset = UNSET
-    price_paid: float | Unset = UNSET
-    is_variant: bool | Unset = UNSET
-    variant_description: None | str | Unset = UNSET
-    variant_type: None | str | Unset = UNSET
-    graded: bool | Unset = UNSET
-    grade_score: str | Unset = UNSET
-    grading_company: str | Unset = UNSET
-    grading_number: str | Unset = UNSET
-    label_type: str | Unset = UNSET
-    page_quality: str | Unset = UNSET
+    id: int
+    user_id: int
+    collectable_type: str
+    collectable_id: int
+    variant_id: int | None
+    condition: None | str
+    format_: None | str
+    is_variant: bool | None
+    variant_description: None | str
+    variant_type: None | str
+    graded: bool | None
+    grade_score: None | str
+    grading_company: None | str
+    grading_number: None | str
+    label_type: None | str
+    page_quality: None | str
+    is_signed: bool | None
+    signed_by: None | str
+    signature_witness: None | str
+    signature_authenticated: bool
+    is_cgc_ss: bool
+    print_number: None | str
+    status: None | str
+    for_sale: bool | None
+    for_trade: bool | None
+    is_public: bool | None
+    cover_scan_url: None | str
+    cover_scan_url_lg: None | str
+    cover_scan_uploaded_at: None | str
+    created_at: None | str
+    updated_at: None | str
+    collectable: ListCollectionResponse200DataItemCollectableType0 | None
+    purchased_at: None | str | Unset = UNSET
+    notes: None | str | Unset = UNSET
+    storage_location: None | str | Unset = UNSET
+    price_paid: None | str | Unset = UNSET
     grader_notes: None | str | Unset = UNSET
-    purchase_source: str | Unset = UNSET
-    comic_shop_id: int | Unset = UNSET
+    purchase_source: None | str | Unset = UNSET
+    comic_shop_id: int | None | Unset = UNSET
     comic_shop: ListCollectionResponse200DataItemComicShop | Unset = UNSET
-    acquisition_method: str | Unset = UNSET
-    is_signed: bool | Unset = UNSET
-    signed_by: None | str | Unset = UNSET
-    signature_witness: None | str | Unset = UNSET
-    signature_authenticated: bool | Unset = UNSET
-    is_cgc_ss: bool | Unset = UNSET
-    print_number: int | Unset = UNSET
-    estimated_value: float | Unset = UNSET
-    value_last_updated: str | Unset = UNSET
-    for_sale: bool | Unset = UNSET
-    for_trade: bool | Unset = UNSET
-    is_public: bool | Unset = UNSET
-    cover_scan_url: None | str | Unset = UNSET
-    cover_scan_url_lg: None | str | Unset = UNSET
-    cover_scan_uploaded_at: None | str | Unset = UNSET
-    created_at: str | Unset = UNSET
-    updated_at: str | Unset = UNSET
-    collectable: ListCollectionResponse200DataItemCollectable | Unset = UNSET
+    acquisition_method: None | str | Unset = UNSET
+    purchase_store: None | str | Unset = UNSET
+    custom_label: None | str | Unset = UNSET
+    bagged_at: None | str | Unset = UNSET
+    personal_rating: None | str | Unset = UNSET
+    tags: list[str] | Unset = UNSET
+    loan: ListCollectionResponse200DataItemLoanType0 | None | Unset = UNSET
+    estimated_value: None | str | Unset = UNSET
+    value_last_updated: None | str | Unset = UNSET
+    sold_at: None | str | Unset = UNSET
+    price_sold: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.list_collection_response_200_data_item_collectable_type_0 import (
+            ListCollectionResponse200DataItemCollectableType0,  # noqa: PLC0415
+        )
+        from ..models.list_collection_response_200_data_item_loan_type_0 import (
+            ListCollectionResponse200DataItemLoanType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
         user_id = self.user_id
@@ -117,49 +146,114 @@ class ListCollectionResponse200DataItem:
 
         collectable_id = self.collectable_id
 
-        variant_id: None | str | Unset
-        if isinstance(self.variant_id, Unset):
-            variant_id = UNSET
-        else:
-            variant_id = self.variant_id
+        variant_id: int | None
+        variant_id = self.variant_id
 
+        condition: None | str
         condition = self.condition
 
-        purchased_at = self.purchased_at
-
-        notes = self.notes
-
+        format_: None | str
         format_ = self.format_
 
-        storage_location = self.storage_location
-
-        price_paid = self.price_paid
-
+        is_variant: bool | None
         is_variant = self.is_variant
 
-        variant_description: None | str | Unset
-        if isinstance(self.variant_description, Unset):
-            variant_description = UNSET
-        else:
-            variant_description = self.variant_description
+        variant_description: None | str
+        variant_description = self.variant_description
 
-        variant_type: None | str | Unset
-        if isinstance(self.variant_type, Unset):
-            variant_type = UNSET
-        else:
-            variant_type = self.variant_type
+        variant_type: None | str
+        variant_type = self.variant_type
 
+        graded: bool | None
         graded = self.graded
 
+        grade_score: None | str
         grade_score = self.grade_score
 
+        grading_company: None | str
         grading_company = self.grading_company
 
+        grading_number: None | str
         grading_number = self.grading_number
 
+        label_type: None | str
         label_type = self.label_type
 
+        page_quality: None | str
         page_quality = self.page_quality
+
+        is_signed: bool | None
+        is_signed = self.is_signed
+
+        signed_by: None | str
+        signed_by = self.signed_by
+
+        signature_witness: None | str
+        signature_witness = self.signature_witness
+
+        signature_authenticated = self.signature_authenticated
+
+        is_cgc_ss = self.is_cgc_ss
+
+        print_number: None | str
+        print_number = self.print_number
+
+        status: None | str
+        status = self.status
+
+        for_sale: bool | None
+        for_sale = self.for_sale
+
+        for_trade: bool | None
+        for_trade = self.for_trade
+
+        is_public: bool | None
+        is_public = self.is_public
+
+        cover_scan_url: None | str
+        cover_scan_url = self.cover_scan_url
+
+        cover_scan_url_lg: None | str
+        cover_scan_url_lg = self.cover_scan_url_lg
+
+        cover_scan_uploaded_at: None | str
+        cover_scan_uploaded_at = self.cover_scan_uploaded_at
+
+        created_at: None | str
+        created_at = self.created_at
+
+        updated_at: None | str
+        updated_at = self.updated_at
+
+        collectable: dict[str, Any] | None
+        if isinstance(self.collectable, ListCollectionResponse200DataItemCollectableType0):
+            collectable = self.collectable.to_dict()
+        else:
+            collectable = self.collectable
+
+        purchased_at: None | str | Unset
+        if isinstance(self.purchased_at, Unset):
+            purchased_at = UNSET
+        else:
+            purchased_at = self.purchased_at
+
+        notes: None | str | Unset
+        if isinstance(self.notes, Unset):
+            notes = UNSET
+        else:
+            notes = self.notes
+
+        storage_location: None | str | Unset
+        if isinstance(self.storage_location, Unset):
+            storage_location = UNSET
+        else:
+            storage_location = self.storage_location
+
+        price_paid: None | str | Unset
+        if isinstance(self.price_paid, Unset):
+            price_paid = UNSET
+        else:
+            price_paid = self.price_paid
 
         grader_notes: None | str | Unset
         if isinstance(self.grader_notes, Unset):
@@ -167,115 +261,134 @@ class ListCollectionResponse200DataItem:
         else:
             grader_notes = self.grader_notes
 
-        purchase_source = self.purchase_source
+        purchase_source: None | str | Unset
+        if isinstance(self.purchase_source, Unset):
+            purchase_source = UNSET
+        else:
+            purchase_source = self.purchase_source
 
-        comic_shop_id = self.comic_shop_id
+        comic_shop_id: int | None | Unset
+        if isinstance(self.comic_shop_id, Unset):
+            comic_shop_id = UNSET
+        else:
+            comic_shop_id = self.comic_shop_id
 
         comic_shop: dict[str, Any] | Unset = UNSET
         if not isinstance(self.comic_shop, Unset):
             comic_shop = self.comic_shop.to_dict()
 
-        acquisition_method = self.acquisition_method
-
-        is_signed = self.is_signed
-
-        signed_by: None | str | Unset
-        if isinstance(self.signed_by, Unset):
-            signed_by = UNSET
+        acquisition_method: None | str | Unset
+        if isinstance(self.acquisition_method, Unset):
+            acquisition_method = UNSET
         else:
-            signed_by = self.signed_by
+            acquisition_method = self.acquisition_method
 
-        signature_witness: None | str | Unset
-        if isinstance(self.signature_witness, Unset):
-            signature_witness = UNSET
+        purchase_store: None | str | Unset
+        if isinstance(self.purchase_store, Unset):
+            purchase_store = UNSET
         else:
-            signature_witness = self.signature_witness
+            purchase_store = self.purchase_store
 
-        signature_authenticated = self.signature_authenticated
-
-        is_cgc_ss = self.is_cgc_ss
-
-        print_number = self.print_number
-
-        estimated_value = self.estimated_value
-
-        value_last_updated = self.value_last_updated
-
-        for_sale = self.for_sale
-
-        for_trade = self.for_trade
-
-        is_public = self.is_public
-
-        cover_scan_url: None | str | Unset
-        if isinstance(self.cover_scan_url, Unset):
-            cover_scan_url = UNSET
+        custom_label: None | str | Unset
+        if isinstance(self.custom_label, Unset):
+            custom_label = UNSET
         else:
-            cover_scan_url = self.cover_scan_url
+            custom_label = self.custom_label
 
-        cover_scan_url_lg: None | str | Unset
-        if isinstance(self.cover_scan_url_lg, Unset):
-            cover_scan_url_lg = UNSET
+        bagged_at: None | str | Unset
+        if isinstance(self.bagged_at, Unset):
+            bagged_at = UNSET
         else:
-            cover_scan_url_lg = self.cover_scan_url_lg
+            bagged_at = self.bagged_at
 
-        cover_scan_uploaded_at: None | str | Unset
-        if isinstance(self.cover_scan_uploaded_at, Unset):
-            cover_scan_uploaded_at = UNSET
+        personal_rating: None | str | Unset
+        if isinstance(self.personal_rating, Unset):
+            personal_rating = UNSET
         else:
-            cover_scan_uploaded_at = self.cover_scan_uploaded_at
+            personal_rating = self.personal_rating
 
-        created_at = self.created_at
+        tags: list[str] | Unset = UNSET
+        if not isinstance(self.tags, Unset):
+            tags = self.tags
 
-        updated_at = self.updated_at
+        loan: dict[str, Any] | None | Unset
+        if isinstance(self.loan, Unset):
+            loan = UNSET
+        elif isinstance(self.loan, ListCollectionResponse200DataItemLoanType0):
+            loan = self.loan.to_dict()
+        else:
+            loan = self.loan
 
-        collectable: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.collectable, Unset):
-            collectable = self.collectable.to_dict()
+        estimated_value: None | str | Unset
+        if isinstance(self.estimated_value, Unset):
+            estimated_value = UNSET
+        else:
+            estimated_value = self.estimated_value
+
+        value_last_updated: None | str | Unset
+        if isinstance(self.value_last_updated, Unset):
+            value_last_updated = UNSET
+        else:
+            value_last_updated = self.value_last_updated
+
+        sold_at: None | str | Unset
+        if isinstance(self.sold_at, Unset):
+            sold_at = UNSET
+        else:
+            sold_at = self.sold_at
+
+        price_sold: None | str | Unset
+        if isinstance(self.price_sold, Unset):
+            price_sold = UNSET
+        else:
+            price_sold = self.price_sold
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if user_id is not UNSET:
-            field_dict["user_id"] = user_id
-        if collectable_type is not UNSET:
-            field_dict["collectable_type"] = collectable_type
-        if collectable_id is not UNSET:
-            field_dict["collectable_id"] = collectable_id
-        if variant_id is not UNSET:
-            field_dict["variant_id"] = variant_id
-        if condition is not UNSET:
-            field_dict["condition"] = condition
+        field_dict.update(
+            {
+                "id": id,
+                "user_id": user_id,
+                "collectable_type": collectable_type,
+                "collectable_id": collectable_id,
+                "variant_id": variant_id,
+                "condition": condition,
+                "format": format_,
+                "is_variant": is_variant,
+                "variant_description": variant_description,
+                "variant_type": variant_type,
+                "graded": graded,
+                "grade_score": grade_score,
+                "grading_company": grading_company,
+                "grading_number": grading_number,
+                "label_type": label_type,
+                "page_quality": page_quality,
+                "is_signed": is_signed,
+                "signed_by": signed_by,
+                "signature_witness": signature_witness,
+                "signature_authenticated": signature_authenticated,
+                "is_cgc_ss": is_cgc_ss,
+                "print_number": print_number,
+                "status": status,
+                "for_sale": for_sale,
+                "for_trade": for_trade,
+                "is_public": is_public,
+                "cover_scan_url": cover_scan_url,
+                "cover_scan_url_lg": cover_scan_url_lg,
+                "cover_scan_uploaded_at": cover_scan_uploaded_at,
+                "created_at": created_at,
+                "updated_at": updated_at,
+                "collectable": collectable,
+            }
+        )
         if purchased_at is not UNSET:
             field_dict["purchased_at"] = purchased_at
         if notes is not UNSET:
             field_dict["notes"] = notes
-        if format_ is not UNSET:
-            field_dict["format"] = format_
         if storage_location is not UNSET:
             field_dict["storage_location"] = storage_location
         if price_paid is not UNSET:
             field_dict["price_paid"] = price_paid
-        if is_variant is not UNSET:
-            field_dict["is_variant"] = is_variant
-        if variant_description is not UNSET:
-            field_dict["variant_description"] = variant_description
-        if variant_type is not UNSET:
-            field_dict["variant_type"] = variant_type
-        if graded is not UNSET:
-            field_dict["graded"] = graded
-        if grade_score is not UNSET:
-            field_dict["grade_score"] = grade_score
-        if grading_company is not UNSET:
-            field_dict["grading_company"] = grading_company
-        if grading_number is not UNSET:
-            field_dict["grading_number"] = grading_number
-        if label_type is not UNSET:
-            field_dict["label_type"] = label_type
-        if page_quality is not UNSET:
-            field_dict["page_quality"] = page_quality
         if grader_notes is not UNSET:
             field_dict["grader_notes"] = grader_notes
         if purchase_source is not UNSET:
@@ -286,113 +399,279 @@ class ListCollectionResponse200DataItem:
             field_dict["comic_shop"] = comic_shop
         if acquisition_method is not UNSET:
             field_dict["acquisition_method"] = acquisition_method
-        if is_signed is not UNSET:
-            field_dict["is_signed"] = is_signed
-        if signed_by is not UNSET:
-            field_dict["signed_by"] = signed_by
-        if signature_witness is not UNSET:
-            field_dict["signature_witness"] = signature_witness
-        if signature_authenticated is not UNSET:
-            field_dict["signature_authenticated"] = signature_authenticated
-        if is_cgc_ss is not UNSET:
-            field_dict["is_cgc_ss"] = is_cgc_ss
-        if print_number is not UNSET:
-            field_dict["print_number"] = print_number
+        if purchase_store is not UNSET:
+            field_dict["purchase_store"] = purchase_store
+        if custom_label is not UNSET:
+            field_dict["custom_label"] = custom_label
+        if bagged_at is not UNSET:
+            field_dict["bagged_at"] = bagged_at
+        if personal_rating is not UNSET:
+            field_dict["personal_rating"] = personal_rating
+        if tags is not UNSET:
+            field_dict["tags"] = tags
+        if loan is not UNSET:
+            field_dict["loan"] = loan
         if estimated_value is not UNSET:
             field_dict["estimated_value"] = estimated_value
         if value_last_updated is not UNSET:
             field_dict["value_last_updated"] = value_last_updated
-        if for_sale is not UNSET:
-            field_dict["for_sale"] = for_sale
-        if for_trade is not UNSET:
-            field_dict["for_trade"] = for_trade
-        if is_public is not UNSET:
-            field_dict["is_public"] = is_public
-        if cover_scan_url is not UNSET:
-            field_dict["cover_scan_url"] = cover_scan_url
-        if cover_scan_url_lg is not UNSET:
-            field_dict["cover_scan_url_lg"] = cover_scan_url_lg
-        if cover_scan_uploaded_at is not UNSET:
-            field_dict["cover_scan_uploaded_at"] = cover_scan_uploaded_at
-        if created_at is not UNSET:
-            field_dict["created_at"] = created_at
-        if updated_at is not UNSET:
-            field_dict["updated_at"] = updated_at
-        if collectable is not UNSET:
-            field_dict["collectable"] = collectable
+        if sold_at is not UNSET:
+            field_dict["sold_at"] = sold_at
+        if price_sold is not UNSET:
+            field_dict["price_sold"] = price_sold
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_collection_response_200_data_item_collectable import (
-            ListCollectionResponse200DataItemCollectable,  # noqa: PLC0415
+        from ..models.list_collection_response_200_data_item_collectable_type_0 import (
+            ListCollectionResponse200DataItemCollectableType0,  # noqa: PLC0415
         )
         from ..models.list_collection_response_200_data_item_comic_shop import (
             ListCollectionResponse200DataItemComicShop,  # noqa: PLC0415
         )
+        from ..models.list_collection_response_200_data_item_loan_type_0 import (
+            ListCollectionResponse200DataItemLoanType0,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        user_id = d.pop("user_id", UNSET)
+        user_id = d.pop("user_id")
 
-        collectable_type = d.pop("collectable_type", UNSET)
+        collectable_type = d.pop("collectable_type")
 
-        collectable_id = d.pop("collectable_id", UNSET)
+        collectable_id = d.pop("collectable_id")
 
-        def _parse_variant_id(data: object) -> None | str | Unset:
+        def _parse_variant_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        def _parse_condition(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        condition = _parse_condition(d.pop("condition"))
+
+        def _parse_format_(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        format_ = _parse_format_(d.pop("format"))
+
+        def _parse_is_variant(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_variant = _parse_is_variant(d.pop("is_variant"))
+
+        def _parse_variant_description(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        variant_description = _parse_variant_description(d.pop("variant_description"))
+
+        def _parse_variant_type(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        variant_type = _parse_variant_type(d.pop("variant_type"))
+
+        def _parse_graded(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        graded = _parse_graded(d.pop("graded"))
+
+        def _parse_grade_score(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        grade_score = _parse_grade_score(d.pop("grade_score"))
+
+        def _parse_grading_company(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        grading_company = _parse_grading_company(d.pop("grading_company"))
+
+        def _parse_grading_number(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        grading_number = _parse_grading_number(d.pop("grading_number"))
+
+        def _parse_label_type(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        label_type = _parse_label_type(d.pop("label_type"))
+
+        def _parse_page_quality(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        page_quality = _parse_page_quality(d.pop("page_quality"))
+
+        def _parse_is_signed(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_signed = _parse_is_signed(d.pop("is_signed"))
+
+        def _parse_signed_by(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        signed_by = _parse_signed_by(d.pop("signed_by"))
+
+        def _parse_signature_witness(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        signature_witness = _parse_signature_witness(d.pop("signature_witness"))
+
+        signature_authenticated = d.pop("signature_authenticated")
+
+        is_cgc_ss = d.pop("is_cgc_ss")
+
+        def _parse_print_number(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        print_number = _parse_print_number(d.pop("print_number"))
+
+        def _parse_status(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        status = _parse_status(d.pop("status"))
+
+        def _parse_for_sale(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        for_sale = _parse_for_sale(d.pop("for_sale"))
+
+        def _parse_for_trade(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        for_trade = _parse_for_trade(d.pop("for_trade"))
+
+        def _parse_is_public(data: object) -> bool | None:
+            if data is None:
+                return data
+            return cast(bool | None, data)
+
+        is_public = _parse_is_public(d.pop("is_public"))
+
+        def _parse_cover_scan_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_scan_url = _parse_cover_scan_url(d.pop("cover_scan_url"))
+
+        def _parse_cover_scan_url_lg(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_scan_url_lg = _parse_cover_scan_url_lg(d.pop("cover_scan_url_lg"))
+
+        def _parse_cover_scan_uploaded_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_scan_uploaded_at = _parse_cover_scan_uploaded_at(d.pop("cover_scan_uploaded_at"))
+
+        def _parse_created_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        created_at = _parse_created_at(d.pop("created_at"))
+
+        def _parse_updated_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        updated_at = _parse_updated_at(d.pop("updated_at"))
+
+        def _parse_collectable(data: object) -> ListCollectionResponse200DataItemCollectableType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                collectable_type_0 = ListCollectionResponse200DataItemCollectableType0.from_dict(data)
+
+                return collectable_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListCollectionResponse200DataItemCollectableType0 | None, data)
+
+        collectable = _parse_collectable(d.pop("collectable"))
+
+        def _parse_purchased_at(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
+        purchased_at = _parse_purchased_at(d.pop("purchased_at", UNSET))
 
-        condition = d.pop("condition", UNSET)
-
-        purchased_at = d.pop("purchased_at", UNSET)
-
-        notes = d.pop("notes", UNSET)
-
-        format_ = d.pop("format", UNSET)
-
-        storage_location = d.pop("storage_location", UNSET)
-
-        price_paid = d.pop("price_paid", UNSET)
-
-        is_variant = d.pop("is_variant", UNSET)
-
-        def _parse_variant_description(data: object) -> None | str | Unset:
+        def _parse_notes(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        variant_description = _parse_variant_description(d.pop("variant_description", UNSET))
+        notes = _parse_notes(d.pop("notes", UNSET))
 
-        def _parse_variant_type(data: object) -> None | str | Unset:
+        def _parse_storage_location(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        variant_type = _parse_variant_type(d.pop("variant_type", UNSET))
+        storage_location = _parse_storage_location(d.pop("storage_location", UNSET))
 
-        graded = d.pop("graded", UNSET)
+        def _parse_price_paid(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
 
-        grade_score = d.pop("grade_score", UNSET)
-
-        grading_company = d.pop("grading_company", UNSET)
-
-        grading_number = d.pop("grading_number", UNSET)
-
-        label_type = d.pop("label_type", UNSET)
-
-        page_quality = d.pop("page_quality", UNSET)
+        price_paid = _parse_price_paid(d.pop("price_paid", UNSET))
 
         def _parse_grader_notes(data: object) -> None | str | Unset:
             if data is None:
@@ -403,9 +682,23 @@ class ListCollectionResponse200DataItem:
 
         grader_notes = _parse_grader_notes(d.pop("grader_notes", UNSET))
 
-        purchase_source = d.pop("purchase_source", UNSET)
+        def _parse_purchase_source(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
 
-        comic_shop_id = d.pop("comic_shop_id", UNSET)
+        purchase_source = _parse_purchase_source(d.pop("purchase_source", UNSET))
+
+        def _parse_comic_shop_id(data: object) -> int | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(int | None | Unset, data)
+
+        comic_shop_id = _parse_comic_shop_id(d.pop("comic_shop_id", UNSET))
 
         _comic_shop = d.pop("comic_shop", UNSET)
         comic_shop: ListCollectionResponse200DataItemComicShop | Unset
@@ -414,81 +707,105 @@ class ListCollectionResponse200DataItem:
         else:
             comic_shop = ListCollectionResponse200DataItemComicShop.from_dict(_comic_shop)
 
-        acquisition_method = d.pop("acquisition_method", UNSET)
-
-        is_signed = d.pop("is_signed", UNSET)
-
-        def _parse_signed_by(data: object) -> None | str | Unset:
+        def _parse_acquisition_method(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        signed_by = _parse_signed_by(d.pop("signed_by", UNSET))
+        acquisition_method = _parse_acquisition_method(d.pop("acquisition_method", UNSET))
 
-        def _parse_signature_witness(data: object) -> None | str | Unset:
+        def _parse_purchase_store(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        signature_witness = _parse_signature_witness(d.pop("signature_witness", UNSET))
+        purchase_store = _parse_purchase_store(d.pop("purchase_store", UNSET))
 
-        signature_authenticated = d.pop("signature_authenticated", UNSET)
-
-        is_cgc_ss = d.pop("is_cgc_ss", UNSET)
-
-        print_number = d.pop("print_number", UNSET)
-
-        estimated_value = d.pop("estimated_value", UNSET)
-
-        value_last_updated = d.pop("value_last_updated", UNSET)
-
-        for_sale = d.pop("for_sale", UNSET)
-
-        for_trade = d.pop("for_trade", UNSET)
-
-        is_public = d.pop("is_public", UNSET)
-
-        def _parse_cover_scan_url(data: object) -> None | str | Unset:
+        def _parse_custom_label(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        cover_scan_url = _parse_cover_scan_url(d.pop("cover_scan_url", UNSET))
+        custom_label = _parse_custom_label(d.pop("custom_label", UNSET))
 
-        def _parse_cover_scan_url_lg(data: object) -> None | str | Unset:
+        def _parse_bagged_at(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        cover_scan_url_lg = _parse_cover_scan_url_lg(d.pop("cover_scan_url_lg", UNSET))
+        bagged_at = _parse_bagged_at(d.pop("bagged_at", UNSET))
 
-        def _parse_cover_scan_uploaded_at(data: object) -> None | str | Unset:
+        def _parse_personal_rating(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
             return cast(None | str | Unset, data)
 
-        cover_scan_uploaded_at = _parse_cover_scan_uploaded_at(d.pop("cover_scan_uploaded_at", UNSET))
+        personal_rating = _parse_personal_rating(d.pop("personal_rating", UNSET))
 
-        created_at = d.pop("created_at", UNSET)
+        tags = cast(list[str], d.pop("tags", UNSET))
 
-        updated_at = d.pop("updated_at", UNSET)
+        def _parse_loan(data: object) -> ListCollectionResponse200DataItemLoanType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                loan_type_0 = ListCollectionResponse200DataItemLoanType0.from_dict(data)
 
-        _collectable = d.pop("collectable", UNSET)
-        collectable: ListCollectionResponse200DataItemCollectable | Unset
-        if isinstance(_collectable, Unset):
-            collectable = UNSET
-        else:
-            collectable = ListCollectionResponse200DataItemCollectable.from_dict(_collectable)
+                return loan_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListCollectionResponse200DataItemLoanType0 | None | Unset, data)
+
+        loan = _parse_loan(d.pop("loan", UNSET))
+
+        def _parse_estimated_value(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        estimated_value = _parse_estimated_value(d.pop("estimated_value", UNSET))
+
+        def _parse_value_last_updated(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        value_last_updated = _parse_value_last_updated(d.pop("value_last_updated", UNSET))
+
+        def _parse_sold_at(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        sold_at = _parse_sold_at(d.pop("sold_at", UNSET))
+
+        def _parse_price_sold(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        price_sold = _parse_price_sold(d.pop("price_sold", UNSET))
 
         list_collection_response_200_data_item = cls(
             id=id,
@@ -497,11 +814,7 @@ class ListCollectionResponse200DataItem:
             collectable_id=collectable_id,
             variant_id=variant_id,
             condition=condition,
-            purchased_at=purchased_at,
-            notes=notes,
             format_=format_,
-            storage_location=storage_location,
-            price_paid=price_paid,
             is_variant=is_variant,
             variant_description=variant_description,
             variant_type=variant_type,
@@ -511,19 +824,13 @@ class ListCollectionResponse200DataItem:
             grading_number=grading_number,
             label_type=label_type,
             page_quality=page_quality,
-            grader_notes=grader_notes,
-            purchase_source=purchase_source,
-            comic_shop_id=comic_shop_id,
-            comic_shop=comic_shop,
-            acquisition_method=acquisition_method,
             is_signed=is_signed,
             signed_by=signed_by,
             signature_witness=signature_witness,
             signature_authenticated=signature_authenticated,
             is_cgc_ss=is_cgc_ss,
             print_number=print_number,
-            estimated_value=estimated_value,
-            value_last_updated=value_last_updated,
+            status=status,
             for_sale=for_sale,
             for_trade=for_trade,
             is_public=is_public,
@@ -533,6 +840,25 @@ class ListCollectionResponse200DataItem:
             created_at=created_at,
             updated_at=updated_at,
             collectable=collectable,
+            purchased_at=purchased_at,
+            notes=notes,
+            storage_location=storage_location,
+            price_paid=price_paid,
+            grader_notes=grader_notes,
+            purchase_source=purchase_source,
+            comic_shop_id=comic_shop_id,
+            comic_shop=comic_shop,
+            acquisition_method=acquisition_method,
+            purchase_store=purchase_store,
+            custom_label=custom_label,
+            bagged_at=bagged_at,
+            personal_rating=personal_rating,
+            tags=tags,
+            loan=loan,
+            estimated_value=estimated_value,
+            value_last_updated=value_last_updated,
+            sold_at=sold_at,
+            price_sold=price_sold,
         )
 
         list_collection_response_200_data_item.additional_properties = d

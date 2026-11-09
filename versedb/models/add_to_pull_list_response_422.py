@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.add_to_pull_list_response_422_errors import AddToPullListResponse422Errors
 
@@ -19,28 +17,27 @@ T = TypeVar("T", bound="AddToPullListResponse422")
 class AddToPullListResponse422:
     """
     Attributes:
-        message (str | Unset):
-        errors (AddToPullListResponse422Errors | Unset):
+        message (str):
+        errors (AddToPullListResponse422Errors):
     """
 
-    message: str | Unset = UNSET
-    errors: AddToPullListResponse422Errors | Unset = UNSET
+    message: str
+    errors: AddToPullListResponse422Errors
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
-        errors: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.errors, Unset):
-            errors = self.errors.to_dict()
+        errors = self.errors.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if errors is not UNSET:
-            field_dict["errors"] = errors
+        field_dict.update(
+            {
+                "message": message,
+                "errors": errors,
+            }
+        )
 
         return field_dict
 
@@ -49,14 +46,9 @@ class AddToPullListResponse422:
         from ..models.add_to_pull_list_response_422_errors import AddToPullListResponse422Errors  # noqa: PLC0415
 
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
-        _errors = d.pop("errors", UNSET)
-        errors: AddToPullListResponse422Errors | Unset
-        if isinstance(_errors, Unset):
-            errors = UNSET
-        else:
-            errors = AddToPullListResponse422Errors.from_dict(_errors)
+        errors = AddToPullListResponse422Errors.from_dict(d.pop("errors"))
 
         add_to_pull_list_response_422 = cls(
             message=message,

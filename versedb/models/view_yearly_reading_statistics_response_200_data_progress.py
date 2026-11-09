@@ -15,74 +15,85 @@ T = TypeVar("T", bound="ViewYearlyReadingStatisticsResponse200DataProgress")
 class ViewYearlyReadingStatisticsResponse200DataProgress:
     """
     Attributes:
-        year (int | Unset):
-        target (int | Unset):
-        read_count (int | Unset):
-        percent (int | Unset):
-        completed (bool | Unset):
-        expected_reads (int | Unset):
-        pace_difference (int | Unset):
-        remaining (int | Unset):
-        reads_per_week (int | Unset):
-        editable (bool | Unset):
-        last_year_reads (int | Unset):
-        suggested_target (int | Unset):
-        timezone (str | Unset):
-        is_public (bool | Unset):
-        notify_milestones (bool | Unset):
-        notify_lapses (bool | Unset):
-        email_updates (bool | Unset):
-        share_url (None | str | Unset):
+        year (int):
+        target (int | None):
+        read_count (int):
+        percent (float | None):
+        completed (bool):
+        expected_reads (int | None):
+        pace_difference (int | None):
+        remaining (int | None):
+        reads_per_week (int | None):
+        editable (bool):
+        last_year_reads (int | None):
+        suggested_target (int | None):
+        timezone (str):
+        is_public (bool):
+        share_url (None | str):
+        notify_milestones (bool | Unset): Left out for a `read:showcase` token.
+        notify_lapses (bool | Unset): Left out for a `read:showcase` token.
+        email_updates (bool | Unset): Left out for a `read:showcase` token.
     """
 
-    year: int | Unset = UNSET
-    target: int | Unset = UNSET
-    read_count: int | Unset = UNSET
-    percent: int | Unset = UNSET
-    completed: bool | Unset = UNSET
-    expected_reads: int | Unset = UNSET
-    pace_difference: int | Unset = UNSET
-    remaining: int | Unset = UNSET
-    reads_per_week: int | Unset = UNSET
-    editable: bool | Unset = UNSET
-    last_year_reads: int | Unset = UNSET
-    suggested_target: int | Unset = UNSET
-    timezone: str | Unset = UNSET
-    is_public: bool | Unset = UNSET
+    year: int
+    target: int | None
+    read_count: int
+    percent: float | None
+    completed: bool
+    expected_reads: int | None
+    pace_difference: int | None
+    remaining: int | None
+    reads_per_week: int | None
+    editable: bool
+    last_year_reads: int | None
+    suggested_target: int | None
+    timezone: str
+    is_public: bool
+    share_url: None | str
     notify_milestones: bool | Unset = UNSET
     notify_lapses: bool | Unset = UNSET
     email_updates: bool | Unset = UNSET
-    share_url: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         year = self.year
 
+        target: int | None
         target = self.target
 
         read_count = self.read_count
 
+        percent: float | None
         percent = self.percent
 
         completed = self.completed
 
+        expected_reads: int | None
         expected_reads = self.expected_reads
 
+        pace_difference: int | None
         pace_difference = self.pace_difference
 
+        remaining: int | None
         remaining = self.remaining
 
+        reads_per_week: int | None
         reads_per_week = self.reads_per_week
 
         editable = self.editable
 
+        last_year_reads: int | None
         last_year_reads = self.last_year_reads
 
+        suggested_target: int | None
         suggested_target = self.suggested_target
 
         timezone = self.timezone
 
         is_public = self.is_public
+
+        share_url: None | str
+        share_url = self.share_url
 
         notify_milestones = self.notify_milestones
 
@@ -90,99 +101,119 @@ class ViewYearlyReadingStatisticsResponse200DataProgress:
 
         email_updates = self.email_updates
 
-        share_url: None | str | Unset
-        if isinstance(self.share_url, Unset):
-            share_url = UNSET
-        else:
-            share_url = self.share_url
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if year is not UNSET:
-            field_dict["year"] = year
-        if target is not UNSET:
-            field_dict["target"] = target
-        if read_count is not UNSET:
-            field_dict["read_count"] = read_count
-        if percent is not UNSET:
-            field_dict["percent"] = percent
-        if completed is not UNSET:
-            field_dict["completed"] = completed
-        if expected_reads is not UNSET:
-            field_dict["expected_reads"] = expected_reads
-        if pace_difference is not UNSET:
-            field_dict["pace_difference"] = pace_difference
-        if remaining is not UNSET:
-            field_dict["remaining"] = remaining
-        if reads_per_week is not UNSET:
-            field_dict["reads_per_week"] = reads_per_week
-        if editable is not UNSET:
-            field_dict["editable"] = editable
-        if last_year_reads is not UNSET:
-            field_dict["last_year_reads"] = last_year_reads
-        if suggested_target is not UNSET:
-            field_dict["suggested_target"] = suggested_target
-        if timezone is not UNSET:
-            field_dict["timezone"] = timezone
-        if is_public is not UNSET:
-            field_dict["is_public"] = is_public
+        field_dict.update(
+            {
+                "year": year,
+                "target": target,
+                "read_count": read_count,
+                "percent": percent,
+                "completed": completed,
+                "expected_reads": expected_reads,
+                "pace_difference": pace_difference,
+                "remaining": remaining,
+                "reads_per_week": reads_per_week,
+                "editable": editable,
+                "last_year_reads": last_year_reads,
+                "suggested_target": suggested_target,
+                "timezone": timezone,
+                "is_public": is_public,
+                "share_url": share_url,
+            }
+        )
         if notify_milestones is not UNSET:
             field_dict["notify_milestones"] = notify_milestones
         if notify_lapses is not UNSET:
             field_dict["notify_lapses"] = notify_lapses
         if email_updates is not UNSET:
             field_dict["email_updates"] = email_updates
-        if share_url is not UNSET:
-            field_dict["share_url"] = share_url
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        year = d.pop("year", UNSET)
+        year = d.pop("year")
 
-        target = d.pop("target", UNSET)
+        def _parse_target(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        read_count = d.pop("read_count", UNSET)
+        target = _parse_target(d.pop("target"))
 
-        percent = d.pop("percent", UNSET)
+        read_count = d.pop("read_count")
 
-        completed = d.pop("completed", UNSET)
+        def _parse_percent(data: object) -> float | None:
+            if data is None:
+                return data
+            return cast(float | None, data)
 
-        expected_reads = d.pop("expected_reads", UNSET)
+        percent = _parse_percent(d.pop("percent"))
 
-        pace_difference = d.pop("pace_difference", UNSET)
+        completed = d.pop("completed")
 
-        remaining = d.pop("remaining", UNSET)
+        def _parse_expected_reads(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        reads_per_week = d.pop("reads_per_week", UNSET)
+        expected_reads = _parse_expected_reads(d.pop("expected_reads"))
 
-        editable = d.pop("editable", UNSET)
+        def _parse_pace_difference(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        last_year_reads = d.pop("last_year_reads", UNSET)
+        pace_difference = _parse_pace_difference(d.pop("pace_difference"))
 
-        suggested_target = d.pop("suggested_target", UNSET)
+        def _parse_remaining(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        timezone = d.pop("timezone", UNSET)
+        remaining = _parse_remaining(d.pop("remaining"))
 
-        is_public = d.pop("is_public", UNSET)
+        def _parse_reads_per_week(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        reads_per_week = _parse_reads_per_week(d.pop("reads_per_week"))
+
+        editable = d.pop("editable")
+
+        def _parse_last_year_reads(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        last_year_reads = _parse_last_year_reads(d.pop("last_year_reads"))
+
+        def _parse_suggested_target(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        suggested_target = _parse_suggested_target(d.pop("suggested_target"))
+
+        timezone = d.pop("timezone")
+
+        is_public = d.pop("is_public")
+
+        def _parse_share_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        share_url = _parse_share_url(d.pop("share_url"))
 
         notify_milestones = d.pop("notify_milestones", UNSET)
 
         notify_lapses = d.pop("notify_lapses", UNSET)
 
         email_updates = d.pop("email_updates", UNSET)
-
-        def _parse_share_url(data: object) -> None | str | Unset:
-            if data is None:
-                return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
-
-        share_url = _parse_share_url(d.pop("share_url", UNSET))
 
         view_yearly_reading_statistics_response_200_data_progress = cls(
             year=year,
@@ -199,10 +230,10 @@ class ViewYearlyReadingStatisticsResponse200DataProgress:
             suggested_target=suggested_target,
             timezone=timezone,
             is_public=is_public,
+            share_url=share_url,
             notify_milestones=notify_milestones,
             notify_lapses=notify_lapses,
             email_updates=email_updates,
-            share_url=share_url,
         )
 
         view_yearly_reading_statistics_response_200_data_progress.additional_properties = d

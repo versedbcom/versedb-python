@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.like_list_or_react_to_it_response_200_type_0_reactions_item import (
@@ -22,18 +20,19 @@ class LikeListOrReactToItResponse200Type0:
     """Reaction changed
 
     Attributes:
-        message (str | Unset):
-        liked (bool | Unset):
-        likes_count (int | Unset):
-        my_reaction (str | Unset):
-        reactions (list[LikeListOrReactToItResponse200Type0ReactionsItem] | Unset):
+        message (str):
+        liked (bool):
+        likes_count (int):
+        my_reaction (None | str): The reaction the user now holds, null for none.
+        reactions (list[LikeListOrReactToItResponse200Type0ReactionsItem]): Each reaction left on the list with its
+            count, most used first.
     """
 
-    message: str | Unset = UNSET
-    liked: bool | Unset = UNSET
-    likes_count: int | Unset = UNSET
-    my_reaction: str | Unset = UNSET
-    reactions: list[LikeListOrReactToItResponse200Type0ReactionsItem] | Unset = UNSET
+    message: str
+    liked: bool
+    likes_count: int
+    my_reaction: None | str
+    reactions: list[LikeListOrReactToItResponse200Type0ReactionsItem]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,28 +42,25 @@ class LikeListOrReactToItResponse200Type0:
 
         likes_count = self.likes_count
 
+        my_reaction: None | str
         my_reaction = self.my_reaction
 
-        reactions: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.reactions, Unset):
-            reactions = []
-            for reactions_item_data in self.reactions:
-                reactions_item = reactions_item_data.to_dict()
-                reactions.append(reactions_item)
+        reactions = []
+        for reactions_item_data in self.reactions:
+            reactions_item = reactions_item_data.to_dict()
+            reactions.append(reactions_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if liked is not UNSET:
-            field_dict["liked"] = liked
-        if likes_count is not UNSET:
-            field_dict["likes_count"] = likes_count
-        if my_reaction is not UNSET:
-            field_dict["my_reaction"] = my_reaction
-        if reactions is not UNSET:
-            field_dict["reactions"] = reactions
+        field_dict.update(
+            {
+                "message": message,
+                "liked": liked,
+                "likes_count": likes_count,
+                "my_reaction": my_reaction,
+                "reactions": reactions,
+            }
+        )
 
         return field_dict
 
@@ -75,22 +71,25 @@ class LikeListOrReactToItResponse200Type0:
         )
 
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
-        liked = d.pop("liked", UNSET)
+        liked = d.pop("liked")
 
-        likes_count = d.pop("likes_count", UNSET)
+        likes_count = d.pop("likes_count")
 
-        my_reaction = d.pop("my_reaction", UNSET)
+        def _parse_my_reaction(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _reactions = d.pop("reactions", UNSET)
-        reactions: list[LikeListOrReactToItResponse200Type0ReactionsItem] | Unset = UNSET
-        if _reactions is not UNSET:
-            reactions = []
-            for reactions_item_data in _reactions:
-                reactions_item = LikeListOrReactToItResponse200Type0ReactionsItem.from_dict(reactions_item_data)
+        my_reaction = _parse_my_reaction(d.pop("my_reaction"))
 
-                reactions.append(reactions_item)
+        reactions = []
+        _reactions = d.pop("reactions")
+        for reactions_item_data in _reactions:
+            reactions_item = LikeListOrReactToItResponse200Type0ReactionsItem.from_dict(reactions_item_data)
+
+            reactions.append(reactions_item)
 
         like_list_or_react_to_it_response_200_type_0 = cls(
             message=message,

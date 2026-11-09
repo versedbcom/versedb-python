@@ -7,6 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_series_issues_response_200 import GetSeriesIssuesResponse200
+from ...models.get_series_issues_response_403 import GetSeriesIssuesResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -19,6 +20,8 @@ def _get_kwargs(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -30,6 +33,10 @@ def _get_kwargs(
     params["direction"] = direction
 
     params["limit"] = limit
+
+    params["page"] = page
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -46,7 +53,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = GetSeriesIssuesResponse200.from_dict(response.json())
 
@@ -56,6 +63,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetSeriesIssuesResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -70,7 +82,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -87,24 +99,29 @@ def sync_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get series issues.
 
      Returns paginated issues for a specific series.
 
     Args:
-        id (int):
+        id (int): The series ID.
         q (str | Unset): Search within this series' issues (number, name).
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -113,6 +130,8 @@ def sync_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -130,24 +149,29 @@ def sync(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get series issues.
 
      Returns paginated issues for a specific series.
 
     Args:
-        id (int):
+        id (int): The series ID.
         q (str | Unset): Search within this series' issues (number, name).
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError
+        GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -157,6 +181,8 @@ def sync(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
+        languages=languages,
     ).parsed
 
 
@@ -168,24 +194,29 @@ async def asyncio_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get series issues.
 
      Returns paginated issues for a specific series.
 
     Args:
-        id (int):
+        id (int): The series ID.
         q (str | Unset): Search within this series' issues (number, name).
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -194,6 +225,8 @@ async def asyncio_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -209,24 +242,29 @@ async def asyncio(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get series issues.
 
      Returns paginated issues for a specific series.
 
     Args:
-        id (int):
+        id (int): The series ID.
         q (str | Unset): Search within this series' issues (number, name).
         sort (str | Unset): Sort field (issue_number, release_date, name).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Results per page (max 100).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetSeriesIssuesResponse200 | TooManyRequestsError | UnauthorizedError
+        GetSeriesIssuesResponse200 | GetSeriesIssuesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -237,5 +275,7 @@ async def asyncio(
             sort=sort,
             direction=direction,
             limit=limit,
+            page=page,
+            languages=languages,
         )
     ).parsed

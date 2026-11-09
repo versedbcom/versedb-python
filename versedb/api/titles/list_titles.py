@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_titles_response_200 import ListTitlesResponse200
+from ...models.list_titles_response_403 import ListTitlesResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -18,9 +19,13 @@ def _get_kwargs(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -35,11 +40,19 @@ def _get_kwargs(
 
     params["hide_unreleased"] = hide_unreleased
 
+    params["medium"] = medium
+
+    params["languages"] = languages
+
+    params["ongoing"] = ongoing
+
     params["sort"] = sort
 
     params["direction"] = direction
 
     params["limit"] = limit
+
+    params["page"] = page
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -54,7 +67,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListTitlesResponse200.from_dict(response.json())
 
@@ -64,6 +77,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListTitlesResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -78,7 +96,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -95,10 +113,14 @@ def sync_detailed(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List titles
 
      Returns: id, name, slug, start_year, end_year, status, type, image_url,
@@ -112,18 +134,25 @@ def sync_detailed(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
         direction (str | Unset): Sort direction, asc or desc. Anything else falls back to asc.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -132,9 +161,13 @@ def sync_detailed(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -152,10 +185,14 @@ def sync(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List titles
 
      Returns: id, name, slug, start_year, end_year, status, type, image_url,
@@ -169,18 +206,25 @@ def sync(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
         direction (str | Unset): Sort direction, asc or desc. Anything else falls back to asc.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -190,9 +234,13 @@ def sync(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -204,10 +252,14 @@ async def asyncio_detailed(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List titles
 
      Returns: id, name, slug, start_year, end_year, status, type, image_url,
@@ -221,18 +273,25 @@ async def asyncio_detailed(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
         direction (str | Unset): Sort direction, asc or desc. Anything else falls back to asc.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -241,9 +300,13 @@ async def asyncio_detailed(
         publisher=publisher,
         publisher_ids=publisher_ids,
         hide_unreleased=hide_unreleased,
+        medium=medium,
+        languages=languages,
+        ongoing=ongoing,
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -259,10 +322,14 @@ async def asyncio(
     publisher: int | Unset = UNSET,
     publisher_ids: str | Unset = UNSET,
     hide_unreleased: bool | Unset = UNSET,
+    medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+    ongoing: bool | Unset = UNSET,
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List titles
 
      Returns: id, name, slug, start_year, end_year, status, type, image_url,
@@ -276,18 +343,25 @@ async def asyncio(
         publisher_ids (str | Unset): Comma-separated publisher IDs. Returns a title published by
             any one of them.
         hide_unreleased (bool | Unset): Return only titles whose start year has already arrived.
+        medium (str | Unset): Return titles with a series in this medium: comic, manga, manhwa,
+            manhua, bande_dessinee or magazine.
+        languages (str | Unset): Comma-separated language codes. Returns titles with a series in
+            any one of them.
+        ongoing (bool | Unset): Return only titles with an ongoing series. Combined with medium or
+            languages, that same series has to match them.
         sort (str | Unset): Sort field. One of name, start_year, average_rating,
             cached_series_count, cached_issues_count; anything else falls back to name. Passing sort
             replaces the relevance ordering applied to q results.
         direction (str | Unset): Sort direction, asc or desc. Anything else falls back to asc.
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListTitlesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListTitlesResponse200 | ListTitlesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -298,8 +372,12 @@ async def asyncio(
             publisher=publisher,
             publisher_ids=publisher_ids,
             hide_unreleased=hide_unreleased,
+            medium=medium,
+            languages=languages,
+            ongoing=ongoing,
             sort=sort,
             direction=direction,
             limit=limit,
+            page=page,
         )
     ).parsed

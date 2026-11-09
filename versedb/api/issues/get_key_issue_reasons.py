@@ -7,6 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_key_issue_reasons_response_200 import GetKeyIssueReasonsResponse200
+from ...models.get_key_issue_reasons_response_403 import GetKeyIssueReasonsResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import Response
@@ -28,7 +29,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = GetKeyIssueReasonsResponse200.from_dict(response.json())
 
@@ -38,6 +39,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetKeyIssueReasonsResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -52,7 +58,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,20 +71,20 @@ def sync_detailed(
     issue_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get key issue reasons.
 
      Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -96,20 +102,20 @@ def sync(
     issue_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get key issue reasons.
 
      Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError
+        GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -122,20 +128,20 @@ async def asyncio_detailed(
     issue_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> Response[GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get key issue reasons.
 
      Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -151,20 +157,20 @@ async def asyncio(
     issue_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get key issue reasons.
 
      Returns key issue reasons for a specific issue (e.g., "1st Appearance", "Death").
 
     Args:
-        issue_id (int):
+        issue_id (int): The issue ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetKeyIssueReasonsResponse200 | TooManyRequestsError | UnauthorizedError
+        GetKeyIssueReasonsResponse200 | GetKeyIssueReasonsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

@@ -7,6 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_series_for_a_specific_team_response_200 import GetSeriesForASpecificTeamResponse200
+from ...models.get_series_for_a_specific_team_response_403 import GetSeriesForASpecificTeamResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -16,17 +17,29 @@ def _get_kwargs(
     team_id: int,
     *,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     medium: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["q"] = q
 
+    params["sort"] = sort
+
+    params["direction"] = direction
+
     params["limit"] = limit
 
+    params["page"] = page
+
     params["medium"] = medium
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -43,7 +56,13 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetSeriesForASpecificTeamResponse200.from_dict(response.json())
 
@@ -53,6 +72,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetSeriesForASpecificTeamResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -67,7 +91,12 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -81,33 +110,53 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     medium: str | Unset = UNSET,
-) -> Response[GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get series for a specific team
 
-     Returns the series the team appears in.
+     Returns the series the team appears in, newest start year first unless sort says otherwise.
 
     Args:
-        team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        team_id (int): The team ID.
+        q (str | Unset): Optional search within the team's series. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (start_year, name, cached_issues_count, average_rating,
+            latest_release_date). Defaults to start_year.
+        direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetSeriesForASpecificTeamResponse200 | GetSeriesForASpecificTeamResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
+        page=page,
         medium=medium,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -122,34 +171,55 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     medium: str | Unset = UNSET,
-) -> GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get series for a specific team
 
-     Returns the series the team appears in.
+     Returns the series the team appears in, newest start year first unless sort says otherwise.
 
     Args:
-        team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        team_id (int): The team ID.
+        q (str | Unset): Optional search within the team's series. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (start_year, name, cached_issues_count, average_rating,
+            latest_release_date). Defaults to start_year.
+        direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError
+        GetSeriesForASpecificTeamResponse200 | GetSeriesForASpecificTeamResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         team_id=team_id,
         client=client,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
+        page=page,
         medium=medium,
+        languages=languages,
     ).parsed
 
 
@@ -158,33 +228,53 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     medium: str | Unset = UNSET,
-) -> Response[GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get series for a specific team
 
-     Returns the series the team appears in.
+     Returns the series the team appears in, newest start year first unless sort says otherwise.
 
     Args:
-        team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        team_id (int): The team ID.
+        q (str | Unset): Optional search within the team's series. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (start_year, name, cached_issues_count, average_rating,
+            latest_release_date). Defaults to start_year.
+        direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetSeriesForASpecificTeamResponse200 | GetSeriesForASpecificTeamResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         team_id=team_id,
         q=q,
+        sort=sort,
+        direction=direction,
         limit=limit,
+        page=page,
         medium=medium,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -197,26 +287,43 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     medium: str | Unset = UNSET,
-) -> GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> (
+    GetSeriesForASpecificTeamResponse200
+    | GetSeriesForASpecificTeamResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get series for a specific team
 
-     Returns the series the team appears in.
+     Returns the series the team appears in, newest start year first unless sort says otherwise.
 
     Args:
-        team_id (int):
-        q (str | Unset): Optional case-insensitive search within these results.
+        team_id (int): The team ID.
+        q (str | Unset): Optional search within the team's series. Results come back in relevance
+            order unless sort is passed.
+        sort (str | Unset): Sort field (start_year, name, cached_issues_count, average_rating,
+            latest_release_date). Defaults to start_year.
+        direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         medium (str | Unset): Comma-separated series mediums to filter by (comic, manga, manhwa,
             manhua, bande_dessinee, magazine).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetSeriesForASpecificTeamResponse200 | TooManyRequestsError | UnauthorizedError
+        GetSeriesForASpecificTeamResponse200 | GetSeriesForASpecificTeamResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -224,7 +331,11 @@ async def asyncio(
             team_id=team_id,
             client=client,
             q=q,
+            sort=sort,
+            direction=direction,
             limit=limit,
+            page=page,
             medium=medium,
+            languages=languages,
         )
     ).parsed

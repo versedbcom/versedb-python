@@ -1,12 +1,13 @@
 from http import HTTPStatus
-from typing import Any
+from typing import Any, cast
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.add_to_pull_list_body import AddToPullListBody
-from ...models.add_to_pull_list_response_201 import AddToPullListResponse201
+from ...models.add_to_pull_list_response_403 import AddToPullListResponse403
+from ...models.add_to_pull_list_response_404 import AddToPullListResponse404
 from ...models.add_to_pull_list_response_422 import AddToPullListResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -34,9 +35,17 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+    | None
+):
     if response.status_code == 201:
-        response_201 = AddToPullListResponse201.from_dict(response.json())
+        response_201 = cast(list[Any], response.json())
 
         return response_201
 
@@ -44,6 +53,16 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = AddToPullListResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = AddToPullListResponse404.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 422:
         response_422 = AddToPullListResponse422.from_dict(response.json())
@@ -63,7 +82,14 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,10 +102,18 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: AddToPullListBody,
-) -> Response[AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+]:
     """Add to pull list.
 
-     Adds a series to the user's pull list to track new releases.
+     Adds a series to the user's pull list to track new releases. Adding a series already on it changes
+    nothing.
 
     Args:
         body (AddToPullListBody):
@@ -89,7 +123,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddToPullListResponse403 | AddToPullListResponse404 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | list[Any]]
     """
 
     kwargs = _get_kwargs(
@@ -107,10 +141,19 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: AddToPullListBody,
-) -> AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+    | None
+):
     """Add to pull list.
 
-     Adds a series to the user's pull list to track new releases.
+     Adds a series to the user's pull list to track new releases. Adding a series already on it changes
+    nothing.
 
     Args:
         body (AddToPullListBody):
@@ -120,7 +163,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError
+        AddToPullListResponse403 | AddToPullListResponse404 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | list[Any]
     """
 
     return sync_detailed(
@@ -133,10 +176,18 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: AddToPullListBody,
-) -> Response[AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+]:
     """Add to pull list.
 
-     Adds a series to the user's pull list to track new releases.
+     Adds a series to the user's pull list to track new releases. Adding a series already on it changes
+    nothing.
 
     Args:
         body (AddToPullListBody):
@@ -146,7 +197,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[AddToPullListResponse403 | AddToPullListResponse404 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | list[Any]]
     """
 
     kwargs = _get_kwargs(
@@ -162,10 +213,19 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: AddToPullListBody,
-) -> AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    AddToPullListResponse403
+    | AddToPullListResponse404
+    | AddToPullListResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | list[Any]
+    | None
+):
     """Add to pull list.
 
-     Adds a series to the user's pull list to track new releases.
+     Adds a series to the user's pull list to track new releases. Adding a series already on it changes
+    nothing.
 
     Args:
         body (AddToPullListBody):
@@ -175,7 +235,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        AddToPullListResponse201 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError
+        AddToPullListResponse403 | AddToPullListResponse404 | AddToPullListResponse422 | TooManyRequestsError | UnauthorizedError | list[Any]
     """
 
     return (

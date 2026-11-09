@@ -6,8 +6,6 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="ListCollectionResponse200Links")
 
 
@@ -15,16 +13,16 @@ T = TypeVar("T", bound="ListCollectionResponse200Links")
 class ListCollectionResponse200Links:
     """
     Attributes:
-        first (str | Unset):
-        last (str | Unset):
-        prev (None | str | Unset):
-        next_ (str | Unset):
+        first (str):
+        last (str):
+        prev (None | str):
+        next_ (None | str):
     """
 
-    first: str | Unset = UNSET
-    last: str | Unset = UNSET
-    prev: None | str | Unset = UNSET
-    next_: str | Unset = UNSET
+    first: str
+    last: str
+    prev: None | str
+    next_: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -32,45 +30,45 @@ class ListCollectionResponse200Links:
 
         last = self.last
 
-        prev: None | str | Unset
-        if isinstance(self.prev, Unset):
-            prev = UNSET
-        else:
-            prev = self.prev
+        prev: None | str
+        prev = self.prev
 
+        next_: None | str
         next_ = self.next_
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if first is not UNSET:
-            field_dict["first"] = first
-        if last is not UNSET:
-            field_dict["last"] = last
-        if prev is not UNSET:
-            field_dict["prev"] = prev
-        if next_ is not UNSET:
-            field_dict["next"] = next_
+        field_dict.update(
+            {
+                "first": first,
+                "last": last,
+                "prev": prev,
+                "next": next_,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        first = d.pop("first", UNSET)
+        first = d.pop("first")
 
-        last = d.pop("last", UNSET)
+        last = d.pop("last")
 
-        def _parse_prev(data: object) -> None | str | Unset:
+        def _parse_prev(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(None | str, data)
+
+        prev = _parse_prev(d.pop("prev"))
+
+        def _parse_next_(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        prev = _parse_prev(d.pop("prev", UNSET))
-
-        next_ = d.pop("next", UNSET)
+        next_ = _parse_next_(d.pop("next"))
 
         list_collection_response_200_links = cls(
             first=first,

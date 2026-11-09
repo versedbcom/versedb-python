@@ -7,6 +7,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_creators_blog_posts_response_200 import GetCreatorsBlogPostsResponse200
+from ...models.get_creators_blog_posts_response_403 import GetCreatorsBlogPostsResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -16,11 +17,14 @@ def _get_kwargs(
     creator_id: int,
     *,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
 
     params["limit"] = limit
+
+    params["page"] = page
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -37,7 +41,9 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     if response.status_code == 200:
         response_200 = GetCreatorsBlogPostsResponse200.from_dict(response.json())
 
@@ -47,6 +53,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetCreatorsBlogPostsResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -61,7 +72,9 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,26 +88,31 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
-) -> Response[GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     """Get creator's blog posts.
 
      Returns paginated published blog posts where this creator is featured.
 
     Args:
-        creator_id (int):
+        creator_id (int): The creator ID.
         limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         creator_id=creator_id,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -109,27 +127,32 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
-) -> GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> (
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     """Get creator's blog posts.
 
      Returns paginated published blog posts where this creator is featured.
 
     Args:
-        creator_id (int):
+        creator_id (int): The creator ID.
         limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError
+        GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
         creator_id=creator_id,
         client=client,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -138,26 +161,31 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
-) -> Response[GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError
+]:
     """Get creator's blog posts.
 
      Returns paginated published blog posts where this creator is featured.
 
     Args:
-        creator_id (int):
+        creator_id (int): The creator ID.
         limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         creator_id=creator_id,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -170,21 +198,25 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     limit: int | Unset = UNSET,
-) -> GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> (
+    GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError | None
+):
     """Get creator's blog posts.
 
      Returns paginated published blog posts where this creator is featured.
 
     Args:
-        creator_id (int):
+        creator_id (int): The creator ID.
         limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetCreatorsBlogPostsResponse200 | TooManyRequestsError | UnauthorizedError
+        GetCreatorsBlogPostsResponse200 | GetCreatorsBlogPostsResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -192,5 +224,6 @@ async def asyncio(
             creator_id=creator_id,
             client=client,
             limit=limit,
+            page=page,
         )
     ).parsed

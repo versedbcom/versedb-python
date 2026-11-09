@@ -6,50 +6,6 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..models.update_collection_item_body_acquisition_method import (
-    UpdateCollectionItemBodyAcquisitionMethod,
-    check_update_collection_item_body_acquisition_method,
-)
-from ..models.update_collection_item_body_condition import (
-    UpdateCollectionItemBodyCondition,
-    check_update_collection_item_body_condition,
-)
-from ..models.update_collection_item_body_format import (
-    UpdateCollectionItemBodyFormat,
-    check_update_collection_item_body_format,
-)
-from ..models.update_collection_item_body_grading_company import (
-    UpdateCollectionItemBodyGradingCompany,
-    check_update_collection_item_body_grading_company,
-)
-from ..models.update_collection_item_body_label_type import (
-    UpdateCollectionItemBodyLabelType,
-    check_update_collection_item_body_label_type,
-)
-from ..models.update_collection_item_body_page_quality import (
-    UpdateCollectionItemBodyPageQuality,
-    check_update_collection_item_body_page_quality,
-)
-from ..models.update_collection_item_body_print_number import (
-    UpdateCollectionItemBodyPrintNumber,
-    check_update_collection_item_body_print_number,
-)
-from ..models.update_collection_item_body_purchase_source import (
-    UpdateCollectionItemBodyPurchaseSource,
-    check_update_collection_item_body_purchase_source,
-)
-from ..models.update_collection_item_body_signature_witness import (
-    UpdateCollectionItemBodySignatureWitness,
-    check_update_collection_item_body_signature_witness,
-)
-from ..models.update_collection_item_body_status import (
-    UpdateCollectionItemBodyStatus,
-    check_update_collection_item_body_status,
-)
-from ..models.update_collection_item_body_variant_type import (
-    UpdateCollectionItemBodyVariantType,
-    check_update_collection_item_body_variant_type,
-)
 from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="UpdateCollectionItemBody")
@@ -61,24 +17,31 @@ class UpdateCollectionItemBody:
     Attributes:
         variant_id (int | None | Unset): Link to a specific issue variant. Must belong to the issue. Must match an
             existing stored value.
-        condition (UpdateCollectionItemBodyCondition | Unset): Comic condition grade (CGC scale).
+        condition (None | str | Unset): Comic condition grade (CGC scale). One of: `MT`, `NM/MT`, `NM+`, `NM`, `NM-`,
+            `VF/NM`, `VF+`, `VF`, `VF-`, `F/VF`, `F+`, `F`, `F-`, `VG/F`, `VG+`, `VG`, `VG-`, `G/VG`, `G`, `FR`, `PR`.
         notes (None | str | Unset): User notes about this copy. Must not be greater than 1000 characters.
         price_paid (float | None | Unset): Purchase price in dollars. Must be at least 0. Must not be greater than
             999999.99.
-        format_ (UpdateCollectionItemBodyFormat | Unset): Physical format of the copy.
-        purchase_source (UpdateCollectionItemBodyPurchaseSource | Unset): Where the comic was purchased.
+        format_ (None | str | Unset): Physical format of the copy. One of: `standard`, `trade_paperback`, `hardcover`,
+            `omnibus`, `deluxe_edition`, `annual`, `graphic_novel`, `digital`, `treasury`, `magazine`, `prestige`, `digest`,
+            `other`.
+        purchase_source (None | str | Unset): Where the comic was purchased. One of: `comic_shop`, `online_retailer`,
+            `auction`, `convention`, `private_seller`, `subscription`, `digital_platform`, `second_hand_store`,
+            `inheritance`, `gift`, `trade`, `other`.
         purchase_store (None | str | Unset): Name of the store the copy was bought from, as free text. Use comic_shop_id
             instead where the shop is one VerseDB catalogs. Must not be greater than 255 characters.
         custom_label (None | str | Unset): The collector's own label for this copy. Free-text and unrelated to a slab
             label. Must not be greater than 255 characters.
         bagged_at (None | str | Unset): Date the copy was bagged and boarded (YYYY-MM-DD). Must be a valid date.
         personal_rating (float | None | Unset): The collector's own rating of this copy, in half stars from 0.5 to 5.
-            Private to the copy: it is not a review and feeds no community average.
+            Private to the copy: it is not a review and feeds no community average. One of: 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4,
+            4.5, 5.
         tags (list[str] | Unset): The collector's own labels for this copy. Private to the account — one user's tags are
             never visible to another. Must not be greater than 100 characters.
         comic_shop_id (int | None | Unset): ID of the specific comic shop the copy was purchased from. Self-reported;
             independent of purchase_source. Must match an existing stored value.
-        acquisition_method (UpdateCollectionItemBodyAcquisitionMethod | Unset): How the comic was acquired.
+        acquisition_method (None | str | Unset): How the comic was acquired. One of: `purchase`, `trade`, `gift`,
+            `inheritance`, `subscription`, `found`, `other`.
         purchased_at (None | str | Unset): Date of purchase (YYYY-MM-DD). Must be a valid date.
         storage_location (None | str | Unset): Where the comic is stored. Must not be greater than 255 characters.
         is_signed (bool | Unset): Whether the comic is signed.
@@ -87,27 +50,33 @@ class UpdateCollectionItemBody:
         is_variant (bool | Unset): Whether this copy is a variant cover.
         variant_description (None | str | Unset): Free-text description of the variant cover. Must not be greater than
             500 characters.
-        variant_type (UpdateCollectionItemBodyVariantType | Unset): Variant classification (standard, cover_variant,
-            retailer_exclusive, incentive_variant, ratio_variant, virgin_variant, etc.).
+        variant_type (None | str | Unset): Variant classification (standard, cover_variant, retailer_exclusive,
+            incentive_variant, ratio_variant, virgin_variant, etc.). One of: `standard`, `cover_variant`,
+            `retailer_exclusive`, `convention_exclusive`, `incentive_variant`, `ratio_variant`, `foil_variant`,
+            `sketch_variant`, `virgin_variant`, `blank_variant`, `artist_variant`, `hologram_variant`,
+            `glow_in_dark_variant`, `facsimile`, `reprint`, `other`.
         graded (bool | Unset): Whether the comic is professionally graded.
         grade_score (None | str | Unset): Numeric grade score (e.g. 9.8). Must not be greater than 10 characters.
-        grading_company (UpdateCollectionItemBodyGradingCompany | Unset): Grading company (CGC, CBCS, PGX, other,
-            self_graded).
+        grading_company (None | str | Unset): Grading company (CGC, CBCS, PGX, other, self_graded). One of: `CGC`,
+            `CBCS`, `PGX`, `other`, `self_graded`.
         grading_number (None | str | Unset): Grading certification number. Must not be greater than 50 characters.
-        label_type (UpdateCollectionItemBodyLabelType | Unset): Slab label tier (e.g. universal, signature_series,
-            restored, qualified).
-        page_quality (UpdateCollectionItemBodyPageQuality | Unset): Interior page color quality from the slab label.
+        label_type (None | str | Unset): Slab label tier (e.g. universal, signature_series, restored, qualified). One
+            of: `universal`, `signature_series`, `qualified`, `restored`, `cgcxjsa`, `standard`, `verified_signature`,
+            `signed`, `conserved`.
+        page_quality (None | str | Unset): Interior page color quality from the slab label. One of: `white`,
+            `off_white_to_white`, `off_white`, `cream_to_off_white`, `light_tan`, `tan`, `brittle`.
         grader_notes (None | str | Unset): Free-text notes printed on the slab label. Must not be greater than 2000
             characters.
-        print_number (UpdateCollectionItemBodyPrintNumber | Unset): Which print this copy is (1st, 2nd, 3rd, … or
-            other).
-        signature_witness (UpdateCollectionItemBodySignatureWitness | Unset): Authentication of the signature (CGC,
-            CBCS, JSA, PSA/DNA, witnessed_in_person, unwitnessed, other).
+        print_number (None | str | Unset): Which print this copy is (1st, 2nd, 3rd, … or other). One of: `1st`, `2nd`,
+            `3rd`, `4th`, `5th`, `6th`, `7th`, `8th`, `9th`, `10th`, `other`.
+        signature_witness (None | str | Unset): Authentication of the signature (CGC, CBCS, JSA, PSA/DNA,
+            witnessed_in_person, unwitnessed, other). One of: `CGC`, `CBCS`, `JSA`, `PSA/DNA`, `witnessed_in_person`,
+            `unwitnessed`, `other`.
         estimated_value (float | None | Unset): Current estimated value in dollars. Must be at least 0. Must not be
             greater than 999999.99.
         for_sale (bool | Unset): Whether the item is for sale.
-        status (UpdateCollectionItemBodyStatus | Unset): Whether the copy is owned, for_sale, or sold. A sold copy keeps
-            its record but leaves the collection totals.
+        status (str | Unset): Whether the copy is owned, for_sale, or sold. A sold copy keeps its record but leaves the
+            collection totals. One of: `owned`, `for_sale`, `sold`.
         sold_at (None | str | Unset): Date the copy was sold. Must be a valid date.
         price_sold (float | None | Unset): What the copy sold for, in dollars. Must be at least 0. Must not be greater
             than 99999999.99.
@@ -119,37 +88,37 @@ class UpdateCollectionItemBody:
     """
 
     variant_id: int | None | Unset = UNSET
-    condition: UpdateCollectionItemBodyCondition | Unset = UNSET
+    condition: None | str | Unset = UNSET
     notes: None | str | Unset = UNSET
     price_paid: float | None | Unset = UNSET
-    format_: UpdateCollectionItemBodyFormat | Unset = UNSET
-    purchase_source: UpdateCollectionItemBodyPurchaseSource | Unset = UNSET
+    format_: None | str | Unset = UNSET
+    purchase_source: None | str | Unset = UNSET
     purchase_store: None | str | Unset = UNSET
     custom_label: None | str | Unset = UNSET
     bagged_at: None | str | Unset = UNSET
     personal_rating: float | None | Unset = UNSET
     tags: list[str] | Unset = UNSET
     comic_shop_id: int | None | Unset = UNSET
-    acquisition_method: UpdateCollectionItemBodyAcquisitionMethod | Unset = UNSET
+    acquisition_method: None | str | Unset = UNSET
     purchased_at: None | str | Unset = UNSET
     storage_location: None | str | Unset = UNSET
     is_signed: bool | Unset = UNSET
     signed_by: None | str | Unset = UNSET
     is_variant: bool | Unset = UNSET
     variant_description: None | str | Unset = UNSET
-    variant_type: UpdateCollectionItemBodyVariantType | Unset = UNSET
+    variant_type: None | str | Unset = UNSET
     graded: bool | Unset = UNSET
     grade_score: None | str | Unset = UNSET
-    grading_company: UpdateCollectionItemBodyGradingCompany | Unset = UNSET
+    grading_company: None | str | Unset = UNSET
     grading_number: None | str | Unset = UNSET
-    label_type: UpdateCollectionItemBodyLabelType | Unset = UNSET
-    page_quality: UpdateCollectionItemBodyPageQuality | Unset = UNSET
+    label_type: None | str | Unset = UNSET
+    page_quality: None | str | Unset = UNSET
     grader_notes: None | str | Unset = UNSET
-    print_number: UpdateCollectionItemBodyPrintNumber | Unset = UNSET
-    signature_witness: UpdateCollectionItemBodySignatureWitness | Unset = UNSET
+    print_number: None | str | Unset = UNSET
+    signature_witness: None | str | Unset = UNSET
     estimated_value: float | None | Unset = UNSET
     for_sale: bool | Unset = UNSET
-    status: UpdateCollectionItemBodyStatus | Unset = UNSET
+    status: str | Unset = UNSET
     sold_at: None | str | Unset = UNSET
     price_sold: float | None | Unset = UNSET
     for_trade: bool | Unset = UNSET
@@ -165,8 +134,10 @@ class UpdateCollectionItemBody:
         else:
             variant_id = self.variant_id
 
-        condition: str | Unset = UNSET
-        if not isinstance(self.condition, Unset):
+        condition: None | str | Unset
+        if isinstance(self.condition, Unset):
+            condition = UNSET
+        else:
             condition = self.condition
 
         notes: None | str | Unset
@@ -181,12 +152,16 @@ class UpdateCollectionItemBody:
         else:
             price_paid = self.price_paid
 
-        format_: str | Unset = UNSET
-        if not isinstance(self.format_, Unset):
+        format_: None | str | Unset
+        if isinstance(self.format_, Unset):
+            format_ = UNSET
+        else:
             format_ = self.format_
 
-        purchase_source: str | Unset = UNSET
-        if not isinstance(self.purchase_source, Unset):
+        purchase_source: None | str | Unset
+        if isinstance(self.purchase_source, Unset):
+            purchase_source = UNSET
+        else:
             purchase_source = self.purchase_source
 
         purchase_store: None | str | Unset
@@ -223,8 +198,10 @@ class UpdateCollectionItemBody:
         else:
             comic_shop_id = self.comic_shop_id
 
-        acquisition_method: str | Unset = UNSET
-        if not isinstance(self.acquisition_method, Unset):
+        acquisition_method: None | str | Unset
+        if isinstance(self.acquisition_method, Unset):
+            acquisition_method = UNSET
+        else:
             acquisition_method = self.acquisition_method
 
         purchased_at: None | str | Unset
@@ -255,8 +232,10 @@ class UpdateCollectionItemBody:
         else:
             variant_description = self.variant_description
 
-        variant_type: str | Unset = UNSET
-        if not isinstance(self.variant_type, Unset):
+        variant_type: None | str | Unset
+        if isinstance(self.variant_type, Unset):
+            variant_type = UNSET
+        else:
             variant_type = self.variant_type
 
         graded = self.graded
@@ -267,8 +246,10 @@ class UpdateCollectionItemBody:
         else:
             grade_score = self.grade_score
 
-        grading_company: str | Unset = UNSET
-        if not isinstance(self.grading_company, Unset):
+        grading_company: None | str | Unset
+        if isinstance(self.grading_company, Unset):
+            grading_company = UNSET
+        else:
             grading_company = self.grading_company
 
         grading_number: None | str | Unset
@@ -277,12 +258,16 @@ class UpdateCollectionItemBody:
         else:
             grading_number = self.grading_number
 
-        label_type: str | Unset = UNSET
-        if not isinstance(self.label_type, Unset):
+        label_type: None | str | Unset
+        if isinstance(self.label_type, Unset):
+            label_type = UNSET
+        else:
             label_type = self.label_type
 
-        page_quality: str | Unset = UNSET
-        if not isinstance(self.page_quality, Unset):
+        page_quality: None | str | Unset
+        if isinstance(self.page_quality, Unset):
+            page_quality = UNSET
+        else:
             page_quality = self.page_quality
 
         grader_notes: None | str | Unset
@@ -291,12 +276,16 @@ class UpdateCollectionItemBody:
         else:
             grader_notes = self.grader_notes
 
-        print_number: str | Unset = UNSET
-        if not isinstance(self.print_number, Unset):
+        print_number: None | str | Unset
+        if isinstance(self.print_number, Unset):
+            print_number = UNSET
+        else:
             print_number = self.print_number
 
-        signature_witness: str | Unset = UNSET
-        if not isinstance(self.signature_witness, Unset):
+        signature_witness: None | str | Unset
+        if isinstance(self.signature_witness, Unset):
+            signature_witness = UNSET
+        else:
             signature_witness = self.signature_witness
 
         estimated_value: float | None | Unset
@@ -307,9 +296,7 @@ class UpdateCollectionItemBody:
 
         for_sale = self.for_sale
 
-        status: str | Unset = UNSET
-        if not isinstance(self.status, Unset):
-            status = self.status
+        status = self.status
 
         sold_at: None | str | Unset
         if isinstance(self.sold_at, Unset):
@@ -430,12 +417,14 @@ class UpdateCollectionItemBody:
 
         variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
 
-        _condition = d.pop("condition", UNSET)
-        condition: UpdateCollectionItemBodyCondition | Unset
-        if isinstance(_condition, Unset):
-            condition = UNSET
-        else:
-            condition = check_update_collection_item_body_condition(_condition)
+        def _parse_condition(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        condition = _parse_condition(d.pop("condition", UNSET))
 
         def _parse_notes(data: object) -> None | str | Unset:
             if data is None:
@@ -455,19 +444,23 @@ class UpdateCollectionItemBody:
 
         price_paid = _parse_price_paid(d.pop("price_paid", UNSET))
 
-        _format_ = d.pop("format", UNSET)
-        format_: UpdateCollectionItemBodyFormat | Unset
-        if isinstance(_format_, Unset):
-            format_ = UNSET
-        else:
-            format_ = check_update_collection_item_body_format(_format_)
+        def _parse_format_(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
 
-        _purchase_source = d.pop("purchase_source", UNSET)
-        purchase_source: UpdateCollectionItemBodyPurchaseSource | Unset
-        if isinstance(_purchase_source, Unset):
-            purchase_source = UNSET
-        else:
-            purchase_source = check_update_collection_item_body_purchase_source(_purchase_source)
+        format_ = _parse_format_(d.pop("format", UNSET))
+
+        def _parse_purchase_source(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        purchase_source = _parse_purchase_source(d.pop("purchase_source", UNSET))
 
         def _parse_purchase_store(data: object) -> None | str | Unset:
             if data is None:
@@ -516,12 +509,14 @@ class UpdateCollectionItemBody:
 
         comic_shop_id = _parse_comic_shop_id(d.pop("comic_shop_id", UNSET))
 
-        _acquisition_method = d.pop("acquisition_method", UNSET)
-        acquisition_method: UpdateCollectionItemBodyAcquisitionMethod | Unset
-        if isinstance(_acquisition_method, Unset):
-            acquisition_method = UNSET
-        else:
-            acquisition_method = check_update_collection_item_body_acquisition_method(_acquisition_method)
+        def _parse_acquisition_method(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        acquisition_method = _parse_acquisition_method(d.pop("acquisition_method", UNSET))
 
         def _parse_purchased_at(data: object) -> None | str | Unset:
             if data is None:
@@ -563,12 +558,14 @@ class UpdateCollectionItemBody:
 
         variant_description = _parse_variant_description(d.pop("variant_description", UNSET))
 
-        _variant_type = d.pop("variant_type", UNSET)
-        variant_type: UpdateCollectionItemBodyVariantType | Unset
-        if isinstance(_variant_type, Unset):
-            variant_type = UNSET
-        else:
-            variant_type = check_update_collection_item_body_variant_type(_variant_type)
+        def _parse_variant_type(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        variant_type = _parse_variant_type(d.pop("variant_type", UNSET))
 
         graded = d.pop("graded", UNSET)
 
@@ -581,12 +578,14 @@ class UpdateCollectionItemBody:
 
         grade_score = _parse_grade_score(d.pop("grade_score", UNSET))
 
-        _grading_company = d.pop("grading_company", UNSET)
-        grading_company: UpdateCollectionItemBodyGradingCompany | Unset
-        if isinstance(_grading_company, Unset):
-            grading_company = UNSET
-        else:
-            grading_company = check_update_collection_item_body_grading_company(_grading_company)
+        def _parse_grading_company(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        grading_company = _parse_grading_company(d.pop("grading_company", UNSET))
 
         def _parse_grading_number(data: object) -> None | str | Unset:
             if data is None:
@@ -597,19 +596,23 @@ class UpdateCollectionItemBody:
 
         grading_number = _parse_grading_number(d.pop("grading_number", UNSET))
 
-        _label_type = d.pop("label_type", UNSET)
-        label_type: UpdateCollectionItemBodyLabelType | Unset
-        if isinstance(_label_type, Unset):
-            label_type = UNSET
-        else:
-            label_type = check_update_collection_item_body_label_type(_label_type)
+        def _parse_label_type(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
 
-        _page_quality = d.pop("page_quality", UNSET)
-        page_quality: UpdateCollectionItemBodyPageQuality | Unset
-        if isinstance(_page_quality, Unset):
-            page_quality = UNSET
-        else:
-            page_quality = check_update_collection_item_body_page_quality(_page_quality)
+        label_type = _parse_label_type(d.pop("label_type", UNSET))
+
+        def _parse_page_quality(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        page_quality = _parse_page_quality(d.pop("page_quality", UNSET))
 
         def _parse_grader_notes(data: object) -> None | str | Unset:
             if data is None:
@@ -620,19 +623,23 @@ class UpdateCollectionItemBody:
 
         grader_notes = _parse_grader_notes(d.pop("grader_notes", UNSET))
 
-        _print_number = d.pop("print_number", UNSET)
-        print_number: UpdateCollectionItemBodyPrintNumber | Unset
-        if isinstance(_print_number, Unset):
-            print_number = UNSET
-        else:
-            print_number = check_update_collection_item_body_print_number(_print_number)
+        def _parse_print_number(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
 
-        _signature_witness = d.pop("signature_witness", UNSET)
-        signature_witness: UpdateCollectionItemBodySignatureWitness | Unset
-        if isinstance(_signature_witness, Unset):
-            signature_witness = UNSET
-        else:
-            signature_witness = check_update_collection_item_body_signature_witness(_signature_witness)
+        print_number = _parse_print_number(d.pop("print_number", UNSET))
+
+        def _parse_signature_witness(data: object) -> None | str | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(None | str | Unset, data)
+
+        signature_witness = _parse_signature_witness(d.pop("signature_witness", UNSET))
 
         def _parse_estimated_value(data: object) -> float | None | Unset:
             if data is None:
@@ -645,12 +652,7 @@ class UpdateCollectionItemBody:
 
         for_sale = d.pop("for_sale", UNSET)
 
-        _status = d.pop("status", UNSET)
-        status: UpdateCollectionItemBodyStatus | Unset
-        if isinstance(_status, Unset):
-            status = UNSET
-        else:
-            status = check_update_collection_item_body_status(_status)
+        status = d.pop("status", UNSET)
 
         def _parse_sold_at(data: object) -> None | str | Unset:
             if data is None:

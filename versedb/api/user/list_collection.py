@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_collection_response_200 import ListCollectionResponse200
+from ...models.list_collection_response_403 import ListCollectionResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -30,6 +31,7 @@ def _get_kwargs(
     grade_max: float | Unset = UNSET,
     sort_by: str | Unset = UNSET,
     sort_order: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -68,6 +70,8 @@ def _get_kwargs(
 
     params["sort_order"] = sort_order
 
+    params["languages"] = languages
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
@@ -81,7 +85,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListCollectionResponse200.from_dict(response.json())
 
@@ -91,6 +95,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListCollectionResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -105,7 +114,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -134,14 +143,23 @@ def sync_detailed(
     grade_max: float | Unset = UNSET,
     sort_by: str | Unset = UNSET,
     sort_order: str | Unset = UNSET,
-) -> Response[ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List collection.
 
-     Returns all issues in the user's collection with series and publisher info.
+     Returns the issues in the user's collection, newest added first, each with its issue, series and
+    publisher.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
-        page (int | Unset): Page number.
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         search (str | Unset): Filter by issue name, issue number, or series name.
         format_ (str | Unset): Filter by stored format.
         graded (bool | Unset): Filter to graded (true) or raw (false) copies.
@@ -162,13 +180,15 @@ def sync_detailed(
         sort_by (str | Unset): Sort field. One of: date_added, title, release_date,
             estimated_value, price_paid.
         sort_order (str | Unset): Sort direction. One of: asc, desc.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -189,6 +209,7 @@ def sync_detailed(
         grade_max=grade_max,
         sort_by=sort_by,
         sort_order=sort_order,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -218,14 +239,23 @@ def sync(
     grade_max: float | Unset = UNSET,
     sort_by: str | Unset = UNSET,
     sort_order: str | Unset = UNSET,
-) -> ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List collection.
 
-     Returns all issues in the user's collection with series and publisher info.
+     Returns the issues in the user's collection, newest added first, each with its issue, series and
+    publisher.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
-        page (int | Unset): Page number.
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         search (str | Unset): Filter by issue name, issue number, or series name.
         format_ (str | Unset): Filter by stored format.
         graded (bool | Unset): Filter to graded (true) or raw (false) copies.
@@ -246,13 +276,15 @@ def sync(
         sort_by (str | Unset): Sort field. One of: date_added, title, release_date,
             estimated_value, price_paid.
         sort_order (str | Unset): Sort direction. One of: asc, desc.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError
+        ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -274,6 +306,7 @@ def sync(
         grade_max=grade_max,
         sort_by=sort_by,
         sort_order=sort_order,
+        languages=languages,
     ).parsed
 
 
@@ -297,14 +330,23 @@ async def asyncio_detailed(
     grade_max: float | Unset = UNSET,
     sort_by: str | Unset = UNSET,
     sort_order: str | Unset = UNSET,
-) -> Response[ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError]:
+    languages: str | Unset = UNSET,
+) -> Response[ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List collection.
 
-     Returns all issues in the user's collection with series and publisher info.
+     Returns the issues in the user's collection, newest added first, each with its issue, series and
+    publisher.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
-        page (int | Unset): Page number.
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         search (str | Unset): Filter by issue name, issue number, or series name.
         format_ (str | Unset): Filter by stored format.
         graded (bool | Unset): Filter to graded (true) or raw (false) copies.
@@ -325,13 +367,15 @@ async def asyncio_detailed(
         sort_by (str | Unset): Sort field. One of: date_added, title, release_date,
             estimated_value, price_paid.
         sort_order (str | Unset): Sort direction. One of: asc, desc.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -352,6 +396,7 @@ async def asyncio_detailed(
         grade_max=grade_max,
         sort_by=sort_by,
         sort_order=sort_order,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -379,14 +424,23 @@ async def asyncio(
     grade_max: float | Unset = UNSET,
     sort_by: str | Unset = UNSET,
     sort_order: str | Unset = UNSET,
-) -> ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    languages: str | Unset = UNSET,
+) -> ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List collection.
 
-     Returns all issues in the user's collection with series and publisher info.
+     Returns the issues in the user's collection, newest added first, each with its issue, series and
+    publisher.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each copy without
+    `price_paid`, `estimated_value`, `value_last_updated`, `price_sold`, `sold_at`,
+    `purchased_at`, `purchase_source`, `purchase_store`, `acquisition_method`,
+    `comic_shop_id`, `comic_shop`, `notes`, `grader_notes`, `storage_location`,
+    `custom_label`, `bagged_at`, `personal_rating`, `tags` or `loan`, leaves out copies
+    marked not public, and the `estimated_value` and `price_paid` sorts fall back to `date_added`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
-        page (int | Unset): Page number.
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         search (str | Unset): Filter by issue name, issue number, or series name.
         format_ (str | Unset): Filter by stored format.
         graded (bool | Unset): Filter to graded (true) or raw (false) copies.
@@ -407,13 +461,15 @@ async def asyncio(
         sort_by (str | Unset): Sort field. One of: date_added, title, release_date,
             estimated_value, price_paid.
         sort_order (str | Unset): Sort direction. One of: asc, desc.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListCollectionResponse200 | TooManyRequestsError | UnauthorizedError
+        ListCollectionResponse200 | ListCollectionResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -436,5 +492,6 @@ async def asyncio(
             grade_max=grade_max,
             sort_by=sort_by,
             sort_order=sort_order,
+            languages=languages,
         )
     ).parsed

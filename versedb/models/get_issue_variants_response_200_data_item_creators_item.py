@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="GetIssueVariantsResponse200DataItemCreatorsItem")
 
@@ -15,43 +13,49 @@ T = TypeVar("T", bound="GetIssueVariantsResponse200DataItemCreatorsItem")
 class GetIssueVariantsResponse200DataItemCreatorsItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        role (str | Unset):
+        id (int):
+        name (None | str):
+        role (str):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    role: str | Unset = UNSET
+    id: int
+    name: None | str
+    role: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        name: None | str
         name = self.name
 
         role = self.role
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if role is not UNSET:
-            field_dict["role"] = role
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "role": role,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        role = d.pop("role", UNSET)
+        name = _parse_name(d.pop("name"))
+
+        role = d.pop("role")
 
         get_issue_variants_response_200_data_item_creators_item = cls(
             id=id,

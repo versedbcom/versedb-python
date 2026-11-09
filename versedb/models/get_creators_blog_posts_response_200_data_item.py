@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -15,6 +15,9 @@ if TYPE_CHECKING:
     from ..models.get_creators_blog_posts_response_200_data_item_category import (
         GetCreatorsBlogPostsResponse200DataItemCategory,
     )
+    from ..models.get_creators_blog_posts_response_200_data_item_images_type_0 import (
+        GetCreatorsBlogPostsResponse200DataItemImagesType0,
+    )
 
 
 T = TypeVar("T", bound="GetCreatorsBlogPostsResponse200DataItem")
@@ -24,34 +27,54 @@ T = TypeVar("T", bound="GetCreatorsBlogPostsResponse200DataItem")
 class GetCreatorsBlogPostsResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        slug (str | Unset):
-        title (str | Unset):
-        featured_image_url (str | Unset):
+        id (int):
+        slug (None | str):
+        title (None | str):
+        featured_image_url (None | str):
+        images (GetCreatorsBlogPostsResponse200DataItemImagesType0 | None):
+        published_at (None | str):
+        reading_time (int):
         category (GetCreatorsBlogPostsResponse200DataItemCategory | Unset):
         author (GetCreatorsBlogPostsResponse200DataItemAuthor | Unset):
-        published_at (str | Unset):
-        reading_time (int | Unset):
     """
 
-    id: int | Unset = UNSET
-    slug: str | Unset = UNSET
-    title: str | Unset = UNSET
-    featured_image_url: str | Unset = UNSET
+    id: int
+    slug: None | str
+    title: None | str
+    featured_image_url: None | str
+    images: GetCreatorsBlogPostsResponse200DataItemImagesType0 | None
+    published_at: None | str
+    reading_time: int
     category: GetCreatorsBlogPostsResponse200DataItemCategory | Unset = UNSET
     author: GetCreatorsBlogPostsResponse200DataItemAuthor | Unset = UNSET
-    published_at: str | Unset = UNSET
-    reading_time: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_creators_blog_posts_response_200_data_item_images_type_0 import (
+            GetCreatorsBlogPostsResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        slug: None | str
         slug = self.slug
 
+        title: None | str
         title = self.title
 
+        featured_image_url: None | str
         featured_image_url = self.featured_image_url
+
+        images: dict[str, Any] | None
+        if isinstance(self.images, GetCreatorsBlogPostsResponse200DataItemImagesType0):
+            images = self.images.to_dict()
+        else:
+            images = self.images
+
+        published_at: None | str
+        published_at = self.published_at
+
+        reading_time = self.reading_time
 
         category: dict[str, Any] | Unset = UNSET
         if not isinstance(self.category, Unset):
@@ -61,29 +84,23 @@ class GetCreatorsBlogPostsResponse200DataItem:
         if not isinstance(self.author, Unset):
             author = self.author.to_dict()
 
-        published_at = self.published_at
-
-        reading_time = self.reading_time
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if title is not UNSET:
-            field_dict["title"] = title
-        if featured_image_url is not UNSET:
-            field_dict["featured_image_url"] = featured_image_url
+        field_dict.update(
+            {
+                "id": id,
+                "slug": slug,
+                "title": title,
+                "featured_image_url": featured_image_url,
+                "images": images,
+                "published_at": published_at,
+                "reading_time": reading_time,
+            }
+        )
         if category is not UNSET:
             field_dict["category"] = category
         if author is not UNSET:
             field_dict["author"] = author
-        if published_at is not UNSET:
-            field_dict["published_at"] = published_at
-        if reading_time is not UNSET:
-            field_dict["reading_time"] = reading_time
 
         return field_dict
 
@@ -95,15 +112,57 @@ class GetCreatorsBlogPostsResponse200DataItem:
         from ..models.get_creators_blog_posts_response_200_data_item_category import (
             GetCreatorsBlogPostsResponse200DataItemCategory,  # noqa: PLC0415
         )
+        from ..models.get_creators_blog_posts_response_200_data_item_images_type_0 import (
+            GetCreatorsBlogPostsResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        slug = d.pop("slug", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        title = d.pop("title", UNSET)
+        slug = _parse_slug(d.pop("slug"))
 
-        featured_image_url = d.pop("featured_image_url", UNSET)
+        def _parse_title(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        title = _parse_title(d.pop("title"))
+
+        def _parse_featured_image_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        featured_image_url = _parse_featured_image_url(d.pop("featured_image_url"))
+
+        def _parse_images(data: object) -> GetCreatorsBlogPostsResponse200DataItemImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = GetCreatorsBlogPostsResponse200DataItemImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetCreatorsBlogPostsResponse200DataItemImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        def _parse_published_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        published_at = _parse_published_at(d.pop("published_at"))
+
+        reading_time = d.pop("reading_time")
 
         _category = d.pop("category", UNSET)
         category: GetCreatorsBlogPostsResponse200DataItemCategory | Unset
@@ -119,19 +178,16 @@ class GetCreatorsBlogPostsResponse200DataItem:
         else:
             author = GetCreatorsBlogPostsResponse200DataItemAuthor.from_dict(_author)
 
-        published_at = d.pop("published_at", UNSET)
-
-        reading_time = d.pop("reading_time", UNSET)
-
         get_creators_blog_posts_response_200_data_item = cls(
             id=id,
             slug=slug,
             title=title,
             featured_image_url=featured_image_url,
-            category=category,
-            author=author,
+            images=images,
             published_at=published_at,
             reading_time=reading_time,
+            category=category,
+            author=author,
         )
 
         get_creators_blog_posts_response_200_data_item.additional_properties = d

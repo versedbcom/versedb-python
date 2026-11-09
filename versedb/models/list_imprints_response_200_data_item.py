@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
-    from ..models.list_imprints_response_200_data_item_publisher import ListImprintsResponse200DataItemPublisher
+    from ..models.list_imprints_response_200_data_item_aliases_i18n import ListImprintsResponse200DataItemAliasesI18N
+    from ..models.list_imprints_response_200_data_item_name_i18n import ListImprintsResponse200DataItemNameI18N
+    from ..models.list_imprints_response_200_data_item_publisher_type_0 import (
+        ListImprintsResponse200DataItemPublisherType0,
+    )
 
 
 T = TypeVar("T", bound="ListImprintsResponse200DataItem")
@@ -19,68 +21,127 @@ T = TypeVar("T", bound="ListImprintsResponse200DataItem")
 class ListImprintsResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        publisher (ListImprintsResponse200DataItemPublisher | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        publisher (ListImprintsResponse200DataItemPublisherType0 | None):
+        name_i18n (ListImprintsResponse200DataItemNameI18N): One name per language, keyed by BCP 47 tag.
+        aliases_i18n (ListImprintsResponse200DataItemAliasesI18N): Alternative names per language.
+        original_locale (None | str): The language the imprint is from, a BCP 47 tag.
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    publisher: ListImprintsResponse200DataItemPublisher | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    publisher: ListImprintsResponse200DataItemPublisherType0 | None
+    name_i18n: ListImprintsResponse200DataItemNameI18N
+    aliases_i18n: ListImprintsResponse200DataItemAliasesI18N
+    original_locale: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.list_imprints_response_200_data_item_publisher_type_0 import (
+            ListImprintsResponse200DataItemPublisherType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
 
-        publisher: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.publisher, Unset):
+        publisher: dict[str, Any] | None
+        if isinstance(self.publisher, ListImprintsResponse200DataItemPublisherType0):
             publisher = self.publisher.to_dict()
+        else:
+            publisher = self.publisher
+
+        name_i18n = self.name_i18n.to_dict()
+
+        aliases_i18n = self.aliases_i18n.to_dict()
+
+        original_locale: None | str
+        original_locale = self.original_locale
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if publisher is not UNSET:
-            field_dict["publisher"] = publisher
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "publisher": publisher,
+                "name_i18n": name_i18n,
+                "aliases_i18n": aliases_i18n,
+                "original_locale": original_locale,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_imprints_response_200_data_item_publisher import (
-            ListImprintsResponse200DataItemPublisher,  # noqa: PLC0415
+        from ..models.list_imprints_response_200_data_item_aliases_i18n import (
+            ListImprintsResponse200DataItemAliasesI18N,  # noqa: PLC0415
+        )
+        from ..models.list_imprints_response_200_data_item_name_i18n import ListImprintsResponse200DataItemNameI18N  # noqa: PLC0415
+        from ..models.list_imprints_response_200_data_item_publisher_type_0 import (
+            ListImprintsResponse200DataItemPublisherType0,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        slug = d.pop("slug", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        _publisher = d.pop("publisher", UNSET)
-        publisher: ListImprintsResponse200DataItemPublisher | Unset
-        if isinstance(_publisher, Unset):
-            publisher = UNSET
-        else:
-            publisher = ListImprintsResponse200DataItemPublisher.from_dict(_publisher)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        slug = _parse_slug(d.pop("slug"))
+
+        def _parse_publisher(data: object) -> ListImprintsResponse200DataItemPublisherType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                publisher_type_0 = ListImprintsResponse200DataItemPublisherType0.from_dict(data)
+
+                return publisher_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListImprintsResponse200DataItemPublisherType0 | None, data)
+
+        publisher = _parse_publisher(d.pop("publisher"))
+
+        name_i18n = ListImprintsResponse200DataItemNameI18N.from_dict(d.pop("name_i18n"))
+
+        aliases_i18n = ListImprintsResponse200DataItemAliasesI18N.from_dict(d.pop("aliases_i18n"))
+
+        def _parse_original_locale(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        original_locale = _parse_original_locale(d.pop("original_locale"))
 
         list_imprints_response_200_data_item = cls(
             id=id,
             name=name,
             slug=slug,
             publisher=publisher,
+            name_i18n=name_i18n,
+            aliases_i18n=aliases_i18n,
+            original_locale=original_locale,
         )
 
         list_imprints_response_200_data_item.additional_properties = d

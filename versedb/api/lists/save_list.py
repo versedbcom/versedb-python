@@ -9,6 +9,7 @@ from ...client import AuthenticatedClient, Client
 from ...models.save_list_response_200 import SaveListResponse200
 from ...models.save_list_response_201 import SaveListResponse201
 from ...models.save_list_response_403 import SaveListResponse403
+from ...models.save_list_response_404 import SaveListResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import Response
@@ -30,7 +31,15 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = SaveListResponse200.from_dict(response.json())
 
@@ -51,6 +60,11 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = SaveListResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
 
@@ -65,7 +79,12 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -80,21 +99,26 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Save list.
 
      Saves a list to the user's saved lists for quick access. Cannot save your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError]
+        Response[SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | SaveListResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -112,20 +136,28 @@ def sync(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Save list.
 
      Saves a list to the user's saved lists for quick access. Cannot save your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError
+        SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | SaveListResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -139,21 +171,26 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
 ) -> Response[
-    SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
 ]:
     """Save list.
 
      Saves a list to the user's saved lists for quick access. Cannot save your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError]
+        Response[SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | SaveListResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -169,20 +206,28 @@ async def asyncio(
     list_id: int,
     *,
     client: AuthenticatedClient | Client,
-) -> SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    SaveListResponse200
+    | SaveListResponse201
+    | SaveListResponse403
+    | SaveListResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Save list.
 
      Saves a list to the user's saved lists for quick access. Cannot save your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | TooManyRequestsError | UnauthorizedError
+        SaveListResponse200 | SaveListResponse201 | SaveListResponse403 | SaveListResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

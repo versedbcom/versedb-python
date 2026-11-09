@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
+if TYPE_CHECKING:
+    from ..models.get_series_details_response_200_data_creators_item_images_type_0 import (
+        GetSeriesDetailsResponse200DataCreatorsItemImagesType0,
+    )
+
 
 T = TypeVar("T", bound="GetSeriesDetailsResponse200DataCreatorsItem")
 
@@ -15,30 +19,45 @@ T = TypeVar("T", bound="GetSeriesDetailsResponse200DataCreatorsItem")
 class GetSeriesDetailsResponse200DataCreatorsItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        photo_url (str | Unset):
-        role (str | Unset):
-        is_uncredited (bool | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        photo_url (None | str):
+        images (GetSeriesDetailsResponse200DataCreatorsItemImagesType0 | None):
+        role (str):
+        is_uncredited (bool):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    photo_url: str | Unset = UNSET
-    role: str | Unset = UNSET
-    is_uncredited: bool | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    photo_url: None | str
+    images: GetSeriesDetailsResponse200DataCreatorsItemImagesType0 | None
+    role: str
+    is_uncredited: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.get_series_details_response_200_data_creators_item_images_type_0 import (
+            GetSeriesDetailsResponse200DataCreatorsItemImagesType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
 
+        photo_url: None | str
         photo_url = self.photo_url
+
+        images: dict[str, Any] | None
+        if isinstance(self.images, GetSeriesDetailsResponse200DataCreatorsItemImagesType0):
+            images = self.images.to_dict()
+        else:
+            images = self.images
 
         role = self.role
 
@@ -46,42 +65,75 @@ class GetSeriesDetailsResponse200DataCreatorsItem:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if photo_url is not UNSET:
-            field_dict["photo_url"] = photo_url
-        if role is not UNSET:
-            field_dict["role"] = role
-        if is_uncredited is not UNSET:
-            field_dict["is_uncredited"] = is_uncredited
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "photo_url": photo_url,
+                "images": images,
+                "role": role,
+                "is_uncredited": is_uncredited,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_series_details_response_200_data_creators_item_images_type_0 import (
+            GetSeriesDetailsResponse200DataCreatorsItemImagesType0,  # noqa: PLC0415
+        )
+
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        slug = d.pop("slug", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        photo_url = d.pop("photo_url", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        role = d.pop("role", UNSET)
+        slug = _parse_slug(d.pop("slug"))
 
-        is_uncredited = d.pop("is_uncredited", UNSET)
+        def _parse_photo_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        photo_url = _parse_photo_url(d.pop("photo_url"))
+
+        def _parse_images(data: object) -> GetSeriesDetailsResponse200DataCreatorsItemImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = GetSeriesDetailsResponse200DataCreatorsItemImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(GetSeriesDetailsResponse200DataCreatorsItemImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        role = d.pop("role")
+
+        is_uncredited = d.pop("is_uncredited")
 
         get_series_details_response_200_data_creators_item = cls(
             id=id,
             name=name,
             slug=slug,
             photo_url=photo_url,
+            images=images,
             role=role,
             is_uncredited=is_uncredited,
         )

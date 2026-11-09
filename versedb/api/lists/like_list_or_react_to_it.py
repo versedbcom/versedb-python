@@ -11,6 +11,7 @@ from ...models.like_list_or_react_to_it_response_200_type_0 import LikeListOrRea
 from ...models.like_list_or_react_to_it_response_200_type_1 import LikeListOrReactToItResponse200Type1
 from ...models.like_list_or_react_to_it_response_201 import LikeListOrReactToItResponse201
 from ...models.like_list_or_react_to_it_response_403 import LikeListOrReactToItResponse403
+from ...models.like_list_or_react_to_it_response_404 import LikeListOrReactToItResponse404
 from ...models.like_list_or_react_to_it_response_422 import LikeListOrReactToItResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -47,6 +48,7 @@ def _parse_response(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -90,6 +92,11 @@ def _parse_response(
 
         return response_403
 
+    if response.status_code == 404:
+        response_404 = LikeListOrReactToItResponse404.from_dict(response.json())
+
+        return response_404
+
     if response.status_code == 422:
         response_422 = LikeListOrReactToItResponse422.from_dict(response.json())
 
@@ -113,6 +120,7 @@ def _build_response(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -135,18 +143,19 @@ def sync_detailed(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Like list, or react to it.
 
-     With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-    change the one already held; `DELETE` takes it back whichever it is. A member holds one
-    reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+     With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the
+    one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and
+    every reaction counts toward `likes_count`. Cannot like your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (LikeListOrReactToItBody | Unset):
 
     Raises:
@@ -154,7 +163,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse404 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -179,6 +188,7 @@ def sync(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -186,12 +196,12 @@ def sync(
 ):
     """Like list, or react to it.
 
-     With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-    change the one already held; `DELETE` takes it back whichever it is. A member holds one
-    reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+     With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the
+    one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and
+    every reaction counts toward `likes_count`. Cannot like your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (LikeListOrReactToItBody | Unset):
 
     Raises:
@@ -199,7 +209,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError
+        LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse404 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -219,18 +229,19 @@ async def asyncio_detailed(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Like list, or react to it.
 
-     With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-    change the one already held; `DELETE` takes it back whichever it is. A member holds one
-    reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+     With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the
+    one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and
+    every reaction counts toward `likes_count`. Cannot like your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (LikeListOrReactToItBody | Unset):
 
     Raises:
@@ -238,7 +249,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse404 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -261,6 +272,7 @@ async def asyncio(
     | LikeListOrReactToItResponse200Type1
     | LikeListOrReactToItResponse201
     | LikeListOrReactToItResponse403
+    | LikeListOrReactToItResponse404
     | LikeListOrReactToItResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -268,12 +280,12 @@ async def asyncio(
 ):
     """Like list, or react to it.
 
-     With no body this likes the list. Send `reaction` to leave that reaction instead, or to
-    change the one already held; `DELETE` takes it back whichever it is. A member holds one
-    reaction per list and every reaction counts toward `likes_count`. Cannot like your own lists.
+     With no body this likes the list. Send `reaction` to leave that reaction instead, or to change the
+    one already held; `DELETE` takes it back whichever it is. A member holds one reaction per list and
+    every reaction counts toward `likes_count`. Cannot like your own lists.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
         body (LikeListOrReactToItBody | Unset):
 
     Raises:
@@ -281,7 +293,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError
+        LikeListOrReactToItResponse200Type0 | LikeListOrReactToItResponse200Type1 | LikeListOrReactToItResponse201 | LikeListOrReactToItResponse403 | LikeListOrReactToItResponse404 | LikeListOrReactToItResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

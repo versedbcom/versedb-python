@@ -6,10 +6,10 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
-    from ..models.list_events_response_200_data_item_images import ListEventsResponse200DataItemImages
+    from ..models.list_events_response_200_data_item_aliases_i18n import ListEventsResponse200DataItemAliasesI18N
+    from ..models.list_events_response_200_data_item_images_type_0 import ListEventsResponse200DataItemImagesType0
+    from ..models.list_events_response_200_data_item_name_i18n import ListEventsResponse200DataItemNameI18N
 
 
 T = TypeVar("T", bound="ListEventsResponse200DataItem")
@@ -19,227 +19,312 @@ T = TypeVar("T", bound="ListEventsResponse200DataItem")
 class ListEventsResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        slug (str | Unset):
-        name (str | Unset):
-        type_ (str | Unset):
-        status (str | Unset):
-        start_date (str | Unset):
-        end_date (str | Unset):
-        start_time (None | str | Unset):
-        end_time (None | str | Unset):
-        timezone (str | Unset):
-        is_online (bool | Unset):
-        is_fcbd (bool | Unset):
-        venue_name (str | Unset):
-        city (str | Unset):
-        region (str | Unset):
-        country_code (str | Unset):
-        full_location (str | Unset):
-        logo_url (str | Unset):
-        images (ListEventsResponse200DataItemImages | Unset):
-        ticket_price (str | Unset):
-        follower_count (int | Unset):
+        id (int):
+        slug (None | str):
+        name (None | str):
+        name_i18n (ListEventsResponse200DataItemNameI18N): One name per language, keyed by BCP 47 tag.
+        aliases_i18n (ListEventsResponse200DataItemAliasesI18N): Alternative names per language.
+        original_locale (None | str): The language the entity is from, a BCP 47 tag.
+        type_ (None | str): convention or store_event.
+        start_date (None | str):
+        end_date (None | str):
+        start_time (None | str):
+        end_time (None | str):
+        timezone (None | str):
+        is_online (bool):
+        is_fcbd (bool):
+        status (str): scheduled, cancelled, postponed or moved_online.
+        venue_name (None | str):
+        city (None | str):
+        region (None | str):
+        country_code (None | str):
+        full_location (str): `Online Event` for an online event, `Location TBA` when nothing is known.
+        logo_url (None | str):
+        images (ListEventsResponse200DataItemImagesType0 | None):
+        ticket_price (None | str):
+        follower_count (int):
     """
 
-    id: int | Unset = UNSET
-    slug: str | Unset = UNSET
-    name: str | Unset = UNSET
-    type_: str | Unset = UNSET
-    status: str | Unset = UNSET
-    start_date: str | Unset = UNSET
-    end_date: str | Unset = UNSET
-    start_time: None | str | Unset = UNSET
-    end_time: None | str | Unset = UNSET
-    timezone: str | Unset = UNSET
-    is_online: bool | Unset = UNSET
-    is_fcbd: bool | Unset = UNSET
-    venue_name: str | Unset = UNSET
-    city: str | Unset = UNSET
-    region: str | Unset = UNSET
-    country_code: str | Unset = UNSET
-    full_location: str | Unset = UNSET
-    logo_url: str | Unset = UNSET
-    images: ListEventsResponse200DataItemImages | Unset = UNSET
-    ticket_price: str | Unset = UNSET
-    follower_count: int | Unset = UNSET
+    id: int
+    slug: None | str
+    name: None | str
+    name_i18n: ListEventsResponse200DataItemNameI18N
+    aliases_i18n: ListEventsResponse200DataItemAliasesI18N
+    original_locale: None | str
+    type_: None | str
+    start_date: None | str
+    end_date: None | str
+    start_time: None | str
+    end_time: None | str
+    timezone: None | str
+    is_online: bool
+    is_fcbd: bool
+    status: str
+    venue_name: None | str
+    city: None | str
+    region: None | str
+    country_code: None | str
+    full_location: str
+    logo_url: None | str
+    images: ListEventsResponse200DataItemImagesType0 | None
+    ticket_price: None | str
+    follower_count: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.list_events_response_200_data_item_images_type_0 import ListEventsResponse200DataItemImagesType0  # noqa: PLC0415
+
         id = self.id
 
+        slug: None | str
         slug = self.slug
 
+        name: None | str
         name = self.name
 
+        name_i18n = self.name_i18n.to_dict()
+
+        aliases_i18n = self.aliases_i18n.to_dict()
+
+        original_locale: None | str
+        original_locale = self.original_locale
+
+        type_: None | str
         type_ = self.type_
 
-        status = self.status
-
+        start_date: None | str
         start_date = self.start_date
 
+        end_date: None | str
         end_date = self.end_date
 
-        start_time: None | str | Unset
-        if isinstance(self.start_time, Unset):
-            start_time = UNSET
-        else:
-            start_time = self.start_time
+        start_time: None | str
+        start_time = self.start_time
 
-        end_time: None | str | Unset
-        if isinstance(self.end_time, Unset):
-            end_time = UNSET
-        else:
-            end_time = self.end_time
+        end_time: None | str
+        end_time = self.end_time
 
+        timezone: None | str
         timezone = self.timezone
 
         is_online = self.is_online
 
         is_fcbd = self.is_fcbd
 
+        status = self.status
+
+        venue_name: None | str
         venue_name = self.venue_name
 
+        city: None | str
         city = self.city
 
+        region: None | str
         region = self.region
 
+        country_code: None | str
         country_code = self.country_code
 
         full_location = self.full_location
 
+        logo_url: None | str
         logo_url = self.logo_url
 
-        images: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.images, Unset):
+        images: dict[str, Any] | None
+        if isinstance(self.images, ListEventsResponse200DataItemImagesType0):
             images = self.images.to_dict()
+        else:
+            images = self.images
 
+        ticket_price: None | str
         ticket_price = self.ticket_price
 
         follower_count = self.follower_count
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if name is not UNSET:
-            field_dict["name"] = name
-        if type_ is not UNSET:
-            field_dict["type"] = type_
-        if status is not UNSET:
-            field_dict["status"] = status
-        if start_date is not UNSET:
-            field_dict["start_date"] = start_date
-        if end_date is not UNSET:
-            field_dict["end_date"] = end_date
-        if start_time is not UNSET:
-            field_dict["start_time"] = start_time
-        if end_time is not UNSET:
-            field_dict["end_time"] = end_time
-        if timezone is not UNSET:
-            field_dict["timezone"] = timezone
-        if is_online is not UNSET:
-            field_dict["is_online"] = is_online
-        if is_fcbd is not UNSET:
-            field_dict["is_fcbd"] = is_fcbd
-        if venue_name is not UNSET:
-            field_dict["venue_name"] = venue_name
-        if city is not UNSET:
-            field_dict["city"] = city
-        if region is not UNSET:
-            field_dict["region"] = region
-        if country_code is not UNSET:
-            field_dict["country_code"] = country_code
-        if full_location is not UNSET:
-            field_dict["full_location"] = full_location
-        if logo_url is not UNSET:
-            field_dict["logo_url"] = logo_url
-        if images is not UNSET:
-            field_dict["images"] = images
-        if ticket_price is not UNSET:
-            field_dict["ticket_price"] = ticket_price
-        if follower_count is not UNSET:
-            field_dict["follower_count"] = follower_count
+        field_dict.update(
+            {
+                "id": id,
+                "slug": slug,
+                "name": name,
+                "name_i18n": name_i18n,
+                "aliases_i18n": aliases_i18n,
+                "original_locale": original_locale,
+                "type": type_,
+                "start_date": start_date,
+                "end_date": end_date,
+                "start_time": start_time,
+                "end_time": end_time,
+                "timezone": timezone,
+                "is_online": is_online,
+                "is_fcbd": is_fcbd,
+                "status": status,
+                "venue_name": venue_name,
+                "city": city,
+                "region": region,
+                "country_code": country_code,
+                "full_location": full_location,
+                "logo_url": logo_url,
+                "images": images,
+                "ticket_price": ticket_price,
+                "follower_count": follower_count,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.list_events_response_200_data_item_images import (
-            ListEventsResponse200DataItemImages,  # noqa: PLC0415
-        )
+        from ..models.list_events_response_200_data_item_aliases_i18n import ListEventsResponse200DataItemAliasesI18N  # noqa: PLC0415
+        from ..models.list_events_response_200_data_item_images_type_0 import ListEventsResponse200DataItemImagesType0  # noqa: PLC0415
+        from ..models.list_events_response_200_data_item_name_i18n import ListEventsResponse200DataItemNameI18N  # noqa: PLC0415
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        slug = d.pop("slug", UNSET)
-
-        name = d.pop("name", UNSET)
-
-        type_ = d.pop("type", UNSET)
-
-        status = d.pop("status", UNSET)
-
-        start_date = d.pop("start_date", UNSET)
-
-        end_date = d.pop("end_date", UNSET)
-
-        def _parse_start_time(data: object) -> None | str | Unset:
+        def _parse_slug(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        start_time = _parse_start_time(d.pop("start_time", UNSET))
+        slug = _parse_slug(d.pop("slug"))
 
-        def _parse_end_time(data: object) -> None | str | Unset:
+        def _parse_name(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
+            return cast(None | str, data)
+
+        name = _parse_name(d.pop("name"))
+
+        name_i18n = ListEventsResponse200DataItemNameI18N.from_dict(d.pop("name_i18n"))
+
+        aliases_i18n = ListEventsResponse200DataItemAliasesI18N.from_dict(d.pop("aliases_i18n"))
+
+        def _parse_original_locale(data: object) -> None | str:
+            if data is None:
                 return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        end_time = _parse_end_time(d.pop("end_time", UNSET))
+        original_locale = _parse_original_locale(d.pop("original_locale"))
 
-        timezone = d.pop("timezone", UNSET)
+        def _parse_type_(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        is_online = d.pop("is_online", UNSET)
+        type_ = _parse_type_(d.pop("type"))
 
-        is_fcbd = d.pop("is_fcbd", UNSET)
+        def _parse_start_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        venue_name = d.pop("venue_name", UNSET)
+        start_date = _parse_start_date(d.pop("start_date"))
 
-        city = d.pop("city", UNSET)
+        def _parse_end_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        region = d.pop("region", UNSET)
+        end_date = _parse_end_date(d.pop("end_date"))
 
-        country_code = d.pop("country_code", UNSET)
+        def _parse_start_time(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        full_location = d.pop("full_location", UNSET)
+        start_time = _parse_start_time(d.pop("start_time"))
 
-        logo_url = d.pop("logo_url", UNSET)
+        def _parse_end_time(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        _images = d.pop("images", UNSET)
-        images: ListEventsResponse200DataItemImages | Unset
-        if isinstance(_images, Unset):
-            images = UNSET
-        else:
-            images = ListEventsResponse200DataItemImages.from_dict(_images)
+        end_time = _parse_end_time(d.pop("end_time"))
 
-        ticket_price = d.pop("ticket_price", UNSET)
+        def _parse_timezone(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        follower_count = d.pop("follower_count", UNSET)
+        timezone = _parse_timezone(d.pop("timezone"))
+
+        is_online = d.pop("is_online")
+
+        is_fcbd = d.pop("is_fcbd")
+
+        status = d.pop("status")
+
+        def _parse_venue_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        venue_name = _parse_venue_name(d.pop("venue_name"))
+
+        def _parse_city(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        city = _parse_city(d.pop("city"))
+
+        def _parse_region(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        region = _parse_region(d.pop("region"))
+
+        def _parse_country_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        country_code = _parse_country_code(d.pop("country_code"))
+
+        full_location = d.pop("full_location")
+
+        def _parse_logo_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        logo_url = _parse_logo_url(d.pop("logo_url"))
+
+        def _parse_images(data: object) -> ListEventsResponse200DataItemImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = ListEventsResponse200DataItemImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListEventsResponse200DataItemImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        def _parse_ticket_price(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        ticket_price = _parse_ticket_price(d.pop("ticket_price"))
+
+        follower_count = d.pop("follower_count")
 
         list_events_response_200_data_item = cls(
             id=id,
             slug=slug,
             name=name,
+            name_i18n=name_i18n,
+            aliases_i18n=aliases_i18n,
+            original_locale=original_locale,
             type_=type_,
-            status=status,
             start_date=start_date,
             end_date=end_date,
             start_time=start_time,
@@ -247,6 +332,7 @@ class ListEventsResponse200DataItem:
             timezone=timezone,
             is_online=is_online,
             is_fcbd=is_fcbd,
+            status=status,
             venue_name=venue_name,
             city=city,
             region=region,

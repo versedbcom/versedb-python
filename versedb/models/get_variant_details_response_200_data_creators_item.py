@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="GetVariantDetailsResponse200DataCreatorsItem")
 
@@ -15,57 +13,90 @@ T = TypeVar("T", bound="GetVariantDetailsResponse200DataCreatorsItem")
 class GetVariantDetailsResponse200DataCreatorsItem:
     """
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        slug (str | Unset):
-        role (str | Unset):
+        id (int):
+        name (None | str):
+        slug (None | str):
+        photo_url (None | str):
+        role (str):
+        is_uncredited (bool):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    slug: str | Unset = UNSET
-    role: str | Unset = UNSET
+    id: int
+    name: None | str
+    slug: None | str
+    photo_url: None | str
+    role: str
+    is_uncredited: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        name: None | str
         name = self.name
 
+        slug: None | str
         slug = self.slug
+
+        photo_url: None | str
+        photo_url = self.photo_url
 
         role = self.role
 
+        is_uncredited = self.is_uncredited
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if slug is not UNSET:
-            field_dict["slug"] = slug
-        if role is not UNSET:
-            field_dict["role"] = role
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "slug": slug,
+                "photo_url": photo_url,
+                "role": role,
+                "is_uncredited": is_uncredited,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        slug = d.pop("slug", UNSET)
+        name = _parse_name(d.pop("name"))
 
-        role = d.pop("role", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        slug = _parse_slug(d.pop("slug"))
+
+        def _parse_photo_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        photo_url = _parse_photo_url(d.pop("photo_url"))
+
+        role = d.pop("role")
+
+        is_uncredited = d.pop("is_uncredited")
 
         get_variant_details_response_200_data_creators_item = cls(
             id=id,
             name=name,
             slug=slug,
+            photo_url=photo_url,
             role=role,
+            is_uncredited=is_uncredited,
         )
 
         get_variant_details_response_200_data_creators_item.additional_properties = d

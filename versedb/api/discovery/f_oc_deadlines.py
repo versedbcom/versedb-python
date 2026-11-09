@@ -6,6 +6,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.f_oc_deadlines_response_200 import FOcDeadlinesResponse200
+from ...models.f_oc_deadlines_response_403 import FOcDeadlinesResponse403
+from ...models.f_oc_deadlines_response_422 import FOcDeadlinesResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -17,6 +19,9 @@ def _get_kwargs(
     page: int | Unset = UNSET,
     days: int | Unset = UNSET,
     start_date: str | Unset = UNSET,
+    publisher_ids: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -28,6 +33,12 @@ def _get_kwargs(
     params["days"] = days
 
     params["start_date"] = start_date
+
+    params["publisher_ids"] = publisher_ids
+
+    params["sort"] = sort
+
+    params["languages"] = languages
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -42,7 +53,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = FOcDeadlinesResponse200.from_dict(response.json())
 
@@ -52,6 +70,16 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = FOcDeadlinesResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 422:
+        response_422 = FOcDeadlinesResponse422.from_dict(response.json())
+
+        return response_422
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -66,7 +94,13 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,7 +116,16 @@ def sync_detailed(
     page: int | Unset = UNSET,
     days: int | Unset = UNSET,
     start_date: str | Unset = UNSET,
-) -> Response[FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    publisher_ids: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """FOC deadlines.
 
      Returns issues with Final Order Cutoff (FOC) deadline within the next N days.
@@ -93,13 +136,20 @@ def sync_detailed(
         page (int | Unset): Page number; meta.last_page says where the list ends.
         days (int | Unset): FOC window in days (1-30).
         start_date (str | Unset): Start of FOC window (YYYY-MM-DD). Defaults to today.
+        publisher_ids (str | Unset): Comma-separated publisher IDs; matches issues from any of
+            them.
+        sort (str | Unset): foc_date (default: FOC date, then publisher, then series name),
+            publisher (publisher, then FOC date, then series name) or series (series name, then FOC
+            date).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[FOcDeadlinesResponse200 | FOcDeadlinesResponse403 | FOcDeadlinesResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -107,6 +157,9 @@ def sync_detailed(
         page=page,
         days=days,
         start_date=start_date,
+        publisher_ids=publisher_ids,
+        sort=sort,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -123,7 +176,17 @@ def sync(
     page: int | Unset = UNSET,
     days: int | Unset = UNSET,
     start_date: str | Unset = UNSET,
-) -> FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    publisher_ids: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> (
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """FOC deadlines.
 
      Returns issues with Final Order Cutoff (FOC) deadline within the next N days.
@@ -134,13 +197,20 @@ def sync(
         page (int | Unset): Page number; meta.last_page says where the list ends.
         days (int | Unset): FOC window in days (1-30).
         start_date (str | Unset): Start of FOC window (YYYY-MM-DD). Defaults to today.
+        publisher_ids (str | Unset): Comma-separated publisher IDs; matches issues from any of
+            them.
+        sort (str | Unset): foc_date (default: FOC date, then publisher, then series name),
+            publisher (publisher, then FOC date, then series name) or series (series name, then FOC
+            date).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError
+        FOcDeadlinesResponse200 | FOcDeadlinesResponse403 | FOcDeadlinesResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -149,6 +219,9 @@ def sync(
         page=page,
         days=days,
         start_date=start_date,
+        publisher_ids=publisher_ids,
+        sort=sort,
+        languages=languages,
     ).parsed
 
 
@@ -159,7 +232,16 @@ async def asyncio_detailed(
     page: int | Unset = UNSET,
     days: int | Unset = UNSET,
     start_date: str | Unset = UNSET,
-) -> Response[FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    publisher_ids: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> Response[
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """FOC deadlines.
 
      Returns issues with Final Order Cutoff (FOC) deadline within the next N days.
@@ -170,13 +252,20 @@ async def asyncio_detailed(
         page (int | Unset): Page number; meta.last_page says where the list ends.
         days (int | Unset): FOC window in days (1-30).
         start_date (str | Unset): Start of FOC window (YYYY-MM-DD). Defaults to today.
+        publisher_ids (str | Unset): Comma-separated publisher IDs; matches issues from any of
+            them.
+        sort (str | Unset): foc_date (default: FOC date, then publisher, then series name),
+            publisher (publisher, then FOC date, then series name) or series (series name, then FOC
+            date).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[FOcDeadlinesResponse200 | FOcDeadlinesResponse403 | FOcDeadlinesResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -184,6 +273,9 @@ async def asyncio_detailed(
         page=page,
         days=days,
         start_date=start_date,
+        publisher_ids=publisher_ids,
+        sort=sort,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -198,7 +290,17 @@ async def asyncio(
     page: int | Unset = UNSET,
     days: int | Unset = UNSET,
     start_date: str | Unset = UNSET,
-) -> FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    publisher_ids: str | Unset = UNSET,
+    sort: str | Unset = UNSET,
+    languages: str | Unset = UNSET,
+) -> (
+    FOcDeadlinesResponse200
+    | FOcDeadlinesResponse403
+    | FOcDeadlinesResponse422
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """FOC deadlines.
 
      Returns issues with Final Order Cutoff (FOC) deadline within the next N days.
@@ -209,13 +311,20 @@ async def asyncio(
         page (int | Unset): Page number; meta.last_page says where the list ends.
         days (int | Unset): FOC window in days (1-30).
         start_date (str | Unset): Start of FOC window (YYYY-MM-DD). Defaults to today.
+        publisher_ids (str | Unset): Comma-separated publisher IDs; matches issues from any of
+            them.
+        sort (str | Unset): foc_date (default: FOC date, then publisher, then series name),
+            publisher (publisher, then FOC date, then series name) or series (series name, then FOC
+            date).
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FOcDeadlinesResponse200 | TooManyRequestsError | UnauthorizedError
+        FOcDeadlinesResponse200 | FOcDeadlinesResponse403 | FOcDeadlinesResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -225,5 +334,8 @@ async def asyncio(
             page=page,
             days=days,
             start_date=start_date,
+            publisher_ids=publisher_ids,
+            sort=sort,
+            languages=languages,
         )
     ).parsed

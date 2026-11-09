@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="Upcoming1IssuesResponse200Meta")
 
 
@@ -15,17 +13,33 @@ T = TypeVar("T", bound="Upcoming1IssuesResponse200Meta")
 class Upcoming1IssuesResponse200Meta:
     """
     Attributes:
-        lookahead_days (int | Unset):
-        window_start (str | Unset):
-        window_end (str | Unset):
+        current_page (int):
+        per_page (int):
+        total (int):
+        last_page (int):
+        lookahead_days (int):
+        window_start (str):
+        window_end (str):
     """
 
-    lookahead_days: int | Unset = UNSET
-    window_start: str | Unset = UNSET
-    window_end: str | Unset = UNSET
+    current_page: int
+    per_page: int
+    total: int
+    last_page: int
+    lookahead_days: int
+    window_start: str
+    window_end: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        current_page = self.current_page
+
+        per_page = self.per_page
+
+        total = self.total
+
+        last_page = self.last_page
+
         lookahead_days = self.lookahead_days
 
         window_start = self.window_start
@@ -34,26 +48,42 @@ class Upcoming1IssuesResponse200Meta:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if lookahead_days is not UNSET:
-            field_dict["lookahead_days"] = lookahead_days
-        if window_start is not UNSET:
-            field_dict["window_start"] = window_start
-        if window_end is not UNSET:
-            field_dict["window_end"] = window_end
+        field_dict.update(
+            {
+                "current_page": current_page,
+                "per_page": per_page,
+                "total": total,
+                "last_page": last_page,
+                "lookahead_days": lookahead_days,
+                "window_start": window_start,
+                "window_end": window_end,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        lookahead_days = d.pop("lookahead_days", UNSET)
+        current_page = d.pop("current_page")
 
-        window_start = d.pop("window_start", UNSET)
+        per_page = d.pop("per_page")
 
-        window_end = d.pop("window_end", UNSET)
+        total = d.pop("total")
+
+        last_page = d.pop("last_page")
+
+        lookahead_days = d.pop("lookahead_days")
+
+        window_start = d.pop("window_start")
+
+        window_end = d.pop("window_end")
 
         upcoming_1_issues_response_200_meta = cls(
+            current_page=current_page,
+            per_page=per_page,
+            total=total,
+            last_page=last_page,
             lookahead_days=lookahead_days,
             window_start=window_start,
             window_end=window_end,

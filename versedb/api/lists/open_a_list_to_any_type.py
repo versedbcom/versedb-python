@@ -8,6 +8,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.open_a_list_to_any_type_response_200 import OpenAListToAnyTypeResponse200
 from ...models.open_a_list_to_any_type_response_403 import OpenAListToAnyTypeResponse403
+from ...models.open_a_list_to_any_type_response_404 import OpenAListToAnyTypeResponse404
 from ...models.open_a_list_to_any_type_response_422 import OpenAListToAnyTypeResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
@@ -33,6 +34,7 @@ def _parse_response(
 ) -> (
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -52,6 +54,11 @@ def _parse_response(
         response_403 = OpenAListToAnyTypeResponse403.from_dict(response.json())
 
         return response_403
+
+    if response.status_code == 404:
+        response_404 = OpenAListToAnyTypeResponse404.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 422:
         response_422 = OpenAListToAnyTypeResponse422.from_dict(response.json())
@@ -74,6 +81,7 @@ def _build_response(
 ) -> Response[
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -93,24 +101,25 @@ def sync_detailed(
 ) -> Response[
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Open a list to any type.
 
-     One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-    their own type. It cannot be narrowed back, and a wishlist already holds any type.
+     One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own
+    type. It cannot be narrowed back, and a wishlist already holds any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse404 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -131,6 +140,7 @@ def sync(
 ) -> (
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -138,18 +148,18 @@ def sync(
 ):
     """Open a list to any type.
 
-     One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-    their own type. It cannot be narrowed back, and a wishlist already holds any type.
+     One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own
+    type. It cannot be narrowed back, and a wishlist already holds any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError
+        OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse404 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -165,24 +175,25 @@ async def asyncio_detailed(
 ) -> Response[
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Open a list to any type.
 
-     One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-    their own type. It cannot be narrowed back, and a wishlist already holds any type.
+     One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own
+    type. It cannot be narrowed back, and a wishlist already holds any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError]
+        Response[OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse404 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -201,6 +212,7 @@ async def asyncio(
 ) -> (
     OpenAListToAnyTypeResponse200
     | OpenAListToAnyTypeResponse403
+    | OpenAListToAnyTypeResponse404
     | OpenAListToAnyTypeResponse422
     | TooManyRequestsError
     | UnauthorizedError
@@ -208,18 +220,18 @@ async def asyncio(
 ):
     """Open a list to any type.
 
-     One-way: broadens a single-type list so it can hold items of any type. Existing items keep
-    their own type. It cannot be narrowed back, and a wishlist already holds any type.
+     One-way: broadens a single-type list so it can hold items of any type. Existing items keep their own
+    type. It cannot be narrowed back, and a wishlist already holds any type.
 
     Args:
-        list_id (int):
+        list_id (int): The list ID.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError
+        OpenAListToAnyTypeResponse200 | OpenAListToAnyTypeResponse403 | OpenAListToAnyTypeResponse404 | OpenAListToAnyTypeResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_series_response_200 import ListSeriesResponse200
+from ...models.list_series_response_403 import ListSeriesResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -32,6 +33,7 @@ def _get_kwargs(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -74,6 +76,8 @@ def _get_kwargs(
 
     params["limit"] = limit
 
+    params["page"] = page
+
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
@@ -87,7 +91,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListSeriesResponse200.from_dict(response.json())
 
@@ -97,6 +101,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListSeriesResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -111,7 +120,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -142,7 +151,8 @@ def sync_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List series.
 
      Returns paginated series with optional search and filtering.
@@ -178,13 +188,14 @@ def sync_detailed(
             cached_issues_count).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -207,6 +218,7 @@ def sync_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -238,7 +250,8 @@ def sync(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List series.
 
      Returns paginated series with optional search and filtering.
@@ -274,13 +287,14 @@ def sync(
             cached_issues_count).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -304,6 +318,7 @@ def sync(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -329,7 +344,8 @@ async def asyncio_detailed(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List series.
 
      Returns paginated series with optional search and filtering.
@@ -365,13 +381,14 @@ async def asyncio_detailed(
             cached_issues_count).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -394,6 +411,7 @@ async def asyncio_detailed(
         sort=sort,
         direction=direction,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -423,7 +441,8 @@ async def asyncio(
     sort: str | Unset = UNSET,
     direction: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List series.
 
      Returns paginated series with optional search and filtering.
@@ -459,13 +478,14 @@ async def asyncio(
             cached_issues_count).
         direction (str | Unset): Sort direction (asc, desc).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListSeriesResponse200 | TooManyRequestsError | UnauthorizedError
+        ListSeriesResponse200 | ListSeriesResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -490,5 +510,6 @@ async def asyncio(
             sort=sort,
             direction=direction,
             limit=limit,
+            page=page,
         )
     ).parsed

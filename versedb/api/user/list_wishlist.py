@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_wishlist_response_200 import ListWishlistResponse200
+from ...models.list_wishlist_response_403 import ListWishlistResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -33,7 +34,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = ListWishlistResponse200.from_dict(response.json())
 
@@ -43,6 +44,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListWishlistResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -57,7 +63,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,10 +76,12 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
-) -> Response[ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -83,7 +91,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -101,10 +109,12 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
-) -> ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -114,7 +124,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError
+        ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -127,10 +137,12 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
-) -> Response[ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -140,7 +152,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -156,10 +168,12 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
-) -> ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List wishlist.
 
      Returns the authenticated user's wishlist issues, most recently added first.
+
+    Needs `read:user` or `read:showcase`. A `read:showcase` token gets each item without `note`.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -169,7 +183,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListWishlistResponse200 | TooManyRequestsError | UnauthorizedError
+        ListWishlistResponse200 | ListWishlistResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

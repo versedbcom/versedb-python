@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.get_a_specific_podcast_response_200_data import GetASpecificPodcastResponse200Data
 
@@ -19,38 +17,31 @@ T = TypeVar("T", bound="GetASpecificPodcastResponse200")
 class GetASpecificPodcastResponse200:
     """
     Attributes:
-        data (GetASpecificPodcastResponse200Data | Unset):
+        data (GetASpecificPodcastResponse200Data):
     """
 
-    data: GetASpecificPodcastResponse200Data | Unset = UNSET
+    data: GetASpecificPodcastResponse200Data
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        data = self.data.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.get_a_specific_podcast_response_200_data import (
-            GetASpecificPodcastResponse200Data,  # noqa: PLC0415
-        )
+        from ..models.get_a_specific_podcast_response_200_data import GetASpecificPodcastResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: GetASpecificPodcastResponse200Data | Unset
-        if isinstance(_data, Unset):
-            data = UNSET
-        else:
-            data = GetASpecificPodcastResponse200Data.from_dict(_data)
+        data = GetASpecificPodcastResponse200Data.from_dict(d.pop("data"))
 
         get_a_specific_podcast_response_200 = cls(
             data=data,

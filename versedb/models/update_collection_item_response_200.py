@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.update_collection_item_response_200_data import UpdateCollectionItemResponse200Data
 
@@ -19,38 +17,31 @@ T = TypeVar("T", bound="UpdateCollectionItemResponse200")
 class UpdateCollectionItemResponse200:
     """
     Attributes:
-        data (UpdateCollectionItemResponse200Data | Unset):
+        data (UpdateCollectionItemResponse200Data):
     """
 
-    data: UpdateCollectionItemResponse200Data | Unset = UNSET
+    data: UpdateCollectionItemResponse200Data
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        data = self.data.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
+        field_dict.update(
+            {
+                "data": data,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.update_collection_item_response_200_data import (
-            UpdateCollectionItemResponse200Data,  # noqa: PLC0415
-        )
+        from ..models.update_collection_item_response_200_data import UpdateCollectionItemResponse200Data  # noqa: PLC0415
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: UpdateCollectionItemResponse200Data | Unset
-        if isinstance(_data, Unset):
-            data = UNSET
-        else:
-            data = UpdateCollectionItemResponse200Data.from_dict(_data)
+        data = UpdateCollectionItemResponse200Data.from_dict(d.pop("data"))
 
         update_collection_item_response_200 = cls(
             data=data,

@@ -15,13 +15,15 @@ T = TypeVar("T", bound="AddItemToListBody")
 class AddItemToListBody:
     """
     Attributes:
-        entity_id (int): The entity ID to add.
+        entity_id (int): The ID of the entity to add. Must match the list's entity type (e.g., an issue ID for an issues
+            list), or the type given in entity_type when the list holds any type.
         entity_type (None | str | Unset): Required when the list holds any type: the type of the entity being added
             (issues, series, characters, creators, story_arcs, teams). Ignored on a single-type list.
-        variant_id (int | None | Unset): Optional cover variant of the issue (issue items only, must belong to
-            entity_id). Omit for "any cover".
-        position (int | None | Unset): Position in list (auto-assigned if omitted).
-        note (None | str | Unset): Personal note for this item (max 500 chars).
+        variant_id (int | None | Unset): Optional cover variant of the issue being added (issue items only). Must belong
+            to entity_id. Omit for "any cover". The same issue can appear once per distinct variant.
+        position (int | None | Unset): Optional position in the list (1-based). Items are appended to the end if
+            omitted.
+        note (None | str | Unset): An optional note for this list item (up to 500 characters).
     """
 
     entity_id: int

@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 
 GENERATOR_VERSION="0.29.1"
 
-uv run scripts/prepare_spec.py "${1:-https://versedb.com/api/docs.openapi}" openapi.json
+uv run scripts/prepare_spec.py "${1:-https://versedb.com/api/v1/openapi.json}" openapi.json
 
 uvx "openapi-python-client==${GENERATOR_VERSION}" generate \
   --path openapi.json \

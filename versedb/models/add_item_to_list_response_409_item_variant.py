@@ -1,61 +1,86 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="AddItemToListResponse409ItemVariant")
 
 
 @_attrs_define
 class AddItemToListResponse409ItemVariant:
-    """
+    """The pinned cover, while it exists.
+
     Attributes:
-        id (int | Unset):
-        name (str | Unset):
-        cover_image_url (str | Unset):
+        id (int):
+        name (None | str):
+        ratio (None | str):
+        cover_image_url (None | str):
     """
 
-    id: int | Unset = UNSET
-    name: str | Unset = UNSET
-    cover_image_url: str | Unset = UNSET
+    id: int
+    name: None | str
+    ratio: None | str
+    cover_image_url: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        name: None | str
         name = self.name
 
+        ratio: None | str
+        ratio = self.ratio
+
+        cover_image_url: None | str
         cover_image_url = self.cover_image_url
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if name is not UNSET:
-            field_dict["name"] = name
-        if cover_image_url is not UNSET:
-            field_dict["cover_image_url"] = cover_image_url
+        field_dict.update(
+            {
+                "id": id,
+                "name": name,
+                "ratio": ratio,
+                "cover_image_url": cover_image_url,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        cover_image_url = d.pop("cover_image_url", UNSET)
+        name = _parse_name(d.pop("name"))
+
+        def _parse_ratio(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        ratio = _parse_ratio(d.pop("ratio"))
+
+        def _parse_cover_image_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_image_url = _parse_cover_image_url(d.pop("cover_image_url"))
 
         add_item_to_list_response_409_item_variant = cls(
             id=id,
             name=name,
+            ratio=ratio,
             cover_image_url=cover_image_url,
         )
 

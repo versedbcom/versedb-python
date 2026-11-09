@@ -15,12 +15,11 @@ T = TypeVar("T", bound="LendACopyOutBody")
 class LendACopyOutBody:
     """
     Attributes:
-        loaned_to (str): Who has the comic. Free text — the borrower does not need a VerseDB account. Must not be
-            greater than 255 characters.
-        loaned_at (None | str | Unset): The day it left (YYYY-MM-DD). Defaults to today. Must be a valid date.
-        due_at (None | str | Unset): When it is due back (YYYY-MM-DD). Omit for an open-ended loan. Must be a valid
-            date. Must be a date after or equal to <code>loaned_at</code>.
-        notes (None | str | Unset): Anything worth recording about the loan. Must not be greater than 1000 characters.
+        loaned_to (str): Who has the comic. Free text: the borrower does not need a VerseDB account.
+        loaned_at (None | str | Unset): The day it left (YYYY-MM-DD). Defaults to today.
+        due_at (None | str | Unset): When it is due back (YYYY-MM-DD), on or after `loaned_at`. Omit for an open-ended
+            loan.
+        notes (None | str | Unset): Anything worth recording about the loan.
     """
 
     loaned_to: str

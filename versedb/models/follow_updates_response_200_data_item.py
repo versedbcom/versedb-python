@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -9,7 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.follow_updates_response_200_data_item_series import FollowUpdatesResponse200DataItemSeries
+    from ..models.follow_updates_response_200_data_item_images_type_0 import FollowUpdatesResponse200DataItemImagesType0
+    from ..models.follow_updates_response_200_data_item_name_i18n import FollowUpdatesResponse200DataItemNameI18N
+    from ..models.follow_updates_response_200_data_item_series_type_0 import FollowUpdatesResponse200DataItemSeriesType0
 
 
 T = TypeVar("T", bound="FollowUpdatesResponse200DataItem")
@@ -19,44 +21,134 @@ T = TypeVar("T", bound="FollowUpdatesResponse200DataItem")
 class FollowUpdatesResponse200DataItem:
     """
     Attributes:
-        id (int | Unset):
-        issue_number (str | Unset):
-        cover_url (str | Unset):
-        release_date (str | Unset):
-        series (FollowUpdatesResponse200DataItemSeries | Unset):
+        id (int):
+        slug (None | str):
+        series_id (int | None):
+        issue_number (None | str):
+        name (None | str):
+        cover_date (None | str):
+        release_date (None | str):
+        foc_date (None | str):
+        is_unreleased (bool):
+        cover_url (None | str):
+        images (FollowUpdatesResponse200DataItemImagesType0 | None):
+        is_reprint (bool):
+        content_rating_label (None | str):
+        min_age (int | None):
+        is_nsfw (bool):
+        average_rating (float | None):
+        name_i18n (FollowUpdatesResponse200DataItemNameI18N): One name per language, keyed by BCP 47 tag.
+        series (FollowUpdatesResponse200DataItemSeriesType0 | None | Unset):
     """
 
-    id: int | Unset = UNSET
-    issue_number: str | Unset = UNSET
-    cover_url: str | Unset = UNSET
-    release_date: str | Unset = UNSET
-    series: FollowUpdatesResponse200DataItemSeries | Unset = UNSET
+    id: int
+    slug: None | str
+    series_id: int | None
+    issue_number: None | str
+    name: None | str
+    cover_date: None | str
+    release_date: None | str
+    foc_date: None | str
+    is_unreleased: bool
+    cover_url: None | str
+    images: FollowUpdatesResponse200DataItemImagesType0 | None
+    is_reprint: bool
+    content_rating_label: None | str
+    min_age: int | None
+    is_nsfw: bool
+    average_rating: float | None
+    name_i18n: FollowUpdatesResponse200DataItemNameI18N
+    series: FollowUpdatesResponse200DataItemSeriesType0 | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        from ..models.follow_updates_response_200_data_item_images_type_0 import (
+            FollowUpdatesResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+        from ..models.follow_updates_response_200_data_item_series_type_0 import (
+            FollowUpdatesResponse200DataItemSeriesType0,  # noqa: PLC0415
+        )
+
         id = self.id
 
+        slug: None | str
+        slug = self.slug
+
+        series_id: int | None
+        series_id = self.series_id
+
+        issue_number: None | str
         issue_number = self.issue_number
 
-        cover_url = self.cover_url
+        name: None | str
+        name = self.name
 
+        cover_date: None | str
+        cover_date = self.cover_date
+
+        release_date: None | str
         release_date = self.release_date
 
-        series: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.series, Unset):
+        foc_date: None | str
+        foc_date = self.foc_date
+
+        is_unreleased = self.is_unreleased
+
+        cover_url: None | str
+        cover_url = self.cover_url
+
+        images: dict[str, Any] | None
+        if isinstance(self.images, FollowUpdatesResponse200DataItemImagesType0):
+            images = self.images.to_dict()
+        else:
+            images = self.images
+
+        is_reprint = self.is_reprint
+
+        content_rating_label: None | str
+        content_rating_label = self.content_rating_label
+
+        min_age: int | None
+        min_age = self.min_age
+
+        is_nsfw = self.is_nsfw
+
+        average_rating: float | None
+        average_rating = self.average_rating
+
+        name_i18n = self.name_i18n.to_dict()
+
+        series: dict[str, Any] | None | Unset
+        if isinstance(self.series, Unset):
+            series = UNSET
+        elif isinstance(self.series, FollowUpdatesResponse200DataItemSeriesType0):
             series = self.series.to_dict()
+        else:
+            series = self.series
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if issue_number is not UNSET:
-            field_dict["issue_number"] = issue_number
-        if cover_url is not UNSET:
-            field_dict["cover_url"] = cover_url
-        if release_date is not UNSET:
-            field_dict["release_date"] = release_date
+        field_dict.update(
+            {
+                "id": id,
+                "slug": slug,
+                "series_id": series_id,
+                "issue_number": issue_number,
+                "name": name,
+                "cover_date": cover_date,
+                "release_date": release_date,
+                "foc_date": foc_date,
+                "is_unreleased": is_unreleased,
+                "cover_url": cover_url,
+                "images": images,
+                "is_reprint": is_reprint,
+                "content_rating_label": content_rating_label,
+                "min_age": min_age,
+                "is_nsfw": is_nsfw,
+                "average_rating": average_rating,
+                "name_i18n": name_i18n,
+            }
+        )
         if series is not UNSET:
             field_dict["series"] = series
 
@@ -64,31 +156,152 @@ class FollowUpdatesResponse200DataItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.follow_updates_response_200_data_item_series import (
-            FollowUpdatesResponse200DataItemSeries,  # noqa: PLC0415
+        from ..models.follow_updates_response_200_data_item_images_type_0 import (
+            FollowUpdatesResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+        from ..models.follow_updates_response_200_data_item_name_i18n import FollowUpdatesResponse200DataItemNameI18N  # noqa: PLC0415
+        from ..models.follow_updates_response_200_data_item_series_type_0 import (
+            FollowUpdatesResponse200DataItemSeriesType0,  # noqa: PLC0415
         )
 
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        issue_number = d.pop("issue_number", UNSET)
+        def _parse_slug(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        cover_url = d.pop("cover_url", UNSET)
+        slug = _parse_slug(d.pop("slug"))
 
-        release_date = d.pop("release_date", UNSET)
+        def _parse_series_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        _series = d.pop("series", UNSET)
-        series: FollowUpdatesResponse200DataItemSeries | Unset
-        if isinstance(_series, Unset):
-            series = UNSET
-        else:
-            series = FollowUpdatesResponse200DataItemSeries.from_dict(_series)
+        series_id = _parse_series_id(d.pop("series_id"))
+
+        def _parse_issue_number(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        issue_number = _parse_issue_number(d.pop("issue_number"))
+
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        name = _parse_name(d.pop("name"))
+
+        def _parse_cover_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_date = _parse_cover_date(d.pop("cover_date"))
+
+        def _parse_release_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        release_date = _parse_release_date(d.pop("release_date"))
+
+        def _parse_foc_date(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        foc_date = _parse_foc_date(d.pop("foc_date"))
+
+        is_unreleased = d.pop("is_unreleased")
+
+        def _parse_cover_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_url = _parse_cover_url(d.pop("cover_url"))
+
+        def _parse_images(data: object) -> FollowUpdatesResponse200DataItemImagesType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                images_type_0 = FollowUpdatesResponse200DataItemImagesType0.from_dict(data)
+
+                return images_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(FollowUpdatesResponse200DataItemImagesType0 | None, data)
+
+        images = _parse_images(d.pop("images"))
+
+        is_reprint = d.pop("is_reprint")
+
+        def _parse_content_rating_label(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        content_rating_label = _parse_content_rating_label(d.pop("content_rating_label"))
+
+        def _parse_min_age(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        min_age = _parse_min_age(d.pop("min_age"))
+
+        is_nsfw = d.pop("is_nsfw")
+
+        def _parse_average_rating(data: object) -> float | None:
+            if data is None:
+                return data
+            return cast(float | None, data)
+
+        average_rating = _parse_average_rating(d.pop("average_rating"))
+
+        name_i18n = FollowUpdatesResponse200DataItemNameI18N.from_dict(d.pop("name_i18n"))
+
+        def _parse_series(data: object) -> FollowUpdatesResponse200DataItemSeriesType0 | None | Unset:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                series_type_0 = FollowUpdatesResponse200DataItemSeriesType0.from_dict(data)
+
+                return series_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(FollowUpdatesResponse200DataItemSeriesType0 | None | Unset, data)
+
+        series = _parse_series(d.pop("series", UNSET))
 
         follow_updates_response_200_data_item = cls(
             id=id,
+            slug=slug,
+            series_id=series_id,
             issue_number=issue_number,
-            cover_url=cover_url,
+            name=name,
+            cover_date=cover_date,
             release_date=release_date,
+            foc_date=foc_date,
+            is_unreleased=is_unreleased,
+            cover_url=cover_url,
+            images=images,
+            is_reprint=is_reprint,
+            content_rating_label=content_rating_label,
+            min_age=min_age,
+            is_nsfw=is_nsfw,
+            average_rating=average_rating,
+            name_i18n=name_i18n,
             series=series,
         )
 

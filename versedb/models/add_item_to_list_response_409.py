@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.add_item_to_list_response_409_item import AddItemToListResponse409Item
 
@@ -19,28 +17,27 @@ T = TypeVar("T", bound="AddItemToListResponse409")
 class AddItemToListResponse409:
     """
     Attributes:
-        message (str | Unset):
-        item (AddItemToListResponse409Item | Unset):
+        message (str):
+        item (AddItemToListResponse409Item):
     """
 
-    message: str | Unset = UNSET
-    item: AddItemToListResponse409Item | Unset = UNSET
+    message: str
+    item: AddItemToListResponse409Item
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
-        item: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.item, Unset):
-            item = self.item.to_dict()
+        item = self.item.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if item is not UNSET:
-            field_dict["item"] = item
+        field_dict.update(
+            {
+                "message": message,
+                "item": item,
+            }
+        )
 
         return field_dict
 
@@ -49,14 +46,9 @@ class AddItemToListResponse409:
         from ..models.add_item_to_list_response_409_item import AddItemToListResponse409Item  # noqa: PLC0415
 
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
-        _item = d.pop("item", UNSET)
-        item: AddItemToListResponse409Item | Unset
-        if isinstance(_item, Unset):
-            item = UNSET
-        else:
-            item = AddItemToListResponse409Item.from_dict(_item)
+        item = AddItemToListResponse409Item.from_dict(d.pop("item"))
 
         add_item_to_list_response_409 = cls(
             message=message,

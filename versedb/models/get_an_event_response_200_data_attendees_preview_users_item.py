@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="GetAnEventResponse200DataAttendeesPreviewUsersItem")
 
@@ -15,59 +13,75 @@ T = TypeVar("T", bound="GetAnEventResponse200DataAttendeesPreviewUsersItem")
 class GetAnEventResponse200DataAttendeesPreviewUsersItem:
     """
     Attributes:
-        id (int | Unset):
-        username (str | Unset):
-        name (str | Unset):
-        profile_image_url (str | Unset):
-        is_private (bool | Unset):
+        id (int):
+        username (None | str):
+        name (None | str):
+        profile_image_url (None | str):
+        is_private (bool):
     """
 
-    id: int | Unset = UNSET
-    username: str | Unset = UNSET
-    name: str | Unset = UNSET
-    profile_image_url: str | Unset = UNSET
-    is_private: bool | Unset = UNSET
+    id: int
+    username: None | str
+    name: None | str
+    profile_image_url: None | str
+    is_private: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
 
+        username: None | str
         username = self.username
 
+        name: None | str
         name = self.name
 
+        profile_image_url: None | str
         profile_image_url = self.profile_image_url
 
         is_private = self.is_private
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if id is not UNSET:
-            field_dict["id"] = id
-        if username is not UNSET:
-            field_dict["username"] = username
-        if name is not UNSET:
-            field_dict["name"] = name
-        if profile_image_url is not UNSET:
-            field_dict["profile_image_url"] = profile_image_url
-        if is_private is not UNSET:
-            field_dict["is_private"] = is_private
+        field_dict.update(
+            {
+                "id": id,
+                "username": username,
+                "name": name,
+                "profile_image_url": profile_image_url,
+                "is_private": is_private,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        id = d.pop("id", UNSET)
+        id = d.pop("id")
 
-        username = d.pop("username", UNSET)
+        def _parse_username(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        name = d.pop("name", UNSET)
+        username = _parse_username(d.pop("username"))
 
-        profile_image_url = d.pop("profile_image_url", UNSET)
+        def _parse_name(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        is_private = d.pop("is_private", UNSET)
+        name = _parse_name(d.pop("name"))
+
+        def _parse_profile_image_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        profile_image_url = _parse_profile_image_url(d.pop("profile_image_url"))
+
+        is_private = d.pop("is_private")
 
         get_an_event_response_200_data_attendees_preview_users_item = cls(
             id=id,

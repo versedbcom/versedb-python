@@ -20,14 +20,13 @@ T = TypeVar("T", bound="UpdateListBody")
 class UpdateListBody:
     """
     Attributes:
-        title (str | Unset): List title (max 100 chars).
-        description (None | str | Unset): List description (max 2000 chars).
+        title (str | Unset): The name of the list (3 to 100 characters).
+        description (None | str | Unset): The description (up to 2000 characters).
         is_ranked (bool | Unset): Whether items are ranked.
         is_private (bool | Unset): Whether the list is private. Non-wishlist private lists require a Pro subscription.
-        status (UpdateListBodyStatus | Unset): The list status. One of: `published`, `draft`.
-        rules (UpdateListBodyRules | Unset): A replacement smart-list rule. Accepted only on a list that was created
-            rule-built — a rule is tuned here, never introduced or removed. Fetch the field catalog from `/lists/rule-
-            vocabulary` and validate a draft against `/lists/rule-preview`.
+        status (UpdateListBodyStatus | Unset): The list status.
+        rules (UpdateListBodyRules | Unset): Replaces the smart-list rule. Only a list built from a rule takes one, and
+            the list is rebuilt from the new rule unless its updates are paused.
     """
 
     title: str | Unset = UNSET

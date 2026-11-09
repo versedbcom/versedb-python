@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_all_podcasts_with_optional_search_response_200 import ListAllPodcastsWithOptionalSearchResponse200
+from ...models.list_all_podcasts_with_optional_search_response_403 import ListAllPodcastsWithOptionalSearchResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -16,7 +17,10 @@ def _get_kwargs(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
 ) -> dict[str, Any]:
 
     params: dict[str, Any] = {}
@@ -27,7 +31,17 @@ def _get_kwargs(
 
     params["language"] = language
 
+    json_category: list[str] | Unset = UNSET
+    if not isinstance(category, Unset):
+        json_category = category
+
+    params["category"] = json_category
+
+    params["sort"] = sort
+
     params["limit"] = limit
+
+    params["page"] = page
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
@@ -42,7 +56,13 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = ListAllPodcastsWithOptionalSearchResponse200.from_dict(response.json())
 
@@ -52,6 +72,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = ListAllPodcastsWithOptionalSearchResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -66,7 +91,12 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -81,32 +111,49 @@ def sync_detailed(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListAllPodcastsWithOptionalSearchResponse200 | ListAllPodcastsWithOptionalSearchResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = client.get_httpx_client().request(
@@ -122,25 +169,40 @@ def sync(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> (
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError
+        ListAllPodcastsWithOptionalSearchResponse200 | ListAllPodcastsWithOptionalSearchResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -148,7 +210,10 @@ def sync(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
+        page=page,
     ).parsed
 
 
@@ -158,32 +223,49 @@ async def asyncio_detailed(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]:
+    page: int | Unset = UNSET,
+) -> Response[
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[ListAllPodcastsWithOptionalSearchResponse200 | ListAllPodcastsWithOptionalSearchResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         q=q,
         type_=type_,
         language=language,
+        category=category,
+        sort=sort,
         limit=limit,
+        page=page,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -197,25 +279,40 @@ async def asyncio(
     q: str | Unset = UNSET,
     type_: str | Unset = UNSET,
     language: str | Unset = UNSET,
+    category: list[str] | Unset = UNSET,
+    sort: str | Unset = UNSET,
     limit: int | Unset = UNSET,
-) -> ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError | None:
+    page: int | Unset = UNSET,
+) -> (
+    ListAllPodcastsWithOptionalSearchResponse200
+    | ListAllPodcastsWithOptionalSearchResponse403
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """List all podcasts with optional search
 
      Returns a paginated list of comic book podcasts and YouTube channels, plus
-    the set of languages present in the catalog. Filter with `q`, `type`, or `language`.
+    the languages and categories present in the catalog. Filter with `q`, `type`,
+    `language`, or `category`, and order with `sort`.
 
     Args:
         q (str | Unset): Search by podcast name.
         type_ (str | Unset): Filter by type (podcast or youtube).
         language (str | Unset): Filter by language code (e.g., en, ja, fr).
+        category (list[str] | Unset): Filter by category name; a podcast matching any of them is
+            returned.
+        sort (str | Unset): Order: name (default), latest_episodes, newest, popular (most
+            followers) or updated (recently synced).
         limit (int | Unset): Number of results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAllPodcastsWithOptionalSearchResponse200 | TooManyRequestsError | UnauthorizedError
+        ListAllPodcastsWithOptionalSearchResponse200 | ListAllPodcastsWithOptionalSearchResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -224,6 +321,9 @@ async def asyncio(
             q=q,
             type_=type_,
             language=language,
+            category=category,
+            sort=sort,
             limit=limit,
+            page=page,
         )
     ).parsed

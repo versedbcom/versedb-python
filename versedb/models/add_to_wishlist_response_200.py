@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 T = TypeVar("T", bound="AddToWishlistResponse200")
 
@@ -15,35 +13,42 @@ T = TypeVar("T", bound="AddToWishlistResponse200")
 class AddToWishlistResponse200:
     """
     Attributes:
-        in_wishlist (bool | Unset):
-        variant_id (int | Unset):
+        in_wishlist (bool):
+        variant_id (int | None):
     """
 
-    in_wishlist: bool | Unset = UNSET
-    variant_id: int | Unset = UNSET
+    in_wishlist: bool
+    variant_id: int | None
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         in_wishlist = self.in_wishlist
 
+        variant_id: int | None
         variant_id = self.variant_id
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if in_wishlist is not UNSET:
-            field_dict["in_wishlist"] = in_wishlist
-        if variant_id is not UNSET:
-            field_dict["variant_id"] = variant_id
+        field_dict.update(
+            {
+                "in_wishlist": in_wishlist,
+                "variant_id": variant_id,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        in_wishlist = d.pop("in_wishlist", UNSET)
+        in_wishlist = d.pop("in_wishlist")
 
-        variant_id = d.pop("variant_id", UNSET)
+        def _parse_variant_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        variant_id = _parse_variant_id(d.pop("variant_id"))
 
         add_to_wishlist_response_200 = cls(
             in_wishlist=in_wishlist,
