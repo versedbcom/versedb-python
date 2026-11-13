@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="FollowContentResponse403")
 
 
@@ -15,48 +13,32 @@ T = TypeVar("T", bound="FollowContentResponse403")
 class FollowContentResponse403:
     """
     Attributes:
-        message (str | Unset):
-        code (str | Unset):
-        is_following (bool | Unset):
+        message (str):
     """
 
-    message: str | Unset = UNSET
-    code: str | Unset = UNSET
-    is_following: bool | Unset = UNSET
+    message: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
-        code = self.code
-
-        is_following = self.is_following
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if code is not UNSET:
-            field_dict["code"] = code
-        if is_following is not UNSET:
-            field_dict["is_following"] = is_following
+        field_dict.update(
+            {
+                "message": message,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
-
-        code = d.pop("code", UNSET)
-
-        is_following = d.pop("is_following", UNSET)
+        message = d.pop("message")
 
         follow_content_response_403 = cls(
             message=message,
-            code=code,
-            is_following=is_following,
         )
 
         follow_content_response_403.additional_properties = d

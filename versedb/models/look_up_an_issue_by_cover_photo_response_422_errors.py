@@ -6,8 +6,6 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="LookUpAnIssueByCoverPhotoResponse422Errors")
 
 
@@ -15,29 +13,29 @@ T = TypeVar("T", bound="LookUpAnIssueByCoverPhotoResponse422Errors")
 class LookUpAnIssueByCoverPhotoResponse422Errors:
     """
     Attributes:
-        image (list[str] | Unset):
+        image (list[str]):
     """
 
-    image: list[str] | Unset = UNSET
+    image: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        image: list[str] | Unset = UNSET
-        if not isinstance(self.image, Unset):
-            image = self.image
+        image = self.image
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if image is not UNSET:
-            field_dict["image"] = image
+        field_dict.update(
+            {
+                "image": image,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        image = cast(list[str], d.pop("image", UNSET))
+        image = cast(list[str], d.pop("image"))
 
         look_up_an_issue_by_cover_photo_response_422_errors = cls(
             image=image,

@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-
-from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
     from ..models.lookup_by_distributor_code_response_200_data import LookupByDistributorCodeResponse200Data
@@ -22,39 +20,36 @@ T = TypeVar("T", bound="LookupByDistributorCodeResponse200")
 class LookupByDistributorCodeResponse200:
     """
     Attributes:
-        data (LookupByDistributorCodeResponse200Data | Unset):
-        suggested_variant_id (int | Unset):
-        variants (list[LookupByDistributorCodeResponse200VariantsItem] | Unset):
+        data (LookupByDistributorCodeResponse200Data):
+        suggested_variant_id (int | None):
+        variants (list[LookupByDistributorCodeResponse200VariantsItem]):
     """
 
-    data: LookupByDistributorCodeResponse200Data | Unset = UNSET
-    suggested_variant_id: int | Unset = UNSET
-    variants: list[LookupByDistributorCodeResponse200VariantsItem] | Unset = UNSET
+    data: LookupByDistributorCodeResponse200Data
+    suggested_variant_id: int | None
+    variants: list[LookupByDistributorCodeResponse200VariantsItem]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        data: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.data, Unset):
-            data = self.data.to_dict()
+        data = self.data.to_dict()
 
+        suggested_variant_id: int | None
         suggested_variant_id = self.suggested_variant_id
 
-        variants: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.variants, Unset):
-            variants = []
-            for variants_item_data in self.variants:
-                variants_item = variants_item_data.to_dict()
-                variants.append(variants_item)
+        variants = []
+        for variants_item_data in self.variants:
+            variants_item = variants_item_data.to_dict()
+            variants.append(variants_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if data is not UNSET:
-            field_dict["data"] = data
-        if suggested_variant_id is not UNSET:
-            field_dict["suggested_variant_id"] = suggested_variant_id
-        if variants is not UNSET:
-            field_dict["variants"] = variants
+        field_dict.update(
+            {
+                "data": data,
+                "suggested_variant_id": suggested_variant_id,
+                "variants": variants,
+            }
+        )
 
         return field_dict
 
@@ -66,23 +61,21 @@ class LookupByDistributorCodeResponse200:
         )
 
         d = dict(src_dict)
-        _data = d.pop("data", UNSET)
-        data: LookupByDistributorCodeResponse200Data | Unset
-        if isinstance(_data, Unset):
-            data = UNSET
-        else:
-            data = LookupByDistributorCodeResponse200Data.from_dict(_data)
+        data = LookupByDistributorCodeResponse200Data.from_dict(d.pop("data"))
 
-        suggested_variant_id = d.pop("suggested_variant_id", UNSET)
+        def _parse_suggested_variant_id(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
 
-        _variants = d.pop("variants", UNSET)
-        variants: list[LookupByDistributorCodeResponse200VariantsItem] | Unset = UNSET
-        if _variants is not UNSET:
-            variants = []
-            for variants_item_data in _variants:
-                variants_item = LookupByDistributorCodeResponse200VariantsItem.from_dict(variants_item_data)
+        suggested_variant_id = _parse_suggested_variant_id(d.pop("suggested_variant_id"))
 
-                variants.append(variants_item)
+        variants = []
+        _variants = d.pop("variants")
+        for variants_item_data in _variants:
+            variants_item = LookupByDistributorCodeResponse200VariantsItem.from_dict(variants_item_data)
+
+            variants.append(variants_item)
 
         lookup_by_distributor_code_response_200 = cls(
             data=data,

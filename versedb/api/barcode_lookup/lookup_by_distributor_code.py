@@ -13,18 +13,27 @@ from ...models.lookup_by_distributor_code_response_409 import LookupByDistributo
 from ...models.lookup_by_distributor_code_response_422 import LookupByDistributorCodeResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
     code: str,
+    *,
+    languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
+
+    params: dict[str, Any] = {}
+
+    params["languages"] = languages
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/api/v1/lookup/code/{code}".format(
             code=quote(str(code), safe=""),
         ),
+        "params": params,
     }
 
     return _kwargs
@@ -106,6 +115,7 @@ def sync_detailed(
     code: str,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[
     LookupByDistributorCodeResponse200
     | LookupByDistributorCodeResponse403
@@ -123,7 +133,9 @@ def sync_detailed(
     one issue returns 200, a code held by several issues returns 409 with the candidates.
 
     Args:
-        code (str):
+        code (str): A Lunar or Universal code.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -135,6 +147,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         code=code,
+        languages=languages,
     )
 
     response = client.get_httpx_client().request(
@@ -148,6 +161,7 @@ def sync(
     code: str,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> (
     LookupByDistributorCodeResponse200
     | LookupByDistributorCodeResponse403
@@ -166,7 +180,9 @@ def sync(
     one issue returns 200, a code held by several issues returns 409 with the candidates.
 
     Args:
-        code (str):
+        code (str): A Lunar or Universal code.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -179,6 +195,7 @@ def sync(
     return sync_detailed(
         code=code,
         client=client,
+        languages=languages,
     ).parsed
 
 
@@ -186,6 +203,7 @@ async def asyncio_detailed(
     code: str,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> Response[
     LookupByDistributorCodeResponse200
     | LookupByDistributorCodeResponse403
@@ -203,7 +221,9 @@ async def asyncio_detailed(
     one issue returns 200, a code held by several issues returns 409 with the candidates.
 
     Args:
-        code (str):
+        code (str): A Lunar or Universal code.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -215,6 +235,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         code=code,
+        languages=languages,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -226,6 +247,7 @@ async def asyncio(
     code: str,
     *,
     client: AuthenticatedClient | Client,
+    languages: str | Unset = UNSET,
 ) -> (
     LookupByDistributorCodeResponse200
     | LookupByDistributorCodeResponse403
@@ -244,7 +266,9 @@ async def asyncio(
     one issue returns 200, a code held by several issues returns 409 with the candidates.
 
     Args:
-        code (str):
+        code (str): A Lunar or Universal code.
+        languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -258,5 +282,6 @@ async def asyncio(
         await asyncio_detailed(
             code=code,
             client=client,
+            languages=languages,
         )
     ).parsed

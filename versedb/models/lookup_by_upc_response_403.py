@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="LookupByUpcResponse403")
 
 
@@ -15,10 +13,10 @@ T = TypeVar("T", bound="LookupByUpcResponse403")
 class LookupByUpcResponse403:
     """
     Attributes:
-        message (str | Unset):
+        message (str):
     """
 
-    message: str | Unset = UNSET
+    message: str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -26,16 +24,18 @@ class LookupByUpcResponse403:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
+        field_dict.update(
+            {
+                "message": message,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
         lookup_by_upc_response_403 = cls(
             message=message,

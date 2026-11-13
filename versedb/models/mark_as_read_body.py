@@ -15,13 +15,18 @@ T = TypeVar("T", bound="MarkAsReadBody")
 class MarkAsReadBody:
     """
     Attributes:
+        read_at (str | Unset): The day it was read, YYYY-MM-DD, not in the future (optional). Leave it out when the date
+            is unknown.
         variant_id (int | None | Unset): Specific variant ID (optional).
     """
 
+    read_at: str | Unset = UNSET
     variant_id: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        read_at = self.read_at
+
         variant_id: int | None | Unset
         if isinstance(self.variant_id, Unset):
             variant_id = UNSET
@@ -31,6 +36,8 @@ class MarkAsReadBody:
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
+        if read_at is not UNSET:
+            field_dict["read_at"] = read_at
         if variant_id is not UNSET:
             field_dict["variant_id"] = variant_id
 
@@ -39,6 +46,7 @@ class MarkAsReadBody:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        read_at = d.pop("read_at", UNSET)
 
         def _parse_variant_id(data: object) -> int | None | Unset:
             if data is None:
@@ -50,6 +58,7 @@ class MarkAsReadBody:
         variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
 
         mark_as_read_body = cls(
+            read_at=read_at,
             variant_id=variant_id,
         )
 

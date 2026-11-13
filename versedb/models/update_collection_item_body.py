@@ -85,6 +85,8 @@ class UpdateCollectionItemBody:
         is_read (bool | Unset): Whether the issue has been read.
         read_at (None | str | Unset): When the issue was read (YYYY-MM-DD). Cannot be in the future. Must be a valid
             date. Must be a date before or equal to <code>today</code>.
+        read_undated (bool | Unset): True to clear the date of the issue's read and keep it read. Cannot be sent with
+            `read_at`.
     """
 
     variant_id: int | None | Unset = UNSET
@@ -125,6 +127,7 @@ class UpdateCollectionItemBody:
     is_public: bool | Unset = UNSET
     is_read: bool | Unset = UNSET
     read_at: None | str | Unset = UNSET
+    read_undated: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -322,6 +325,8 @@ class UpdateCollectionItemBody:
         else:
             read_at = self.read_at
 
+        read_undated = self.read_undated
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
@@ -401,6 +406,8 @@ class UpdateCollectionItemBody:
             field_dict["is_read"] = is_read
         if read_at is not UNSET:
             field_dict["read_at"] = read_at
+        if read_undated is not UNSET:
+            field_dict["read_undated"] = read_undated
 
         return field_dict
 
@@ -687,6 +694,8 @@ class UpdateCollectionItemBody:
 
         read_at = _parse_read_at(d.pop("read_at", UNSET))
 
+        read_undated = d.pop("read_undated", UNSET)
+
         update_collection_item_body = cls(
             variant_id=variant_id,
             condition=condition,
@@ -726,6 +735,7 @@ class UpdateCollectionItemBody:
             is_public=is_public,
             is_read=is_read,
             read_at=read_at,
+            read_undated=read_undated,
         )
 
         update_collection_item_body.additional_properties = d

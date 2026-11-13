@@ -6,8 +6,6 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="LookupByDistributorCodeResponse200VariantsItem")
 
 
@@ -15,64 +13,58 @@ T = TypeVar("T", bound="LookupByDistributorCodeResponse200VariantsItem")
 class LookupByDistributorCodeResponse200VariantsItem:
     """
     Attributes:
-        variant_id (None | str | Unset):
-        variant_name (str | Unset):
-        cover_url (str | Unset):
-        upc (str | Unset):
-        lunar_code (str | Unset):
-        universal_code (str | Unset):
-        diamond_code (None | str | Unset):
+        variant_id (int | None):
+        variant_name (str):
+        cover_url (None | str):
+        upc (None | str):
+        lunar_code (None | str):
+        universal_code (None | str):
+        diamond_code (None | str):
     """
 
-    variant_id: None | str | Unset = UNSET
-    variant_name: str | Unset = UNSET
-    cover_url: str | Unset = UNSET
-    upc: str | Unset = UNSET
-    lunar_code: str | Unset = UNSET
-    universal_code: str | Unset = UNSET
-    diamond_code: None | str | Unset = UNSET
+    variant_id: int | None
+    variant_name: str
+    cover_url: None | str
+    upc: None | str
+    lunar_code: None | str
+    universal_code: None | str
+    diamond_code: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        variant_id: None | str | Unset
-        if isinstance(self.variant_id, Unset):
-            variant_id = UNSET
-        else:
-            variant_id = self.variant_id
+        variant_id: int | None
+        variant_id = self.variant_id
 
         variant_name = self.variant_name
 
+        cover_url: None | str
         cover_url = self.cover_url
 
+        upc: None | str
         upc = self.upc
 
+        lunar_code: None | str
         lunar_code = self.lunar_code
 
+        universal_code: None | str
         universal_code = self.universal_code
 
-        diamond_code: None | str | Unset
-        if isinstance(self.diamond_code, Unset):
-            diamond_code = UNSET
-        else:
-            diamond_code = self.diamond_code
+        diamond_code: None | str
+        diamond_code = self.diamond_code
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if variant_id is not UNSET:
-            field_dict["variant_id"] = variant_id
-        if variant_name is not UNSET:
-            field_dict["variant_name"] = variant_name
-        if cover_url is not UNSET:
-            field_dict["cover_url"] = cover_url
-        if upc is not UNSET:
-            field_dict["upc"] = upc
-        if lunar_code is not UNSET:
-            field_dict["lunar_code"] = lunar_code
-        if universal_code is not UNSET:
-            field_dict["universal_code"] = universal_code
-        if diamond_code is not UNSET:
-            field_dict["diamond_code"] = diamond_code
+        field_dict.update(
+            {
+                "variant_id": variant_id,
+                "variant_name": variant_name,
+                "cover_url": cover_url,
+                "upc": upc,
+                "lunar_code": lunar_code,
+                "universal_code": universal_code,
+                "diamond_code": diamond_code,
+            }
+        )
 
         return field_dict
 
@@ -80,33 +72,49 @@ class LookupByDistributorCodeResponse200VariantsItem:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
 
-        def _parse_variant_id(data: object) -> None | str | Unset:
+        def _parse_variant_id(data: object) -> int | None:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(int | None, data)
 
-        variant_id = _parse_variant_id(d.pop("variant_id", UNSET))
+        variant_id = _parse_variant_id(d.pop("variant_id"))
 
-        variant_name = d.pop("variant_name", UNSET)
+        variant_name = d.pop("variant_name")
 
-        cover_url = d.pop("cover_url", UNSET)
-
-        upc = d.pop("upc", UNSET)
-
-        lunar_code = d.pop("lunar_code", UNSET)
-
-        universal_code = d.pop("universal_code", UNSET)
-
-        def _parse_diamond_code(data: object) -> None | str | Unset:
+        def _parse_cover_url(data: object) -> None | str:
             if data is None:
                 return data
-            if isinstance(data, Unset):
-                return data
-            return cast(None | str | Unset, data)
+            return cast(None | str, data)
 
-        diamond_code = _parse_diamond_code(d.pop("diamond_code", UNSET))
+        cover_url = _parse_cover_url(d.pop("cover_url"))
+
+        def _parse_upc(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        upc = _parse_upc(d.pop("upc"))
+
+        def _parse_lunar_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        lunar_code = _parse_lunar_code(d.pop("lunar_code"))
+
+        def _parse_universal_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        universal_code = _parse_universal_code(d.pop("universal_code"))
+
+        def _parse_diamond_code(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        diamond_code = _parse_diamond_code(d.pop("diamond_code"))
 
         lookup_by_distributor_code_response_200_variants_item = cls(
             variant_id=variant_id,

@@ -6,9 +6,11 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.follow_content_body import FollowContentBody
-from ...models.follow_content_response_200 import FollowContentResponse200
+from ...models.follow_content_response_200_type_0 import FollowContentResponse200Type0
+from ...models.follow_content_response_200_type_1 import FollowContentResponse200Type1
 from ...models.follow_content_response_403 import FollowContentResponse403
 from ...models.follow_content_response_404 import FollowContentResponse404
+from ...models.follow_content_response_422 import FollowContentResponse422
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import Response
@@ -36,15 +38,33 @@ def _get_kwargs(
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
 ):
     if response.status_code == 200:
-        response_200 = FollowContentResponse200.from_dict(response.json())
+
+        def _parse_response_200(data: object) -> FollowContentResponse200Type0 | FollowContentResponse200Type1:
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                response_200_type_0 = FollowContentResponse200Type0.from_dict(data)
+
+                return response_200_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            if not isinstance(data, dict):
+                raise TypeError()
+            response_200_type_1 = FollowContentResponse200Type1.from_dict(data)
+
+            return response_200_type_1
+
+        response_200 = _parse_response_200(response.json())
 
         return response_200
 
@@ -63,6 +83,11 @@ def _parse_response(
 
         return response_404
 
+    if response.status_code == 422:
+        response_422 = FollowContentResponse422.from_dict(response.json())
+
+        return response_422
+
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
 
@@ -77,9 +102,11 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
@@ -96,16 +123,18 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     body: FollowContentBody,
 ) -> Response[
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Follow content.
 
      Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event
-    franchise, or user.
+    franchise, or user. Following an event that belongs to a franchise follows the franchise too.
 
     Args:
         body (FollowContentBody):
@@ -115,7 +144,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FollowContentResponse200 | FollowContentResponse403 | FollowContentResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[FollowContentResponse200Type0 | FollowContentResponse200Type1 | FollowContentResponse403 | FollowContentResponse404 | FollowContentResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -134,9 +163,11 @@ def sync(
     client: AuthenticatedClient | Client,
     body: FollowContentBody,
 ) -> (
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -144,7 +175,7 @@ def sync(
     """Follow content.
 
      Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event
-    franchise, or user.
+    franchise, or user. Following an event that belongs to a franchise follows the franchise too.
 
     Args:
         body (FollowContentBody):
@@ -154,7 +185,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FollowContentResponse200 | FollowContentResponse403 | FollowContentResponse404 | TooManyRequestsError | UnauthorizedError
+        FollowContentResponse200Type0 | FollowContentResponse200Type1 | FollowContentResponse403 | FollowContentResponse404 | FollowContentResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -168,16 +199,18 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     body: FollowContentBody,
 ) -> Response[
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
 ]:
     """Follow content.
 
      Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event
-    franchise, or user.
+    franchise, or user. Following an event that belongs to a franchise follows the franchise too.
 
     Args:
         body (FollowContentBody):
@@ -187,7 +220,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FollowContentResponse200 | FollowContentResponse403 | FollowContentResponse404 | TooManyRequestsError | UnauthorizedError]
+        Response[FollowContentResponse200Type0 | FollowContentResponse200Type1 | FollowContentResponse403 | FollowContentResponse404 | FollowContentResponse422 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -204,9 +237,11 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     body: FollowContentBody,
 ) -> (
-    FollowContentResponse200
+    FollowContentResponse200Type0
+    | FollowContentResponse200Type1
     | FollowContentResponse403
     | FollowContentResponse404
+    | FollowContentResponse422
     | TooManyRequestsError
     | UnauthorizedError
     | None
@@ -214,7 +249,7 @@ async def asyncio(
     """Follow content.
 
      Follows a title, character, podcast, creator, publisher, team, story arc, comic shop, event, event
-    franchise, or user.
+    franchise, or user. Following an event that belongs to a franchise follows the franchise too.
 
     Args:
         body (FollowContentBody):
@@ -224,7 +259,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FollowContentResponse200 | FollowContentResponse403 | FollowContentResponse404 | TooManyRequestsError | UnauthorizedError
+        FollowContentResponse200Type0 | FollowContentResponse200Type1 | FollowContentResponse403 | FollowContentResponse404 | FollowContentResponse422 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

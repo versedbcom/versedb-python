@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.look_up_an_issue_by_cover_photo_response_422_errors import LookUpAnIssueByCoverPhotoResponse422Errors
 
@@ -19,28 +17,27 @@ T = TypeVar("T", bound="LookUpAnIssueByCoverPhotoResponse422")
 class LookUpAnIssueByCoverPhotoResponse422:
     """
     Attributes:
-        message (str | Unset):
-        errors (LookUpAnIssueByCoverPhotoResponse422Errors | Unset):
+        message (str):
+        errors (LookUpAnIssueByCoverPhotoResponse422Errors):
     """
 
-    message: str | Unset = UNSET
-    errors: LookUpAnIssueByCoverPhotoResponse422Errors | Unset = UNSET
+    message: str
+    errors: LookUpAnIssueByCoverPhotoResponse422Errors
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         message = self.message
 
-        errors: dict[str, Any] | Unset = UNSET
-        if not isinstance(self.errors, Unset):
-            errors = self.errors.to_dict()
+        errors = self.errors.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if errors is not UNSET:
-            field_dict["errors"] = errors
+        field_dict.update(
+            {
+                "message": message,
+                "errors": errors,
+            }
+        )
 
         return field_dict
 
@@ -51,14 +48,9 @@ class LookUpAnIssueByCoverPhotoResponse422:
         )
 
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
-        _errors = d.pop("errors", UNSET)
-        errors: LookUpAnIssueByCoverPhotoResponse422Errors | Unset
-        if isinstance(_errors, Unset):
-            errors = UNSET
-        else:
-            errors = LookUpAnIssueByCoverPhotoResponse422Errors.from_dict(_errors)
+        errors = LookUpAnIssueByCoverPhotoResponse422Errors.from_dict(d.pop("errors"))
 
         look_up_an_issue_by_cover_photo_response_422 = cls(
             message=message,

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -13,13 +13,14 @@ T = TypeVar("T", bound="EditReadingDateResponse200")
 class EditReadingDateResponse200:
     """
     Attributes:
-        read_at (str):
+        read_at (None | str): The new date; null after `undated`.
     """
 
-    read_at: str
+    read_at: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        read_at: None | str
         read_at = self.read_at
 
         field_dict: dict[str, Any] = {}
@@ -35,7 +36,13 @@ class EditReadingDateResponse200:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        read_at = d.pop("read_at")
+
+        def _parse_read_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        read_at = _parse_read_at(d.pop("read_at"))
 
         edit_reading_date_response_200 = cls(
             read_at=read_at,

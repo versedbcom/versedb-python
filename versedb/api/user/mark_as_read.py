@@ -153,7 +153,9 @@ def sync_detailed(
 ]:
     """Mark as read.
 
-     Marks an issue (optionally a specific variant) as read with the current timestamp.
+     Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
+    one it is dated that day. An issue already read is left as it is, its date included, and the answer
+    gives that date.
 
     Args:
         issue_id (int): The issue ID.
@@ -197,7 +199,9 @@ def sync(
 ):
     """Mark as read.
 
-     Marks an issue (optionally a specific variant) as read with the current timestamp.
+     Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
+    one it is dated that day. An issue already read is left as it is, its date included, and the answer
+    gives that date.
 
     Args:
         issue_id (int): The issue ID.
@@ -235,7 +239,9 @@ async def asyncio_detailed(
 ]:
     """Mark as read.
 
-     Marks an issue (optionally a specific variant) as read with the current timestamp.
+     Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
+    one it is dated that day. An issue already read is left as it is, its date included, and the answer
+    gives that date.
 
     Args:
         issue_id (int): The issue ID.
@@ -277,7 +283,9 @@ async def asyncio(
 ):
     """Mark as read.
 
-     Marks an issue (optionally a specific variant) as read with the current timestamp.
+     Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
+    one it is dated that day. An issue already read is left as it is, its date included, and the answer
+    gives that date.
 
     Args:
         issue_id (int): The issue ID.

@@ -16,10 +16,13 @@ class EditReadingDateBody:
     """
     Attributes:
         read_at (None | str | Unset): Date in YYYY-MM-DD format, must not be in the future. Pass null to mark as unread.
+        undated (bool | Unset): True to clear the date and keep the issue read (optional). Cannot be sent with
+            `read_at`.
         variant_id (int | None | Unset): Specific variant ID (optional).
     """
 
     read_at: None | str | Unset = UNSET
+    undated: bool | Unset = UNSET
     variant_id: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -29,6 +32,8 @@ class EditReadingDateBody:
             read_at = UNSET
         else:
             read_at = self.read_at
+
+        undated = self.undated
 
         variant_id: int | None | Unset
         if isinstance(self.variant_id, Unset):
@@ -41,6 +46,8 @@ class EditReadingDateBody:
         field_dict.update({})
         if read_at is not UNSET:
             field_dict["read_at"] = read_at
+        if undated is not UNSET:
+            field_dict["undated"] = undated
         if variant_id is not UNSET:
             field_dict["variant_id"] = variant_id
 
@@ -59,6 +66,8 @@ class EditReadingDateBody:
 
         read_at = _parse_read_at(d.pop("read_at", UNSET))
 
+        undated = d.pop("undated", UNSET)
+
         def _parse_variant_id(data: object) -> int | None | Unset:
             if data is None:
                 return data
@@ -70,6 +79,7 @@ class EditReadingDateBody:
 
         edit_reading_date_body = cls(
             read_at=read_at,
+            undated=undated,
             variant_id=variant_id,
         )
 

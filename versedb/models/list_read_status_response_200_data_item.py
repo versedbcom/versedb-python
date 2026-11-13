@@ -24,7 +24,7 @@ class ListReadStatusResponse200DataItem:
         readable_type (str):
         readable_id (int):
         variant_id (int | None):
-        read_at (None | str):
+        read_at (None | str): When the issue was read; null when the read has no date.
         created_at (None | str):
         updated_at (None | str):
         readable (ListReadStatusResponse200DataItemReadableType0 | None): Null once the issue is gone.

@@ -6,8 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.lookup_by_upc_response_409_matches_item import LookupByUpcResponse409MatchesItem
 
@@ -19,16 +17,16 @@ T = TypeVar("T", bound="LookupByUpcResponse409")
 class LookupByUpcResponse409:
     """
     Attributes:
-        message (str | Unset):
-        count (int | Unset):
-        total_count (int | Unset):
-        matches (list[LookupByUpcResponse409MatchesItem] | Unset):
+        message (str):
+        count (int):
+        total_count (int):
+        matches (list[LookupByUpcResponse409MatchesItem]):
     """
 
-    message: str | Unset = UNSET
-    count: int | Unset = UNSET
-    total_count: int | Unset = UNSET
-    matches: list[LookupByUpcResponse409MatchesItem] | Unset = UNSET
+    message: str
+    count: int
+    total_count: int
+    matches: list[LookupByUpcResponse409MatchesItem]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -38,24 +36,21 @@ class LookupByUpcResponse409:
 
         total_count = self.total_count
 
-        matches: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.matches, Unset):
-            matches = []
-            for matches_item_data in self.matches:
-                matches_item = matches_item_data.to_dict()
-                matches.append(matches_item)
+        matches = []
+        for matches_item_data in self.matches:
+            matches_item = matches_item_data.to_dict()
+            matches.append(matches_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if message is not UNSET:
-            field_dict["message"] = message
-        if count is not UNSET:
-            field_dict["count"] = count
-        if total_count is not UNSET:
-            field_dict["total_count"] = total_count
-        if matches is not UNSET:
-            field_dict["matches"] = matches
+        field_dict.update(
+            {
+                "message": message,
+                "count": count,
+                "total_count": total_count,
+                "matches": matches,
+            }
+        )
 
         return field_dict
 
@@ -64,20 +59,18 @@ class LookupByUpcResponse409:
         from ..models.lookup_by_upc_response_409_matches_item import LookupByUpcResponse409MatchesItem  # noqa: PLC0415
 
         d = dict(src_dict)
-        message = d.pop("message", UNSET)
+        message = d.pop("message")
 
-        count = d.pop("count", UNSET)
+        count = d.pop("count")
 
-        total_count = d.pop("total_count", UNSET)
+        total_count = d.pop("total_count")
 
-        _matches = d.pop("matches", UNSET)
-        matches: list[LookupByUpcResponse409MatchesItem] | Unset = UNSET
-        if _matches is not UNSET:
-            matches = []
-            for matches_item_data in _matches:
-                matches_item = LookupByUpcResponse409MatchesItem.from_dict(matches_item_data)
+        matches = []
+        _matches = d.pop("matches")
+        for matches_item_data in _matches:
+            matches_item = LookupByUpcResponse409MatchesItem.from_dict(matches_item_data)
 
-                matches.append(matches_item)
+            matches.append(matches_item)
 
         lookup_by_upc_response_409 = cls(
             message=message,

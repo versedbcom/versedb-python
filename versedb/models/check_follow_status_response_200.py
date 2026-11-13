@@ -6,8 +6,6 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 T = TypeVar("T", bound="CheckFollowStatusResponse200")
 
 
@@ -15,10 +13,10 @@ T = TypeVar("T", bound="CheckFollowStatusResponse200")
 class CheckFollowStatusResponse200:
     """
     Attributes:
-        is_following (bool | Unset):
+        is_following (bool):
     """
 
-    is_following: bool | Unset = UNSET
+    is_following: bool
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -26,16 +24,18 @@ class CheckFollowStatusResponse200:
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
-        if is_following is not UNSET:
-            field_dict["is_following"] = is_following
+        field_dict.update(
+            {
+                "is_following": is_following,
+            }
+        )
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
-        is_following = d.pop("is_following", UNSET)
+        is_following = d.pop("is_following")
 
         check_follow_status_response_200 = cls(
             is_following=is_following,

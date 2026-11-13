@@ -6,6 +6,7 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_activity_feed_response_200 import GetActivityFeedResponse200
+from ...models.get_activity_feed_response_403 import GetActivityFeedResponse403
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -36,7 +37,7 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError | None:
     if response.status_code == 200:
         response_200 = GetActivityFeedResponse200.from_dict(response.json())
 
@@ -46,6 +47,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetActivityFeedResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -60,7 +66,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -74,10 +80,13 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     page: int | Unset = UNSET,
-) -> Response[GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get activity feed.
 
-     Aggregates recent activity from collections, reads, follows, and reviews.
+     Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per
+    row, newest first.
+
+    Needs `read:user`.
 
     Args:
         per_page (int | Unset): Number of results per page (max 100).
@@ -88,7 +97,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -108,10 +117,13 @@ def sync(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     page: int | Unset = UNSET,
-) -> GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get activity feed.
 
-     Aggregates recent activity from collections, reads, follows, and reviews.
+     Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per
+    row, newest first.
+
+    Needs `read:user`.
 
     Args:
         per_page (int | Unset): Number of results per page (max 100).
@@ -122,7 +134,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError
+        GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -137,10 +149,13 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     page: int | Unset = UNSET,
-) -> Response[GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError]:
     """Get activity feed.
 
-     Aggregates recent activity from collections, reads, follows, and reviews.
+     Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per
+    row, newest first.
+
+    Needs `read:user`.
 
     Args:
         per_page (int | Unset): Number of results per page (max 100).
@@ -151,7 +166,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -169,10 +184,13 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     per_page: int | Unset = UNSET,
     page: int | Unset = UNSET,
-) -> GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """Get activity feed.
 
-     Aggregates recent activity from collections, reads, follows, and reviews.
+     Aggregates the user's activity from collections, reads, follows and issue reviews, one entry per
+    row, newest first.
+
+    Needs `read:user`.
 
     Args:
         per_page (int | Unset): Number of results per page (max 100).
@@ -183,7 +201,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetActivityFeedResponse200 | TooManyRequestsError | UnauthorizedError
+        GetActivityFeedResponse200 | GetActivityFeedResponse403 | TooManyRequestsError | UnauthorizedError
     """
 
     return (

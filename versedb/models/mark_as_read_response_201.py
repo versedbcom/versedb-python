@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,20 +19,29 @@ T = TypeVar("T", bound="MarkAsReadResponse201")
 class MarkAsReadResponse201:
     """
     Attributes:
+        read_at (None | str): The read's date; null when it has none.
         series_completed (MarkAsReadResponse201SeriesCompleted | Unset): Every live issue of the series is now read.
     """
 
+    read_at: None | str
     series_completed: MarkAsReadResponse201SeriesCompleted | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        read_at: None | str
+        read_at = self.read_at
+
         series_completed: dict[str, Any] | Unset = UNSET
         if not isinstance(self.series_completed, Unset):
             series_completed = self.series_completed.to_dict()
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
+        field_dict.update(
+            {
+                "read_at": read_at,
+            }
+        )
         if series_completed is not UNSET:
             field_dict["series_completed"] = series_completed
 
@@ -43,6 +52,14 @@ class MarkAsReadResponse201:
         from ..models.mark_as_read_response_201_series_completed import MarkAsReadResponse201SeriesCompleted  # noqa: PLC0415
 
         d = dict(src_dict)
+
+        def _parse_read_at(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        read_at = _parse_read_at(d.pop("read_at"))
+
         _series_completed = d.pop("series_completed", UNSET)
         series_completed: MarkAsReadResponse201SeriesCompleted | Unset
         if isinstance(_series_completed, Unset):
@@ -51,6 +68,7 @@ class MarkAsReadResponse201:
             series_completed = MarkAsReadResponse201SeriesCompleted.from_dict(_series_completed)
 
         mark_as_read_response_201 = cls(
+            read_at=read_at,
             series_completed=series_completed,
         )
 

@@ -7,6 +7,7 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.look_up_an_issue_by_cover_photo_body import LookUpAnIssueByCoverPhotoBody
 from ...models.look_up_an_issue_by_cover_photo_response_200 import LookUpAnIssueByCoverPhotoResponse200
+from ...models.look_up_an_issue_by_cover_photo_response_403 import LookUpAnIssueByCoverPhotoResponse403
 from ...models.look_up_an_issue_by_cover_photo_response_422 import LookUpAnIssueByCoverPhotoResponse422
 from ...models.look_up_an_issue_by_cover_photo_response_503 import LookUpAnIssueByCoverPhotoResponse503
 from ...models.too_many_requests_error import TooManyRequestsError
@@ -37,6 +38,7 @@ def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -52,6 +54,11 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = LookUpAnIssueByCoverPhotoResponse403.from_dict(response.json())
+
+        return response_403
 
     if response.status_code == 422:
         response_422 = LookUpAnIssueByCoverPhotoResponse422.from_dict(response.json())
@@ -78,6 +85,7 @@ def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -97,6 +105,7 @@ def sync_detailed(
     body: LookUpAnIssueByCoverPhotoBody,
 ) -> Response[
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -122,7 +131,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError]
+        Response[LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse403 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -142,6 +151,7 @@ def sync(
     body: LookUpAnIssueByCoverPhotoBody,
 ) -> (
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -168,7 +178,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError
+        LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse403 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -183,6 +193,7 @@ async def asyncio_detailed(
     body: LookUpAnIssueByCoverPhotoBody,
 ) -> Response[
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -208,7 +219,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError]
+        Response[LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse403 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
@@ -226,6 +237,7 @@ async def asyncio(
     body: LookUpAnIssueByCoverPhotoBody,
 ) -> (
     LookUpAnIssueByCoverPhotoResponse200
+    | LookUpAnIssueByCoverPhotoResponse403
     | LookUpAnIssueByCoverPhotoResponse422
     | LookUpAnIssueByCoverPhotoResponse503
     | TooManyRequestsError
@@ -252,7 +264,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError
+        LookUpAnIssueByCoverPhotoResponse200 | LookUpAnIssueByCoverPhotoResponse403 | LookUpAnIssueByCoverPhotoResponse422 | LookUpAnIssueByCoverPhotoResponse503 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
