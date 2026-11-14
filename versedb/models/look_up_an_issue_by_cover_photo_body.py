@@ -18,7 +18,8 @@ class LookUpAnIssueByCoverPhotoBody:
     """
     Attributes:
         image (File): A photo of the comic cover: JPEG, PNG, GIF, BMP or WebP, up to 5MB. Must be an image. Must not be
-            greater than 5120 kilobytes.
+            greater than 5120 kilobytes. Send it as a file part with a file name (`filename=` in its `Content-Disposition`);
+            a part with no file name is read as text and answered 422.
     """
 
     image: File

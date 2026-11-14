@@ -8,11 +8,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="GetStoryArcsForASpecificCharacterResponse200DataItemImages")
+T = TypeVar("T", bound="GetStoryArcsForASpecificCharacterResponse200DataItemImagesType0")
 
 
 @_attrs_define
-class GetStoryArcsForASpecificCharacterResponse200DataItemImages:
+class GetStoryArcsForASpecificCharacterResponse200DataItemImagesType0:
     """
     Attributes:
         cover_sm (str | Unset):
@@ -53,14 +53,14 @@ class GetStoryArcsForASpecificCharacterResponse200DataItemImages:
 
         cover_lg = d.pop("cover_lg", UNSET)
 
-        get_story_arcs_for_a_specific_character_response_200_data_item_images = cls(
+        get_story_arcs_for_a_specific_character_response_200_data_item_images_type_0 = cls(
             cover_sm=cover_sm,
             cover_md=cover_md,
             cover_lg=cover_lg,
         )
 
-        get_story_arcs_for_a_specific_character_response_200_data_item_images.additional_properties = d
-        return get_story_arcs_for_a_specific_character_response_200_data_item_images
+        get_story_arcs_for_a_specific_character_response_200_data_item_images_type_0.additional_properties = d
+        return get_story_arcs_for_a_specific_character_response_200_data_item_images_type_0
 
     @property
     def additional_keys(self) -> list[str]:
