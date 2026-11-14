@@ -36058,6 +36058,2377 @@
         }
       }
     },
+    "/api/v1/characters/{character_id}/series": {
+      "get": {
+        "operationId": "getCharacterSeries",
+        "summary": "Get character series.",
+        "description": "Returns paginated series where the character appears, newest start year first.",
+        "tags": [
+          "Characters"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                456
+              ],
+              "description": "The character ID."
+            },
+            "required": true,
+            "description": "The character ID.",
+            "name": "character_id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "batman"
+              ],
+              "description": "Optional case-insensitive search within these results."
+            },
+            "required": false,
+            "description": "Optional case-insensitive search within these results.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                20
+              ],
+              "description": "Results per page (max 50)."
+            },
+            "required": false,
+            "description": "Results per page (max 50).",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                1
+              ],
+              "description": "Page number; meta.last_page says where the list ends."
+            },
+            "required": false,
+            "description": "Page number; meta.last_page says where the list ends.",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "comic,manga"
+              ],
+              "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine)."
+            },
+            "required": false,
+            "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
+            "name": "medium",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "ja,ko"
+              ],
+              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes."
+            },
+            "required": false,
+            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.",
+            "name": "languages",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "examples": [
+                              123
+                            ]
+                          },
+                          "title_id": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              1
+                            ]
+                          },
+                          "name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "The Amazing Spider-Man"
+                            ]
+                          },
+                          "display_name": {
+                            "type": "string",
+                            "examples": [
+                              "The Amazing Spider-Man (2018)"
+                            ]
+                          },
+                          "slug": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "amazing-spider-man-2018"
+                            ]
+                          },
+                          "number": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              6
+                            ]
+                          },
+                          "start_year": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              2018
+                            ]
+                          },
+                          "end_year": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              2022
+                            ]
+                          },
+                          "cover_url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "https://...-cover_lg.webp"
+                            ]
+                          },
+                          "images": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "cover_sm": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_sm.webp"
+                                ]
+                              },
+                              "cover_md": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_md.webp"
+                                ]
+                              },
+                              "cover_lg": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_lg.webp"
+                                ]
+                              }
+                            }
+                          },
+                          "medium": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "comic"
+                            ]
+                          },
+                          "publication_type": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "regular_series"
+                            ]
+                          },
+                          "format": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Standard"
+                            ]
+                          },
+                          "status": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Ongoing"
+                            ]
+                          },
+                          "original_name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "The Amazing Spider-Man"
+                            ]
+                          },
+                          "original_language": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "en"
+                            ]
+                          },
+                          "language": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "en"
+                            ]
+                          },
+                          "cached_issues_count": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              94
+                            ]
+                          },
+                          "average_rating": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "4.25"
+                            ]
+                          },
+                          "total_reviews": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              12
+                            ]
+                          },
+                          "issues_average_rating": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "4.10"
+                            ]
+                          },
+                          "issues_rated_count": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              40
+                            ]
+                          },
+                          "content_rating_label": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Teen"
+                            ]
+                          },
+                          "min_age": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              13
+                            ]
+                          },
+                          "is_nsfw": {
+                            "type": [
+                              "boolean",
+                              "null"
+                            ]
+                          },
+                          "publisher_name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Marvel"
+                            ]
+                          },
+                          "name_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "reading": {
+                                  "type": "string"
+                                },
+                                "sort": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "value",
+                                "source"
+                              ]
+                            },
+                            "description": "One name per language, keyed by BCP 47 tag.",
+                            "examples": [
+                              {
+                                "ja": {
+                                  "value": "講談社",
+                                  "reading": "こうだんしゃ",
+                                  "source": "madb"
+                                }
+                              }
+                            ]
+                          },
+                          "aliases_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "description": "Alternative names per language.",
+                            "examples": [
+                              {
+                                "en": [
+                                  "Kodansha Comics"
+                                ]
+                              }
+                            ]
+                          },
+                          "original_locale": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The language the series is from, a BCP 47 tag.",
+                            "examples": [
+                              "ja"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title_id",
+                          "name",
+                          "display_name",
+                          "slug",
+                          "number",
+                          "start_year",
+                          "end_year",
+                          "cover_url",
+                          "images",
+                          "medium",
+                          "publication_type",
+                          "format",
+                          "status",
+                          "original_name",
+                          "original_language",
+                          "language",
+                          "cached_issues_count",
+                          "average_rating",
+                          "total_reviews",
+                          "issues_average_rating",
+                          "issues_rated_count",
+                          "content_rating_label",
+                          "min_age",
+                          "is_nsfw",
+                          "publisher_name",
+                          "name_i18n",
+                          "aliases_i18n",
+                          "original_locale"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "first",
+                        "last",
+                        "prev",
+                        "next"
+                      ]
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "from": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            25
+                          ]
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ]
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "to": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            500
+                          ]
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "from",
+                        "last_page",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token lacks the read:public ability.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Insufficient token scope."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No query results for model [App\\Models\\Character] 456"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{character_id}/issues": {
+      "get": {
+        "operationId": "getCharacterIssues",
+        "summary": "Get character issues.",
+        "description": "Returns paginated issues where the character appears, ordered by release date.",
+        "tags": [
+          "Characters"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                456
+              ],
+              "description": "The character ID."
+            },
+            "required": true,
+            "description": "The character ID.",
+            "name": "character_id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "batman"
+              ],
+              "description": "Optional case-insensitive search within these results."
+            },
+            "required": false,
+            "description": "Optional case-insensitive search within these results.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                20
+              ],
+              "description": "Results per page (max 50)."
+            },
+            "required": false,
+            "description": "Results per page (max 50).",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                1
+              ],
+              "description": "Page number; meta.last_page says where the list ends."
+            },
+            "required": false,
+            "description": "Page number; meta.last_page says where the list ends.",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "comic,manga"
+              ],
+              "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine)."
+            },
+            "required": false,
+            "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
+            "name": "medium",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "ja,ko"
+              ],
+              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes."
+            },
+            "required": false,
+            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.",
+            "name": "languages",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "examples": [
+                              5432
+                            ]
+                          },
+                          "slug": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "amazing-spider-man-1"
+                            ]
+                          },
+                          "series_id": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              123
+                            ]
+                          },
+                          "issue_number": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "1"
+                            ]
+                          },
+                          "name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "The Chameleon Strikes!"
+                            ]
+                          },
+                          "cover_date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "2018-09-01"
+                            ]
+                          },
+                          "release_date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "2018-07-11"
+                            ]
+                          },
+                          "foc_date": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "2018-06-18"
+                            ]
+                          },
+                          "is_unreleased": {
+                            "type": "boolean"
+                          },
+                          "cover_url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "https://...-cover_lg.webp"
+                            ]
+                          },
+                          "images": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "thumb": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-thumb.webp"
+                                ]
+                              },
+                              "cover_sm": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_sm.webp"
+                                ]
+                              },
+                              "cover_md": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_md.webp"
+                                ]
+                              },
+                              "cover_lg": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_lg.webp"
+                                ]
+                              }
+                            }
+                          },
+                          "is_reprint": {
+                            "type": "boolean"
+                          },
+                          "content_rating_label": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Teen"
+                            ]
+                          },
+                          "min_age": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              13
+                            ]
+                          },
+                          "is_nsfw": {
+                            "type": "boolean"
+                          },
+                          "average_rating": {
+                            "type": [
+                              "number",
+                              "null"
+                            ],
+                            "examples": [
+                              4.5
+                            ]
+                          },
+                          "name_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "reading": {
+                                  "type": "string"
+                                },
+                                "sort": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "value",
+                                "source"
+                              ]
+                            },
+                            "description": "One name per language, keyed by BCP 47 tag.",
+                            "examples": [
+                              {
+                                "ja": {
+                                  "value": "講談社",
+                                  "reading": "こうだんしゃ",
+                                  "source": "madb"
+                                }
+                              }
+                            ]
+                          },
+                          "series": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "examples": [
+                                  123
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "The Amazing Spider-Man"
+                                ]
+                              },
+                              "slug": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "the-amazing-spider-man-2018"
+                                ]
+                              },
+                              "start_year": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "examples": [
+                                  2018
+                                ]
+                              },
+                              "end_year": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "examples": [
+                                  2022
+                                ]
+                              },
+                              "volume_number": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "examples": [
+                                  5
+                                ]
+                              },
+                              "publication_type": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "regular_series"
+                                ]
+                              },
+                              "format": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "Standard"
+                                ]
+                              },
+                              "cached_issues_count": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "examples": [
+                                  93
+                                ]
+                              },
+                              "cover_url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "https://...-cover_lg.webp"
+                                ]
+                              },
+                              "images": {
+                                "type": [
+                                  "object",
+                                  "null"
+                                ],
+                                "properties": {
+                                  "cover_sm": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://...-cover_sm.webp"
+                                    ]
+                                  },
+                                  "cover_md": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://...-cover_md.webp"
+                                    ]
+                                  },
+                                  "cover_lg": {
+                                    "type": "string",
+                                    "examples": [
+                                      "https://...-cover_lg.webp"
+                                    ]
+                                  }
+                                }
+                              },
+                              "publisher_name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "Marvel"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug",
+                              "start_year",
+                              "end_year",
+                              "volume_number",
+                              "publication_type",
+                              "format",
+                              "cached_issues_count",
+                              "cover_url",
+                              "images",
+                              "publisher_name"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "slug",
+                          "series_id",
+                          "issue_number",
+                          "name",
+                          "cover_date",
+                          "release_date",
+                          "foc_date",
+                          "is_unreleased",
+                          "cover_url",
+                          "images",
+                          "is_reprint",
+                          "content_rating_label",
+                          "min_age",
+                          "is_nsfw",
+                          "average_rating",
+                          "name_i18n"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "first",
+                        "last",
+                        "prev",
+                        "next"
+                      ]
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "from": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            25
+                          ]
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ]
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "to": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            500
+                          ]
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "from",
+                        "last_page",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token lacks the read:public ability.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Insufficient token scope."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No query results for model [App\\Models\\Character] 456"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{character_id}/teams": {
+      "get": {
+        "operationId": "getCharacterTeams",
+        "summary": "Get character teams.",
+        "description": "Returns paginated teams the character is a member of, by name.",
+        "tags": [
+          "Characters"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                456
+              ],
+              "description": "The character ID."
+            },
+            "required": true,
+            "description": "The character ID.",
+            "name": "character_id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "batman"
+              ],
+              "description": "Optional case-insensitive search within these results."
+            },
+            "required": false,
+            "description": "Optional case-insensitive search within these results.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                20
+              ],
+              "description": "Results per page (max 50)."
+            },
+            "required": false,
+            "description": "Results per page (max 50).",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                1
+              ],
+              "description": "Page number; meta.last_page says where the list ends."
+            },
+            "required": false,
+            "description": "Page number; meta.last_page says where the list ends.",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "ja,ko"
+              ],
+              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes."
+            },
+            "required": false,
+            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.",
+            "name": "languages",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "examples": [
+                              12
+                            ]
+                          },
+                          "name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Avengers"
+                            ]
+                          },
+                          "slug": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "avengers"
+                            ]
+                          },
+                          "aliases": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "examples": [
+                              [
+                                "Earth's Mightiest Heroes"
+                              ]
+                            ]
+                          },
+                          "headquarters": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Avengers Tower, New York City"
+                            ]
+                          },
+                          "members_count": {
+                            "type": "integer",
+                            "examples": [
+                              42
+                            ]
+                          },
+                          "appearances_count": {
+                            "type": "integer",
+                            "description": "Present when the team has an appearance count.",
+                            "examples": [
+                              1250
+                            ]
+                          },
+                          "image_url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "https://...-tile_sm.webp"
+                            ]
+                          },
+                          "images": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "tile_sm": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-tile_sm.webp"
+                                ]
+                              },
+                              "profile_md": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-profile_md.webp"
+                                ]
+                              },
+                              "full_lg": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-full_lg.webp"
+                                ]
+                              }
+                            }
+                          },
+                          "name_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "reading": {
+                                  "type": "string"
+                                },
+                                "sort": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "value",
+                                "source"
+                              ]
+                            },
+                            "description": "One name per language, keyed by BCP 47 tag.",
+                            "examples": [
+                              {
+                                "ja": {
+                                  "value": "講談社",
+                                  "reading": "こうだんしゃ",
+                                  "source": "madb"
+                                }
+                              }
+                            ]
+                          },
+                          "aliases_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "description": "Alternative names per language.",
+                            "examples": [
+                              {
+                                "en": [
+                                  "Kodansha Comics"
+                                ]
+                              }
+                            ]
+                          },
+                          "original_locale": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The language the entity is from, a BCP 47 tag.",
+                            "examples": [
+                              "en"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "slug",
+                          "aliases",
+                          "headquarters",
+                          "members_count",
+                          "image_url",
+                          "images",
+                          "name_i18n",
+                          "aliases_i18n",
+                          "original_locale"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "first",
+                        "last",
+                        "prev",
+                        "next"
+                      ]
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "from": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            25
+                          ]
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ]
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "to": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            500
+                          ]
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "from",
+                        "last_page",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token lacks the read:public ability.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Insufficient token scope."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No query results for model [App\\Models\\Character] 456"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{character_id}/story-arcs": {
+      "get": {
+        "operationId": "getStoryArcsForASpecificCharacter",
+        "summary": "Get story arcs for a specific character",
+        "description": "Returns every story arc the given character appears in.",
+        "tags": [
+          "Story Arcs"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                35939
+              ],
+              "description": "The ID of the character."
+            },
+            "required": true,
+            "description": "The ID of the character.",
+            "name": "character_id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "batman"
+              ],
+              "description": "Optional case-insensitive search within these results."
+            },
+            "required": false,
+            "description": "Optional case-insensitive search within these results.",
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                20
+              ],
+              "description": "Results per page (max 50)."
+            },
+            "required": false,
+            "description": "Results per page (max 50).",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                1
+              ],
+              "description": "Page number; meta.last_page says where the list ends."
+            },
+            "required": false,
+            "description": "Page number; meta.last_page says where the list ends.",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "examples": [
+                "ja,ko"
+              ],
+              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes."
+            },
+            "required": false,
+            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes.",
+            "name": "languages",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    299
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "examples": [
+                              24
+                            ]
+                          },
+                          "name": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "The Night Gwen Stacy Died"
+                            ]
+                          },
+                          "slug": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "the-night-gwen-stacy-died"
+                            ]
+                          },
+                          "type": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "main_story, side_story, tie_in_arc, mini_series_arc, crossover_event, prelude, epilogue or other.",
+                            "examples": [
+                              "main_story"
+                            ]
+                          },
+                          "status": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "active, ended, upcoming or cancelled.",
+                            "examples": [
+                              "ended"
+                            ]
+                          },
+                          "image_url": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "https://...-cover_md.webp"
+                            ]
+                          },
+                          "images": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "cover_sm": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_sm.webp"
+                                ]
+                              },
+                              "cover_md": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_md.webp"
+                                ]
+                              },
+                              "cover_lg": {
+                                "type": "string",
+                                "examples": [
+                                  "https://...-cover_lg.webp"
+                                ]
+                              }
+                            }
+                          },
+                          "issues_count": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "examples": [
+                              2
+                            ]
+                          },
+                          "name_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "type": "string"
+                                },
+                                "source": {
+                                  "type": "string"
+                                },
+                                "reading": {
+                                  "type": "string"
+                                },
+                                "sort": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "value",
+                                "source"
+                              ]
+                            },
+                            "description": "One name per language, keyed by BCP 47 tag.",
+                            "examples": [
+                              {
+                                "ja": {
+                                  "value": "講談社",
+                                  "reading": "こうだんしゃ",
+                                  "source": "madb"
+                                }
+                              }
+                            ]
+                          },
+                          "aliases_i18n": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "description": "Alternative names per language.",
+                            "examples": [
+                              {
+                                "en": [
+                                  "Kodansha Comics"
+                                ]
+                              }
+                            ]
+                          },
+                          "original_locale": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "description": "The language the story arc is from, a BCP 47 tag.",
+                            "examples": [
+                              "en"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "slug",
+                          "type",
+                          "status",
+                          "image_url",
+                          "images",
+                          "issues_count",
+                          "name_i18n",
+                          "aliases_i18n",
+                          "original_locale"
+                        ]
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "first": {
+                          "type": "string"
+                        },
+                        "last": {
+                          "type": "string"
+                        },
+                        "prev": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "first",
+                        "last",
+                        "prev",
+                        "next"
+                      ]
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "from": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "last_page": {
+                          "type": "integer",
+                          "examples": [
+                            25
+                          ]
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "page": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ]
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "to": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "examples": [
+                            20
+                          ]
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            500
+                          ]
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "from",
+                        "last_page",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token lacks the read:public ability.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Insufficient token scope."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No query results for model [App\\Models\\Character] 456"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    300
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/teams/{team_id}": {
       "get": {
         "operationId": "getASpecificTeam",
@@ -62083,7 +64454,7 @@
                   "image": {
                     "type": "string",
                     "format": "binary",
-                    "description": "A photo of the comic cover: JPEG, PNG, GIF, BMP or WebP, up to 5MB. Must be an image. Must not be greater than 5120 kilobytes."
+                    "description": "A photo of the comic cover: JPEG, PNG, GIF, BMP or WebP, up to 5MB. Must be an image. Must not be greater than 5120 kilobytes. Send it as a file part with a file name (`filename=` in its `Content-Disposition`); a part with no file name is read as text and answered 422."
                   }
                 },
                 "required": [
@@ -62579,7 +64950,7 @@
             }
           },
           "422": {
-            "description": "No photo, not an image, not one of the listed types, or over 5MB.",
+            "description": "No photo, not an image, not one of the listed types, over 5MB, or sent as a part with no file name, which is read as text.",
             "content": {
               "application/json": {
                 "schema": {
@@ -62875,1216 +65246,6 @@
             }
           }
         }
-      }
-    },
-    "/api/v1/characters/{character_id}/series": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "character_id",
-          "description": "The character ID.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "examples": [
-              456
-            ]
-          }
-        }
-      ],
-      "get": {
-        "summary": "Get character series.",
-        "operationId": "getCharacterSeries",
-        "description": "Returns paginated series where the character appears.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Results per page (max 50).",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Results per page (max 50).",
-              "examples": [
-                20
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "q",
-            "description": "Optional case-insensitive search within these results.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Optional case-insensitive search within these results.",
-              "examples": [
-                "batman"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "medium",
-            "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
-              "examples": [
-                "comic,manga"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "languages",
-            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-              "examples": [
-                "ja,ko"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "examples": [
-                              123
-                            ]
-                          },
-                          "name": {
-                            "type": "string",
-                            "examples": [
-                              "Amazing Spider-Man"
-                            ]
-                          },
-                          "name_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "aliases_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "original_locale": {
-                            "type": "string",
-                            "examples": [
-                              "en"
-                            ]
-                          },
-                          "slug": {
-                            "type": "string",
-                            "examples": [
-                              "amazing-spider-man-2018"
-                            ]
-                          },
-                          "start_year": {
-                            "type": "integer",
-                            "examples": [
-                              2018
-                            ]
-                          },
-                          "end_year": {
-                            "type": "integer",
-                            "examples": [
-                              2022
-                            ]
-                          },
-                          "image_url": {
-                            "type": "string",
-                            "examples": [
-                              "https://..."
-                            ]
-                          }
-                        }
-                      },
-                      "examples": [
-                        [
-                          {
-                            "id": 123,
-                            "name": "Amazing Spider-Man",
-                            "name_i18n": [],
-                            "aliases_i18n": [],
-                            "original_locale": "en",
-                            "slug": "amazing-spider-man-2018",
-                            "start_year": 2018,
-                            "end_year": 2022,
-                            "image_url": "https://..."
-                          }
-                        ]
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "current_page": {
-                          "type": "integer",
-                          "examples": [
-                            1
-                          ]
-                        },
-                        "last_page": {
-                          "type": "integer",
-                          "examples": [
-                            5
-                          ]
-                        },
-                        "per_page": {
-                          "type": "integer",
-                          "examples": [
-                            20
-                          ]
-                        },
-                        "total": {
-                          "type": "integer",
-                          "examples": [
-                            100
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "examples": [
-                    {
-                      "data": [
-                        {
-                          "id": 123,
-                          "name": "Amazing Spider-Man",
-                          "name_i18n": {},
-                          "aliases_i18n": {},
-                          "original_locale": "en",
-                          "slug": "amazing-spider-man-2018",
-                          "start_year": 2018,
-                          "end_year": 2022,
-                          "image_url": "https://..."
-                        }
-                      ],
-                      "meta": {
-                        "current_page": 1,
-                        "last_page": 5,
-                        "per_page": 20,
-                        "total": 100
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "headers": {
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    299
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
-            "headers": {
-              "Retry-After": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    3600
-                  ]
-                }
-              },
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    0
-                  ]
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TooManyRequestsError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Characters"
-        ]
-      }
-    },
-    "/api/v1/characters/{character_id}/issues": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "character_id",
-          "description": "The character ID.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "examples": [
-              456
-            ]
-          }
-        }
-      ],
-      "get": {
-        "summary": "Get character issues.",
-        "operationId": "getCharacterIssues",
-        "description": "Returns paginated issues where the character appears, ordered by release date.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Results per page (max 50).",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Results per page (max 50).",
-              "examples": [
-                20
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "q",
-            "description": "Optional case-insensitive search within these results.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Optional case-insensitive search within these results.",
-              "examples": [
-                "batman"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "medium",
-            "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Comma-separated series mediums to filter by (comic, manga, manhwa, manhua, bande_dessinee, magazine).",
-              "examples": [
-                "comic,manga"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "languages",
-            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-              "examples": [
-                "ja,ko"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "examples": [
-                              5432
-                            ]
-                          },
-                          "number": {
-                            "type": "string",
-                            "examples": [
-                              "1"
-                            ]
-                          },
-                          "name": {
-                            "type": "string",
-                            "examples": [
-                              "The Amazing Spider-Man #1"
-                            ]
-                          },
-                          "name_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "release_date": {
-                            "type": "string",
-                            "examples": [
-                              "2018-07-11"
-                            ]
-                          },
-                          "cover_url": {
-                            "type": "string",
-                            "examples": [
-                              "https://..."
-                            ]
-                          },
-                          "series": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "integer",
-                                "examples": [
-                                  123
-                                ]
-                              },
-                              "name": {
-                                "type": "string",
-                                "examples": [
-                                  "Amazing Spider-Man"
-                                ]
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "examples": [
-                        [
-                          {
-                            "id": 5432,
-                            "number": "1",
-                            "name": "The Amazing Spider-Man #1",
-                            "name_i18n": [],
-                            "release_date": "2018-07-11",
-                            "cover_url": "https://...",
-                            "series": {
-                              "id": 123,
-                              "name": "Amazing Spider-Man"
-                            }
-                          }
-                        ]
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "current_page": {
-                          "type": "integer",
-                          "examples": [
-                            1
-                          ]
-                        },
-                        "last_page": {
-                          "type": "integer",
-                          "examples": [
-                            100
-                          ]
-                        },
-                        "per_page": {
-                          "type": "integer",
-                          "examples": [
-                            20
-                          ]
-                        },
-                        "total": {
-                          "type": "integer",
-                          "examples": [
-                            2000
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "examples": [
-                    {
-                      "data": [
-                        {
-                          "id": 5432,
-                          "number": "1",
-                          "name": "The Amazing Spider-Man #1",
-                          "name_i18n": {},
-                          "release_date": "2018-07-11",
-                          "cover_url": "https://...",
-                          "series": {
-                            "id": 123,
-                            "name": "Amazing Spider-Man"
-                          }
-                        }
-                      ],
-                      "meta": {
-                        "current_page": 1,
-                        "last_page": 100,
-                        "per_page": 20,
-                        "total": 2000
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "headers": {
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    299
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
-            "headers": {
-              "Retry-After": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    3600
-                  ]
-                }
-              },
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    0
-                  ]
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TooManyRequestsError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Characters"
-        ]
-      }
-    },
-    "/api/v1/characters/{character_id}/teams": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "character_id",
-          "description": "The character ID.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "examples": [
-              456
-            ]
-          }
-        }
-      ],
-      "get": {
-        "summary": "Get character teams.",
-        "operationId": "getCharacterTeams",
-        "description": "Returns paginated teams the character is a member of, including membership details.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Results per page (max 50).",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Results per page (max 50).",
-              "examples": [
-                20
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "q",
-            "description": "Optional case-insensitive search within these results.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Optional case-insensitive search within these results.",
-              "examples": [
-                "batman"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "languages",
-            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-              "examples": [
-                "ja,ko"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "examples": [
-                              10
-                            ]
-                          },
-                          "name": {
-                            "type": "string",
-                            "examples": [
-                              "Avengers"
-                            ]
-                          },
-                          "name_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "aliases_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "original_locale": {
-                            "type": "string",
-                            "examples": [
-                              "en"
-                            ]
-                          },
-                          "slug": {
-                            "type": "string",
-                            "examples": [
-                              "avengers"
-                            ]
-                          },
-                          "image_url": {
-                            "type": "string",
-                            "examples": [
-                              "https://..."
-                            ]
-                          },
-                          "membership": {
-                            "type": "object",
-                            "properties": {
-                              "role": {
-                                "type": "string",
-                                "examples": [
-                                  "Member"
-                                ]
-                              },
-                              "joined_date": {
-                                "type": "string",
-                                "examples": [
-                                  "2012-05-01"
-                                ]
-                              },
-                              "left_date": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ],
-                                "examples": [
-                                  null
-                                ]
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "examples": [
-                        [
-                          {
-                            "id": 10,
-                            "name": "Avengers",
-                            "name_i18n": [],
-                            "aliases_i18n": [],
-                            "original_locale": "en",
-                            "slug": "avengers",
-                            "image_url": "https://...",
-                            "membership": {
-                              "role": "Member",
-                              "joined_date": "2012-05-01",
-                              "left_date": null
-                            }
-                          }
-                        ]
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "current_page": {
-                          "type": "integer",
-                          "examples": [
-                            1
-                          ]
-                        },
-                        "last_page": {
-                          "type": "integer",
-                          "examples": [
-                            1
-                          ]
-                        },
-                        "per_page": {
-                          "type": "integer",
-                          "examples": [
-                            20
-                          ]
-                        },
-                        "total": {
-                          "type": "integer",
-                          "examples": [
-                            5
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "examples": [
-                    {
-                      "data": [
-                        {
-                          "id": 10,
-                          "name": "Avengers",
-                          "name_i18n": {},
-                          "aliases_i18n": {},
-                          "original_locale": "en",
-                          "slug": "avengers",
-                          "image_url": "https://...",
-                          "membership": {
-                            "role": "Member",
-                            "joined_date": "2012-05-01",
-                            "left_date": null
-                          }
-                        }
-                      ],
-                      "meta": {
-                        "current_page": 1,
-                        "last_page": 1,
-                        "per_page": 20,
-                        "total": 5
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "headers": {
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    299
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
-            "headers": {
-              "Retry-After": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    3600
-                  ]
-                }
-              },
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    0
-                  ]
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TooManyRequestsError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Characters"
-        ]
-      }
-    },
-    "/api/v1/characters/{character_id}/story-arcs": {
-      "parameters": [
-        {
-          "in": "path",
-          "name": "character_id",
-          "description": "The ID of the character.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "examples": [
-              35939
-            ]
-          }
-        }
-      ],
-      "get": {
-        "summary": "Get story arcs for a specific character",
-        "operationId": "getStoryArcsForASpecificCharacter",
-        "description": "Returns every story arc the given character appears in.",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "q",
-            "description": "Optional case-insensitive search within these results.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Optional case-insensitive search within these results.",
-              "examples": [
-                "batman"
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Number of results per page (max 50).",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "description": "Number of results per page (max 50).",
-              "examples": [
-                20
-              ]
-            }
-          },
-          {
-            "in": "query",
-            "name": "languages",
-            "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "description": "Keep only these languages in the `_i18n` maps (comma-separated BCP 47 tags). No other field changes, and `Accept-Language` is not read.",
-              "examples": [
-                "ja,ko"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "examples": [
-                              16
-                            ]
-                          },
-                          "name": {
-                            "type": "string",
-                            "examples": [
-                              "Civil War"
-                            ]
-                          },
-                          "name_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "aliases_i18n": {
-                            "type": "object",
-                            "properties": {}
-                          },
-                          "original_locale": {
-                            "type": "string",
-                            "examples": [
-                              "en"
-                            ]
-                          },
-                          "slug": {
-                            "type": "string",
-                            "examples": [
-                              "civil-war"
-                            ]
-                          },
-                          "type": {
-                            "type": "string",
-                            "examples": [
-                              "crossover_event"
-                            ]
-                          },
-                          "status": {
-                            "type": "string",
-                            "examples": [
-                              "ended"
-                            ]
-                          },
-                          "image_url": {
-                            "type": "string",
-                            "examples": [
-                              "https://cdn.versedb.com/story_arcs/civil-war-md.jpg"
-                            ]
-                          },
-                          "images": {
-                            "type": "object",
-                            "properties": {
-                              "cover_sm": {
-                                "type": "string",
-                                "examples": [
-                                  "https://cdn.versedb.com/story_arcs/civil-war-sm.jpg"
-                                ]
-                              },
-                              "cover_md": {
-                                "type": "string",
-                                "examples": [
-                                  "https://cdn.versedb.com/story_arcs/civil-war-md.jpg"
-                                ]
-                              },
-                              "cover_lg": {
-                                "type": "string",
-                                "examples": [
-                                  "https://cdn.versedb.com/story_arcs/civil-war-lg.jpg"
-                                ]
-                              }
-                            }
-                          },
-                          "issues_count": {
-                            "type": "integer",
-                            "examples": [
-                              102
-                            ]
-                          }
-                        }
-                      },
-                      "examples": [
-                        [
-                          {
-                            "id": 16,
-                            "name": "Civil War",
-                            "name_i18n": [],
-                            "aliases_i18n": [],
-                            "original_locale": "en",
-                            "slug": "civil-war",
-                            "type": "crossover_event",
-                            "status": "ended",
-                            "image_url": "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
-                            "images": {
-                              "cover_sm": "https://cdn.versedb.com/story_arcs/civil-war-sm.jpg",
-                              "cover_md": "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
-                              "cover_lg": "https://cdn.versedb.com/story_arcs/civil-war-lg.jpg"
-                            },
-                            "issues_count": 102
-                          },
-                          {
-                            "id": 24,
-                            "name": "The Night Gwen Stacy Died",
-                            "slug": "the-night-gwen-stacy-died",
-                            "type": "main_story",
-                            "status": "ended",
-                            "image_url": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-md.jpg",
-                            "images": {
-                              "cover_sm": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-sm.jpg",
-                              "cover_md": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-md.jpg",
-                              "cover_lg": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-lg.jpg"
-                            },
-                            "issues_count": 2
-                          }
-                        ]
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "current_page": {
-                          "type": "integer",
-                          "examples": [
-                            1
-                          ]
-                        },
-                        "last_page": {
-                          "type": "integer",
-                          "examples": [
-                            3
-                          ]
-                        },
-                        "per_page": {
-                          "type": "integer",
-                          "examples": [
-                            20
-                          ]
-                        },
-                        "total": {
-                          "type": "integer",
-                          "examples": [
-                            41
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  "examples": [
-                    {
-                      "data": [
-                        {
-                          "id": 16,
-                          "name": "Civil War",
-                          "name_i18n": {},
-                          "aliases_i18n": {},
-                          "original_locale": "en",
-                          "slug": "civil-war",
-                          "type": "crossover_event",
-                          "status": "ended",
-                          "image_url": "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
-                          "images": {
-                            "cover_sm": "https://cdn.versedb.com/story_arcs/civil-war-sm.jpg",
-                            "cover_md": "https://cdn.versedb.com/story_arcs/civil-war-md.jpg",
-                            "cover_lg": "https://cdn.versedb.com/story_arcs/civil-war-lg.jpg"
-                          },
-                          "issues_count": 102
-                        },
-                        {
-                          "id": 24,
-                          "name": "The Night Gwen Stacy Died",
-                          "slug": "the-night-gwen-stacy-died",
-                          "type": "main_story",
-                          "status": "ended",
-                          "image_url": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-md.jpg",
-                          "images": {
-                            "cover_sm": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-sm.jpg",
-                            "cover_md": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-md.jpg",
-                            "cover_lg": "https://cdn.versedb.com/story_arcs/the-night-gwen-stacy-died-lg.jpg"
-                          },
-                          "issues_count": 2
-                        }
-                      ],
-                      "meta": {
-                        "current_page": 1,
-                        "last_page": 3,
-                        "per_page": 20,
-                        "total": 41
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            "headers": {
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    299
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedError"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded. This endpoint allows 300/hour (free) or 1,000/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
-            "headers": {
-              "Retry-After": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    3600
-                  ]
-                }
-              },
-              "X-RateLimit-Limit": {
-                "description": "Request quota per hour for your tier.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    300
-                  ]
-                }
-              },
-              "X-RateLimit-Remaining": {
-                "description": "Requests remaining in the current window.",
-                "schema": {
-                  "type": "integer",
-                  "examples": [
-                    0
-                  ]
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TooManyRequestsError"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Story Arcs"
-        ]
       }
     }
   },

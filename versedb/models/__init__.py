@@ -332,20 +332,46 @@ from .get_character_details_response_403 import GetCharacterDetailsResponse403
 from .get_character_details_response_404 import GetCharacterDetailsResponse404
 from .get_character_issues_response_200 import GetCharacterIssuesResponse200
 from .get_character_issues_response_200_data_item import GetCharacterIssuesResponse200DataItem
+from .get_character_issues_response_200_data_item_images_type_0 import GetCharacterIssuesResponse200DataItemImagesType0
 from .get_character_issues_response_200_data_item_name_i18n import GetCharacterIssuesResponse200DataItemNameI18N
-from .get_character_issues_response_200_data_item_series import GetCharacterIssuesResponse200DataItemSeries
+from .get_character_issues_response_200_data_item_name_i18n_additional_property import (
+    GetCharacterIssuesResponse200DataItemNameI18NAdditionalProperty,
+)
+from .get_character_issues_response_200_data_item_series_type_0 import GetCharacterIssuesResponse200DataItemSeriesType0
+from .get_character_issues_response_200_data_item_series_type_0_images_type_0 import (
+    GetCharacterIssuesResponse200DataItemSeriesType0ImagesType0,
+)
+from .get_character_issues_response_200_links import GetCharacterIssuesResponse200Links
 from .get_character_issues_response_200_meta import GetCharacterIssuesResponse200Meta
+from .get_character_issues_response_200_meta_links_item import GetCharacterIssuesResponse200MetaLinksItem
+from .get_character_issues_response_403 import GetCharacterIssuesResponse403
+from .get_character_issues_response_404 import GetCharacterIssuesResponse404
 from .get_character_series_response_200 import GetCharacterSeriesResponse200
 from .get_character_series_response_200_data_item import GetCharacterSeriesResponse200DataItem
 from .get_character_series_response_200_data_item_aliases_i18n import GetCharacterSeriesResponse200DataItemAliasesI18N
+from .get_character_series_response_200_data_item_images_type_0 import GetCharacterSeriesResponse200DataItemImagesType0
 from .get_character_series_response_200_data_item_name_i18n import GetCharacterSeriesResponse200DataItemNameI18N
+from .get_character_series_response_200_data_item_name_i18n_additional_property import (
+    GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty,
+)
+from .get_character_series_response_200_links import GetCharacterSeriesResponse200Links
 from .get_character_series_response_200_meta import GetCharacterSeriesResponse200Meta
+from .get_character_series_response_200_meta_links_item import GetCharacterSeriesResponse200MetaLinksItem
+from .get_character_series_response_403 import GetCharacterSeriesResponse403
+from .get_character_series_response_404 import GetCharacterSeriesResponse404
 from .get_character_teams_response_200 import GetCharacterTeamsResponse200
 from .get_character_teams_response_200_data_item import GetCharacterTeamsResponse200DataItem
 from .get_character_teams_response_200_data_item_aliases_i18n import GetCharacterTeamsResponse200DataItemAliasesI18N
-from .get_character_teams_response_200_data_item_membership import GetCharacterTeamsResponse200DataItemMembership
+from .get_character_teams_response_200_data_item_images_type_0 import GetCharacterTeamsResponse200DataItemImagesType0
 from .get_character_teams_response_200_data_item_name_i18n import GetCharacterTeamsResponse200DataItemNameI18N
+from .get_character_teams_response_200_data_item_name_i18n_additional_property import (
+    GetCharacterTeamsResponse200DataItemNameI18NAdditionalProperty,
+)
+from .get_character_teams_response_200_links import GetCharacterTeamsResponse200Links
 from .get_character_teams_response_200_meta import GetCharacterTeamsResponse200Meta
+from .get_character_teams_response_200_meta_links_item import GetCharacterTeamsResponse200MetaLinksItem
+from .get_character_teams_response_403 import GetCharacterTeamsResponse403
+from .get_character_teams_response_404 import GetCharacterTeamsResponse404
 from .get_characters_for_a_specific_teammembers_response_200 import GetCharactersForASpecificTeammembersResponse200
 from .get_characters_for_a_specific_teammembers_response_200_data_item import (
     GetCharactersForASpecificTeammembersResponse200DataItem,
@@ -763,13 +789,24 @@ from .get_story_arcs_for_a_specific_character_response_200_data_item import (
 from .get_story_arcs_for_a_specific_character_response_200_data_item_aliases_i18n import (
     GetStoryArcsForASpecificCharacterResponse200DataItemAliasesI18N,
 )
-from .get_story_arcs_for_a_specific_character_response_200_data_item_images import (
-    GetStoryArcsForASpecificCharacterResponse200DataItemImages,
+from .get_story_arcs_for_a_specific_character_response_200_data_item_images_type_0 import (
+    GetStoryArcsForASpecificCharacterResponse200DataItemImagesType0,
 )
 from .get_story_arcs_for_a_specific_character_response_200_data_item_name_i18n import (
     GetStoryArcsForASpecificCharacterResponse200DataItemNameI18N,
 )
+from .get_story_arcs_for_a_specific_character_response_200_data_item_name_i18n_additional_property import (
+    GetStoryArcsForASpecificCharacterResponse200DataItemNameI18NAdditionalProperty,
+)
+from .get_story_arcs_for_a_specific_character_response_200_links import (
+    GetStoryArcsForASpecificCharacterResponse200Links,
+)
 from .get_story_arcs_for_a_specific_character_response_200_meta import GetStoryArcsForASpecificCharacterResponse200Meta
+from .get_story_arcs_for_a_specific_character_response_200_meta_links_item import (
+    GetStoryArcsForASpecificCharacterResponse200MetaLinksItem,
+)
+from .get_story_arcs_for_a_specific_character_response_403 import GetStoryArcsForASpecificCharacterResponse403
+from .get_story_arcs_for_a_specific_character_response_404 import GetStoryArcsForASpecificCharacterResponse404
 from .get_story_arcs_for_a_specific_issue_response_200 import GetStoryArcsForASpecificIssueResponse200
 from .get_story_arcs_for_a_specific_issue_response_200_data_item import GetStoryArcsForASpecificIssueResponse200DataItem
 from .get_story_arcs_for_a_specific_issue_response_200_data_item_aliases_i18n import (
@@ -1943,14 +1980,27 @@ __all__ = (
     "GetCharacterDetailsResponse404",
     "GetCharacterIssuesResponse200",
     "GetCharacterIssuesResponse200DataItem",
+    "GetCharacterIssuesResponse200DataItemImagesType0",
     "GetCharacterIssuesResponse200DataItemNameI18N",
-    "GetCharacterIssuesResponse200DataItemSeries",
+    "GetCharacterIssuesResponse200DataItemNameI18NAdditionalProperty",
+    "GetCharacterIssuesResponse200DataItemSeriesType0",
+    "GetCharacterIssuesResponse200DataItemSeriesType0ImagesType0",
+    "GetCharacterIssuesResponse200Links",
     "GetCharacterIssuesResponse200Meta",
+    "GetCharacterIssuesResponse200MetaLinksItem",
+    "GetCharacterIssuesResponse403",
+    "GetCharacterIssuesResponse404",
     "GetCharacterSeriesResponse200",
     "GetCharacterSeriesResponse200DataItem",
     "GetCharacterSeriesResponse200DataItemAliasesI18N",
+    "GetCharacterSeriesResponse200DataItemImagesType0",
     "GetCharacterSeriesResponse200DataItemNameI18N",
+    "GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty",
+    "GetCharacterSeriesResponse200Links",
     "GetCharacterSeriesResponse200Meta",
+    "GetCharacterSeriesResponse200MetaLinksItem",
+    "GetCharacterSeriesResponse403",
+    "GetCharacterSeriesResponse404",
     "GetCharactersForASpecificTeammembersResponse200",
     "GetCharactersForASpecificTeammembersResponse200DataItem",
     "GetCharactersForASpecificTeammembersResponse200DataItemAliasesI18N",
@@ -1966,9 +2016,14 @@ __all__ = (
     "GetCharacterTeamsResponse200",
     "GetCharacterTeamsResponse200DataItem",
     "GetCharacterTeamsResponse200DataItemAliasesI18N",
-    "GetCharacterTeamsResponse200DataItemMembership",
+    "GetCharacterTeamsResponse200DataItemImagesType0",
     "GetCharacterTeamsResponse200DataItemNameI18N",
+    "GetCharacterTeamsResponse200DataItemNameI18NAdditionalProperty",
+    "GetCharacterTeamsResponse200Links",
     "GetCharacterTeamsResponse200Meta",
+    "GetCharacterTeamsResponse200MetaLinksItem",
+    "GetCharacterTeamsResponse403",
+    "GetCharacterTeamsResponse404",
     "GetCreatorDetailsResponse200",
     "GetCreatorDetailsResponse200Data",
     "GetCreatorDetailsResponse200DataAliasesI18N",
@@ -2214,9 +2269,14 @@ __all__ = (
     "GetStoryArcsForASpecificCharacterResponse200",
     "GetStoryArcsForASpecificCharacterResponse200DataItem",
     "GetStoryArcsForASpecificCharacterResponse200DataItemAliasesI18N",
-    "GetStoryArcsForASpecificCharacterResponse200DataItemImages",
+    "GetStoryArcsForASpecificCharacterResponse200DataItemImagesType0",
     "GetStoryArcsForASpecificCharacterResponse200DataItemNameI18N",
+    "GetStoryArcsForASpecificCharacterResponse200DataItemNameI18NAdditionalProperty",
+    "GetStoryArcsForASpecificCharacterResponse200Links",
     "GetStoryArcsForASpecificCharacterResponse200Meta",
+    "GetStoryArcsForASpecificCharacterResponse200MetaLinksItem",
+    "GetStoryArcsForASpecificCharacterResponse403",
+    "GetStoryArcsForASpecificCharacterResponse404",
     "GetStoryArcsForASpecificIssueResponse200",
     "GetStoryArcsForASpecificIssueResponse200DataItem",
     "GetStoryArcsForASpecificIssueResponse200DataItemAliasesI18N",
