@@ -4896,6 +4896,102 @@
                               null
                             ]
                           },
+                          "variant": {
+                            "type": [
+                              "object",
+                              "null"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "examples": [
+                                  789
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "Cover B"
+                                ]
+                              },
+                              "type": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "cover_variant"
+                                ],
+                                "description": "The variant's `variant_type`."
+                              },
+                              "cover_url": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "https://...-cover_md.webp"
+                                ]
+                              },
+                              "cover_url_lg": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "https://...-cover_lg.webp"
+                                ]
+                              },
+                              "ratio": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "1:25"
+                                ]
+                              },
+                              "printing": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "examples": [
+                                  1
+                                ]
+                              },
+                              "is_nsfw": {
+                                "type": "boolean",
+                                "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "type",
+                              "cover_url",
+                              "cover_url_lg",
+                              "ratio",
+                              "printing",
+                              "is_nsfw"
+                            ],
+                            "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                          },
+                          "cover_kind": {
+                            "type": "string",
+                            "enum": [
+                              "main",
+                              "catalog",
+                              "custom"
+                            ],
+                            "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                            "examples": [
+                              "catalog"
+                            ]
+                          },
                           "condition": {
                             "type": [
                               "string",
@@ -5804,6 +5900,8 @@
                           "collectable_type",
                           "collectable_id",
                           "variant_id",
+                          "variant",
+                          "cover_kind",
                           "condition",
                           "format",
                           "is_variant",
@@ -6147,6 +6245,28 @@
                               789
                             ]
                           },
+                          "cover_kind": {
+                            "type": "string",
+                            "enum": [
+                              "main",
+                              "catalog",
+                              "custom"
+                            ],
+                            "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                            "examples": [
+                              "catalog"
+                            ]
+                          },
+                          "variant_label": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "Cover B"
+                            ],
+                            "description": "What the copy's cover is called: the catalog variant's name, else the member's description, else its variant type, else \"Variant\"; null for a main cover copy."
+                          },
                           "condition": {
                             "type": [
                               "string",
@@ -6250,6 +6370,8 @@
                         "required": [
                           "id",
                           "variant_id",
+                          "cover_kind",
+                          "variant_label",
                           "condition",
                           "graded",
                           "grade_score",
@@ -6303,6 +6425,102 @@
                           ],
                           "examples": [
                             null
+                          ]
+                        },
+                        "variant": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                789
+                              ]
+                            },
+                            "name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "Cover B"
+                              ]
+                            },
+                            "type": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "cover_variant"
+                              ],
+                              "description": "The variant's `variant_type`."
+                            },
+                            "cover_url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_md.webp"
+                              ]
+                            },
+                            "cover_url_lg": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_lg.webp"
+                              ]
+                            },
+                            "ratio": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "1:25"
+                              ]
+                            },
+                            "printing": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "examples": [
+                                1
+                              ]
+                            },
+                            "is_nsfw": {
+                              "type": "boolean",
+                              "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "type",
+                            "cover_url",
+                            "cover_url_lg",
+                            "ratio",
+                            "printing",
+                            "is_nsfw"
+                          ],
+                          "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                        },
+                        "cover_kind": {
+                          "type": "string",
+                          "enum": [
+                            "main",
+                            "catalog",
+                            "custom"
+                          ],
+                          "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                          "examples": [
+                            "catalog"
                           ]
                         },
                         "condition": {
@@ -7103,6 +7321,8 @@
                         "collectable_type",
                         "collectable_id",
                         "variant_id",
+                        "variant",
+                        "cover_kind",
                         "condition",
                         "format",
                         "is_variant",
@@ -7411,6 +7631,11 @@
                             "type": [
                               "string",
                               "null"
+                            ],
+                            "enum": [
+                              "standard_and_regular",
+                              "regular",
+                              null
                             ],
                             "description": "Left out for a `read:showcase` token."
                           },
@@ -8784,6 +9009,37 @@
                           "type": "boolean",
                           "description": "The issue is skipped; saving covers adds it back to the pull."
                         },
+                        "linked_shops": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "examples": [
+                                  "Third Eye Comics"
+                                ]
+                              },
+                              "order": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "enum": [
+                                  "open",
+                                  "set",
+                                  null
+                                ],
+                                "description": "Where the shop's order for this issue stands: `open` while a cover choice also goes on the user's list at the shop, `set` once the shop has ordered the issue (the choice stays on the user's VerseDB list); null when the issue isn't on the shop's list."
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "order"
+                            ]
+                          },
+                          "description": "Every linked Retail shop the series comes from, in the user's order of pull sources; empty without one. A save that changes the covers reaches each shop whose order is `open`, and an unchanged one writes nothing there; a return to the usual covers clears the shop's own choice for the issue, so the shop's usual covers apply, and an unskip that follows the series lifts only the shop's skip."
+                        },
                         "linked_shop": {
                           "type": [
                             "string",
@@ -8792,7 +9048,19 @@
                           "examples": [
                             "Third Eye Comics"
                           ],
-                          "description": "The linked Retail shop the series comes from, whose box follows the shop's own list; null without one."
+                          "description": "The first of `linked_shops`: its name; null without a linked shop."
+                        },
+                        "shop_order": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "open",
+                            "set",
+                            null
+                          ],
+                          "description": "The first of `linked_shops`: its `order`; null without a linked shop."
                         },
                         "options": {
                           "type": "array",
@@ -8940,14 +9208,34 @@
                             ]
                           },
                           "description": "The main cover first, then regular covers, ratio covers and exclusives."
+                        },
+                        "follows_series": {
+                          "type": "boolean",
+                          "description": "The issue has no covers chosen of its own, so `selected` follows the series' standing choice."
+                        },
+                        "standing": {
+                          "type": "string",
+                          "enum": [
+                            "standard",
+                            "standard_and_regular",
+                            "regular"
+                          ],
+                          "description": "The series' standing cover choice (`updatePullListItem`'s `preferred_cover_type`).",
+                          "examples": [
+                            "standard"
+                          ]
                         }
                       },
                       "required": [
                         "issue_id",
                         "series_id",
                         "skipped",
+                        "linked_shops",
                         "linked_shop",
-                        "options"
+                        "shop_order",
+                        "options",
+                        "follows_series",
+                        "standing"
                       ]
                     }
                   },
@@ -9054,7 +9342,7 @@
       "put": {
         "operationId": "setPullListIssueCovers",
         "summary": "Set the covers of a pull list issue.",
-        "description": "Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. `standard` alone goes back to the main cover. Saving also takes the issue out of the user's skipped issues.",
+        "description": "Sets which covers of one issue the user is getting, replacing any earlier choice for that issue. Only variants of that issue count. Choosing exactly what the series' standing cover choice gives (`updatePullListItem`) clears the issue's own choice, so it follows the series again. Saving also takes the issue out of the user's skipped issues.",
         "tags": [
           "User"
         ],
@@ -9158,6 +9446,37 @@
                           "type": "boolean",
                           "description": "The issue is skipped; saving covers adds it back to the pull."
                         },
+                        "linked_shops": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "examples": [
+                                  "Third Eye Comics"
+                                ]
+                              },
+                              "order": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "enum": [
+                                  "open",
+                                  "set",
+                                  null
+                                ],
+                                "description": "Where the shop's order for this issue stands: `open` while a cover choice also goes on the user's list at the shop, `set` once the shop has ordered the issue (the choice stays on the user's VerseDB list); null when the issue isn't on the shop's list."
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "order"
+                            ]
+                          },
+                          "description": "Every linked Retail shop the series comes from, in the user's order of pull sources; empty without one. A save that changes the covers reaches each shop whose order is `open`, and an unchanged one writes nothing there; a return to the usual covers clears the shop's own choice for the issue, so the shop's usual covers apply, and an unskip that follows the series lifts only the shop's skip."
+                        },
                         "linked_shop": {
                           "type": [
                             "string",
@@ -9166,7 +9485,19 @@
                           "examples": [
                             "Third Eye Comics"
                           ],
-                          "description": "The linked Retail shop the series comes from, whose box follows the shop's own list; null without one."
+                          "description": "The first of `linked_shops`: its name; null without a linked shop."
+                        },
+                        "shop_order": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "open",
+                            "set",
+                            null
+                          ],
+                          "description": "The first of `linked_shops`: its `order`; null without a linked shop."
                         },
                         "options": {
                           "type": "array",
@@ -9314,14 +9645,34 @@
                             ]
                           },
                           "description": "The main cover first, then regular covers, ratio covers and exclusives."
+                        },
+                        "follows_series": {
+                          "type": "boolean",
+                          "description": "The issue has no covers chosen of its own, so `selected` follows the series' standing choice."
+                        },
+                        "standing": {
+                          "type": "string",
+                          "enum": [
+                            "standard",
+                            "standard_and_regular",
+                            "regular"
+                          ],
+                          "description": "The series' standing cover choice (`updatePullListItem`'s `preferred_cover_type`).",
+                          "examples": [
+                            "standard"
+                          ]
                         }
                       },
                       "required": [
                         "issue_id",
                         "series_id",
                         "skipped",
+                        "linked_shops",
                         "linked_shop",
-                        "options"
+                        "shop_order",
+                        "options",
+                        "follows_series",
+                        "standing"
                       ]
                     }
                   },
@@ -20808,6 +21159,64 @@
                                   "75960609999300111"
                                 ]
                               },
+                              "print_run": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "description": "How many copies of this cover were printed. Null when no source states it.",
+                                "examples": [
+                                  3000
+                                ]
+                              },
+                              "cover_letter": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "B"
+                                ],
+                                "description": "The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered."
+                              },
+                              "shops": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "integer",
+                                      "examples": [
+                                        12
+                                      ]
+                                    },
+                                    "name": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ],
+                                      "examples": [
+                                        "Third Eye Comics"
+                                      ]
+                                    },
+                                    "slug": {
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ],
+                                      "examples": [
+                                        "third-eye-comics"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "slug"
+                                  ]
+                                },
+                                "description": "The comic shops a retailer exclusive was made for, in display order. On the variants list and the variant page."
+                              },
                               "is_nsfw": {
                                 "type": [
                                   "boolean",
@@ -20861,6 +21270,8 @@
                               "currency_code",
                               "formatted_price",
                               "ean",
+                              "print_run",
+                              "cover_letter",
                               "is_nsfw",
                               "variant_name_i18n"
                             ]
@@ -25169,6 +25580,64 @@
                               "2025-04-09"
                             ]
                           },
+                          "print_run": {
+                            "type": [
+                              "integer",
+                              "null"
+                            ],
+                            "description": "How many copies of this cover were printed. Null when no source states it.",
+                            "examples": [
+                              3000
+                            ]
+                          },
+                          "cover_letter": {
+                            "type": [
+                              "string",
+                              "null"
+                            ],
+                            "examples": [
+                              "B"
+                            ],
+                            "description": "The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered."
+                          },
+                          "shops": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer",
+                                  "examples": [
+                                    12
+                                  ]
+                                },
+                                "name": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    "Third Eye Comics"
+                                  ]
+                                },
+                                "slug": {
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
+                                  "examples": [
+                                    "third-eye-comics"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "name",
+                                "slug"
+                              ]
+                            },
+                            "description": "The comic shops a retailer exclusive was made for, in display order. On the variants list and the variant page."
+                          },
                           "is_nsfw": {
                             "type": "boolean"
                           },
@@ -25254,6 +25723,8 @@
                           "formatted_price",
                           "ean",
                           "release_date",
+                          "print_run",
+                          "cover_letter",
                           "is_nsfw",
                           "creators",
                           "variant_name_i18n"
@@ -42400,6 +42871,64 @@
                             "2025-04-09"
                           ]
                         },
+                        "print_run": {
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "description": "How many copies of this cover were printed. Null when no source states it.",
+                          "examples": [
+                            3000
+                          ]
+                        },
+                        "cover_letter": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "examples": [
+                            "B"
+                          ],
+                          "description": "The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered."
+                        },
+                        "shops": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "examples": [
+                                  12
+                                ]
+                              },
+                              "name": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "Third Eye Comics"
+                                ]
+                              },
+                              "slug": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ],
+                                "examples": [
+                                  "third-eye-comics"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "slug"
+                            ]
+                          },
+                          "description": "The comic shops a retailer exclusive was made for, in display order. On the variants list and the variant page."
+                        },
                         "creators": {
                           "type": "array",
                           "items": {
@@ -42506,6 +43035,8 @@
                         "formatted_price",
                         "ean",
                         "release_date",
+                        "print_run",
+                        "cover_letter",
                         "creators",
                         "variant_name_i18n"
                       ]
@@ -52282,6 +52813,339 @@
             }
           }
         }
+      },
+      "patch": {
+        "operationId": "updatePullListItem",
+        "summary": "Update a pull list entry.",
+        "description": "Changes one series on the authenticated user's pull list: its status, notes, places, or the standing cover choice. The standing choice applies to every issue of the series the user hasn't chosen covers of (see `setPullListIssueCovers`), covers added to the catalog later included: `standard` the main cover; `standard_and_regular` the main cover and every regular cover; `regular` every regular cover without the main one, or the main cover when an issue has none. Ratio and exclusive covers are only ever chosen per issue. Send at least one field.",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "examples": [
+                456
+              ],
+              "description": "The series ID of the pull list entry."
+            },
+            "required": true,
+            "description": "The series ID of the pull list entry.",
+            "name": "item_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "paused",
+                      "canceled"
+                    ],
+                    "description": "The entry status.",
+                    "examples": [
+                      "active"
+                    ]
+                  },
+                  "personal_notes": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 1000,
+                    "description": "Notes on the entry.",
+                    "examples": [
+                      "Trade wait"
+                    ]
+                  },
+                  "preferred_cover_type": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "enum": [
+                      "standard",
+                      "standard_and_regular",
+                      "regular",
+                      null
+                    ],
+                    "description": "The standing cover choice; null is `standard`.",
+                    "examples": [
+                      "standard_and_regular"
+                    ]
+                  },
+                  "pull_source_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "maxItems": 3,
+                    "description": "Up to three of the user's pull sources.",
+                    "examples": [
+                      [
+                        12
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "series_id": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "paused",
+                        "canceled"
+                      ]
+                    },
+                    "personal_notes": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "preferred_cover_type": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "standard_and_regular",
+                        "regular",
+                        null
+                      ],
+                      "description": "The standing cover choice; null is `standard`."
+                    },
+                    "pull_source_id": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "pull_source_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "updated_at": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "series_id",
+                    "status",
+                    "personal_notes",
+                    "preferred_cover_type",
+                    "pull_source_id",
+                    "pull_source_ids",
+                    "updated_at"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token holds neither write:pull-list nor write:lists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "Insufficient token scope."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No live series has this ID, or it is not on the user's pull list (`Pull list entry not found.`).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "No query results for model [App\\Models\\Series] 456"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "No field sent (`No fields to update.`), or a body the rules refuse.",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "The specified variant does not exist or does not belong to this issue."
+                      ]
+                    },
+                    "errors": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "examples": [
+                        {
+                          "variant_id": [
+                            "The specified variant does not exist or does not belong to this issue."
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded. This endpoint allows 150/hour (free) or 500/hour (PRO). Wait for the number of seconds in the `Retry-After` header before retrying.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    3600
+                  ]
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    0
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TooManyRequestsError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/issues/{issue_id}/collection": {
@@ -52730,6 +53594,102 @@
                           "description": "As sent: a number, or digits as text.",
                           "examples": [
                             789
+                          ]
+                        },
+                        "variant": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                789
+                              ]
+                            },
+                            "name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "Cover B"
+                              ]
+                            },
+                            "type": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "cover_variant"
+                              ],
+                              "description": "The variant's `variant_type`."
+                            },
+                            "cover_url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_md.webp"
+                              ]
+                            },
+                            "cover_url_lg": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_lg.webp"
+                              ]
+                            },
+                            "ratio": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "1:25"
+                              ]
+                            },
+                            "printing": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "examples": [
+                                1
+                              ]
+                            },
+                            "is_nsfw": {
+                              "type": "boolean",
+                              "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "type",
+                            "cover_url",
+                            "cover_url_lg",
+                            "ratio",
+                            "printing",
+                            "is_nsfw"
+                          ],
+                          "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                        },
+                        "cover_kind": {
+                          "type": "string",
+                          "enum": [
+                            "main",
+                            "catalog",
+                            "custom"
+                          ],
+                          "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                          "examples": [
+                            "catalog"
                           ]
                         },
                         "condition": {
@@ -53577,6 +54537,8 @@
                         "collectable_type",
                         "collectable_id",
                         "variant_id",
+                        "variant",
+                        "cover_kind",
                         "condition",
                         "format",
                         "is_variant",
@@ -54347,6 +55309,102 @@
                             789
                           ]
                         },
+                        "variant": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                789
+                              ]
+                            },
+                            "name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "Cover B"
+                              ]
+                            },
+                            "type": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "cover_variant"
+                              ],
+                              "description": "The variant's `variant_type`."
+                            },
+                            "cover_url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_md.webp"
+                              ]
+                            },
+                            "cover_url_lg": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_lg.webp"
+                              ]
+                            },
+                            "ratio": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "1:25"
+                              ]
+                            },
+                            "printing": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "examples": [
+                                1
+                              ]
+                            },
+                            "is_nsfw": {
+                              "type": "boolean",
+                              "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "type",
+                            "cover_url",
+                            "cover_url_lg",
+                            "ratio",
+                            "printing",
+                            "is_nsfw"
+                          ],
+                          "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                        },
+                        "cover_kind": {
+                          "type": "string",
+                          "enum": [
+                            "main",
+                            "catalog",
+                            "custom"
+                          ],
+                          "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                          "examples": [
+                            "catalog"
+                          ]
+                        },
                         "condition": {
                           "type": [
                             "string",
@@ -55192,6 +56250,8 @@
                         "collectable_type",
                         "collectable_id",
                         "variant_id",
+                        "variant",
+                        "cover_kind",
                         "condition",
                         "format",
                         "is_variant",
@@ -55830,6 +56890,102 @@
                             789
                           ]
                         },
+                        "variant": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                789
+                              ]
+                            },
+                            "name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "Cover B"
+                              ]
+                            },
+                            "type": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "cover_variant"
+                              ],
+                              "description": "The variant's `variant_type`."
+                            },
+                            "cover_url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_md.webp"
+                              ]
+                            },
+                            "cover_url_lg": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_lg.webp"
+                              ]
+                            },
+                            "ratio": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "1:25"
+                              ]
+                            },
+                            "printing": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "examples": [
+                                1
+                              ]
+                            },
+                            "is_nsfw": {
+                              "type": "boolean",
+                              "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "type",
+                            "cover_url",
+                            "cover_url_lg",
+                            "ratio",
+                            "printing",
+                            "is_nsfw"
+                          ],
+                          "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                        },
+                        "cover_kind": {
+                          "type": "string",
+                          "enum": [
+                            "main",
+                            "catalog",
+                            "custom"
+                          ],
+                          "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                          "examples": [
+                            "catalog"
+                          ]
+                        },
                         "condition": {
                           "type": [
                             "string",
@@ -56675,6 +57831,8 @@
                         "collectable_type",
                         "collectable_id",
                         "variant_id",
+                        "variant",
+                        "cover_kind",
                         "condition",
                         "format",
                         "is_variant",
@@ -57022,6 +58180,102 @@
                             789
                           ]
                         },
+                        "variant": {
+                          "type": [
+                            "object",
+                            "null"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "integer",
+                              "examples": [
+                                789
+                              ]
+                            },
+                            "name": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "Cover B"
+                              ]
+                            },
+                            "type": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "cover_variant"
+                              ],
+                              "description": "The variant's `variant_type`."
+                            },
+                            "cover_url": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_md.webp"
+                              ]
+                            },
+                            "cover_url_lg": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "https://...-cover_lg.webp"
+                              ]
+                            },
+                            "ratio": {
+                              "type": [
+                                "string",
+                                "null"
+                              ],
+                              "examples": [
+                                "1:25"
+                              ]
+                            },
+                            "printing": {
+                              "type": [
+                                "integer",
+                                "null"
+                              ],
+                              "examples": [
+                                1
+                              ]
+                            },
+                            "is_nsfw": {
+                              "type": "boolean",
+                              "description": "The variant cover's own flag, or the issue's when the variant has no cover."
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "type",
+                            "cover_url",
+                            "cover_url_lg",
+                            "ratio",
+                            "printing",
+                            "is_nsfw"
+                          ],
+                          "description": "The catalog variant `variant_id` names, while it is a live variant of the copy's issue; null for any other copy."
+                        },
+                        "cover_kind": {
+                          "type": "string",
+                          "enum": [
+                            "main",
+                            "catalog",
+                            "custom"
+                          ],
+                          "description": "Which cover the copy is of: `catalog` when `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant (`is_variant`), else `main`, the issue's own cover.",
+                          "examples": [
+                            "catalog"
+                          ]
+                        },
                         "condition": {
                           "type": [
                             "string",
@@ -57867,6 +59121,8 @@
                         "collectable_type",
                         "collectable_id",
                         "variant_id",
+                        "variant",
+                        "cover_kind",
                         "condition",
                         "format",
                         "is_variant",

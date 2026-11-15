@@ -19,7 +19,9 @@ from .add_issue_to_collection_response_201_data_collectable_type_0_series_type_0
     AddIssueToCollectionResponse201DataCollectableType0SeriesType0ImagesType0,
 )
 from .add_issue_to_collection_response_201_data_comic_shop import AddIssueToCollectionResponse201DataComicShop
+from .add_issue_to_collection_response_201_data_cover_kind import AddIssueToCollectionResponse201DataCoverKind
 from .add_issue_to_collection_response_201_data_loan_type_0 import AddIssueToCollectionResponse201DataLoanType0
+from .add_issue_to_collection_response_201_data_variant_type_0 import AddIssueToCollectionResponse201DataVariantType0
 from .add_issue_to_collection_response_201_follow_up import AddIssueToCollectionResponse201FollowUp
 from .add_issue_to_collection_response_403 import AddIssueToCollectionResponse403
 from .add_issue_to_collection_response_404 import AddIssueToCollectionResponse404
@@ -91,6 +93,9 @@ from .check_follow_status_response_403 import CheckFollowStatusResponse403
 from .check_follow_status_response_404 import CheckFollowStatusResponse404
 from .check_issue_in_collection_response_200 import CheckIssueInCollectionResponse200
 from .check_issue_in_collection_response_200_copies_item import CheckIssueInCollectionResponse200CopiesItem
+from .check_issue_in_collection_response_200_copies_item_cover_kind import (
+    CheckIssueInCollectionResponse200CopiesItemCoverKind,
+)
 from .check_issue_in_collection_response_200_data_type_0 import CheckIssueInCollectionResponse200DataType0
 from .check_issue_in_collection_response_200_data_type_0_collectable_type_0 import (
     CheckIssueInCollectionResponse200DataType0CollectableType0,
@@ -110,8 +115,14 @@ from .check_issue_in_collection_response_200_data_type_0_collectable_type_0_seri
 from .check_issue_in_collection_response_200_data_type_0_collectable_type_0_series_type_0_images_type_0 import (
     CheckIssueInCollectionResponse200DataType0CollectableType0SeriesType0ImagesType0,
 )
+from .check_issue_in_collection_response_200_data_type_0_cover_kind import (
+    CheckIssueInCollectionResponse200DataType0CoverKind,
+)
 from .check_issue_in_collection_response_200_data_type_0_loan_type_0 import (
     CheckIssueInCollectionResponse200DataType0LoanType0,
+)
+from .check_issue_in_collection_response_200_data_type_0_variant_type_0 import (
+    CheckIssueInCollectionResponse200DataType0VariantType0,
 )
 from .check_issue_in_collection_response_403 import CheckIssueInCollectionResponse403
 from .check_issue_in_collection_response_422 import CheckIssueInCollectionResponse422
@@ -277,6 +288,9 @@ from .get_an_event_response_200_data_images_type_0 import GetAnEventResponse200D
 from .get_an_event_response_200_data_issue_variants_item import GetAnEventResponse200DataIssueVariantsItem
 from .get_an_event_response_200_data_issue_variants_item_images_type_0 import (
     GetAnEventResponse200DataIssueVariantsItemImagesType0,
+)
+from .get_an_event_response_200_data_issue_variants_item_shops_item import (
+    GetAnEventResponse200DataIssueVariantsItemShopsItem,
 )
 from .get_an_event_response_200_data_issue_variants_item_variant_name_i18n import (
     GetAnEventResponse200DataIssueVariantsItemVariantNameI18N,
@@ -568,6 +582,7 @@ from .get_issue_variants_response_200 import GetIssueVariantsResponse200
 from .get_issue_variants_response_200_data_item import GetIssueVariantsResponse200DataItem
 from .get_issue_variants_response_200_data_item_creators_item import GetIssueVariantsResponse200DataItemCreatorsItem
 from .get_issue_variants_response_200_data_item_images_type_0 import GetIssueVariantsResponse200DataItemImagesType0
+from .get_issue_variants_response_200_data_item_shops_item import GetIssueVariantsResponse200DataItemShopsItem
 from .get_issue_variants_response_200_data_item_variant_name_i18n import (
     GetIssueVariantsResponse200DataItemVariantNameI18N,
 )
@@ -633,6 +648,18 @@ from .get_publisher_details_response_403 import GetPublisherDetailsResponse403
 from .get_publisher_details_response_404 import GetPublisherDetailsResponse404
 from .get_pull_list_issue_covers_response_200 import GetPullListIssueCoversResponse200
 from .get_pull_list_issue_covers_response_200_data import GetPullListIssueCoversResponse200Data
+from .get_pull_list_issue_covers_response_200_data_linked_shops_item import (
+    GetPullListIssueCoversResponse200DataLinkedShopsItem,
+)
+from .get_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_1 import (
+    GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType1,
+)
+from .get_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_2_type_1 import (
+    GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType2Type1,
+)
+from .get_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_3_type_1 import (
+    GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType3Type1,
+)
 from .get_pull_list_issue_covers_response_200_data_options_item import GetPullListIssueCoversResponse200DataOptionsItem
 from .get_pull_list_issue_covers_response_200_data_options_item_images_type_0 import (
     GetPullListIssueCoversResponse200DataOptionsItemImagesType0,
@@ -640,6 +667,16 @@ from .get_pull_list_issue_covers_response_200_data_options_item_images_type_0 im
 from .get_pull_list_issue_covers_response_200_data_options_item_kind import (
     GetPullListIssueCoversResponse200DataOptionsItemKind,
 )
+from .get_pull_list_issue_covers_response_200_data_shop_order_type_1 import (
+    GetPullListIssueCoversResponse200DataShopOrderType1,
+)
+from .get_pull_list_issue_covers_response_200_data_shop_order_type_2_type_1 import (
+    GetPullListIssueCoversResponse200DataShopOrderType2Type1,
+)
+from .get_pull_list_issue_covers_response_200_data_shop_order_type_3_type_1 import (
+    GetPullListIssueCoversResponse200DataShopOrderType3Type1,
+)
+from .get_pull_list_issue_covers_response_200_data_standing import GetPullListIssueCoversResponse200DataStanding
 from .get_pull_list_issue_covers_response_403 import GetPullListIssueCoversResponse403
 from .get_pull_list_issue_covers_response_404 import GetPullListIssueCoversResponse404
 from .get_series_characters_response_200 import GetSeriesCharactersResponse200
@@ -876,6 +913,7 @@ from .get_variant_details_response_200 import GetVariantDetailsResponse200
 from .get_variant_details_response_200_data import GetVariantDetailsResponse200Data
 from .get_variant_details_response_200_data_creators_item import GetVariantDetailsResponse200DataCreatorsItem
 from .get_variant_details_response_200_data_images_type_0 import GetVariantDetailsResponse200DataImagesType0
+from .get_variant_details_response_200_data_shops_item import GetVariantDetailsResponse200DataShopsItem
 from .get_variant_details_response_200_data_variant_name_i18n import GetVariantDetailsResponse200DataVariantNameI18N
 from .get_variant_details_response_200_data_variant_name_i18n_additional_property import (
     GetVariantDetailsResponse200DataVariantNameI18NAdditionalProperty,
@@ -899,7 +937,9 @@ from .lend_a_copy_out_response_200_data_collectable_type_0_series_type_0_images_
     LendACopyOutResponse200DataCollectableType0SeriesType0ImagesType0,
 )
 from .lend_a_copy_out_response_200_data_comic_shop import LendACopyOutResponse200DataComicShop
+from .lend_a_copy_out_response_200_data_cover_kind import LendACopyOutResponse200DataCoverKind
 from .lend_a_copy_out_response_200_data_loan_type_0 import LendACopyOutResponse200DataLoanType0
+from .lend_a_copy_out_response_200_data_variant_type_0 import LendACopyOutResponse200DataVariantType0
 from .lend_a_copy_out_response_403 import LendACopyOutResponse403
 from .lend_a_copy_out_response_404 import LendACopyOutResponse404
 from .lend_a_copy_out_response_409 import LendACopyOutResponse409
@@ -1045,7 +1085,9 @@ from .list_collection_response_200_data_item_collectable_type_0_series_type_0_im
     ListCollectionResponse200DataItemCollectableType0SeriesType0ImagesType0,
 )
 from .list_collection_response_200_data_item_comic_shop import ListCollectionResponse200DataItemComicShop
+from .list_collection_response_200_data_item_cover_kind import ListCollectionResponse200DataItemCoverKind
 from .list_collection_response_200_data_item_loan_type_0 import ListCollectionResponse200DataItemLoanType0
+from .list_collection_response_200_data_item_variant_type_0 import ListCollectionResponse200DataItemVariantType0
 from .list_collection_response_200_links import ListCollectionResponse200Links
 from .list_collection_response_200_meta import ListCollectionResponse200Meta
 from .list_collection_response_200_meta_links_item import ListCollectionResponse200MetaLinksItem
@@ -1151,6 +1193,15 @@ from .list_pull_list_response_200_data_item_next_issue_type_0_name_i18n_addition
 )
 from .list_pull_list_response_200_data_item_notification_settings_type_4 import (
     ListPullListResponse200DataItemNotificationSettingsType4,
+)
+from .list_pull_list_response_200_data_item_preferred_cover_type_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType1,
+)
+from .list_pull_list_response_200_data_item_preferred_cover_type_type_2_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType2Type1,
+)
+from .list_pull_list_response_200_data_item_preferred_cover_type_type_3_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType3Type1,
 )
 from .list_pull_list_response_200_data_item_pull_source_type_0 import ListPullListResponse200DataItemPullSourceType0
 from .list_pull_list_response_200_data_item_pull_sources_item import ListPullListResponse200DataItemPullSourcesItem
@@ -1463,8 +1514,14 @@ from .mark_the_copys_open_loan_returned_response_200_data_collectable_type_0_ser
 from .mark_the_copys_open_loan_returned_response_200_data_comic_shop import (
     MarkTheCopysOpenLoanReturnedResponse200DataComicShop,
 )
+from .mark_the_copys_open_loan_returned_response_200_data_cover_kind import (
+    MarkTheCopysOpenLoanReturnedResponse200DataCoverKind,
+)
 from .mark_the_copys_open_loan_returned_response_200_data_loan_type_0 import (
     MarkTheCopysOpenLoanReturnedResponse200DataLoanType0,
+)
+from .mark_the_copys_open_loan_returned_response_200_data_variant_type_0 import (
+    MarkTheCopysOpenLoanReturnedResponse200DataVariantType0,
 )
 from .mark_the_copys_open_loan_returned_response_403 import MarkTheCopysOpenLoanReturnedResponse403
 from .mark_the_copys_open_loan_returned_response_404 import MarkTheCopysOpenLoanReturnedResponse404
@@ -1578,6 +1635,18 @@ from .save_list_response_404 import SaveListResponse404
 from .set_pull_list_issue_covers_body import SetPullListIssueCoversBody
 from .set_pull_list_issue_covers_response_200 import SetPullListIssueCoversResponse200
 from .set_pull_list_issue_covers_response_200_data import SetPullListIssueCoversResponse200Data
+from .set_pull_list_issue_covers_response_200_data_linked_shops_item import (
+    SetPullListIssueCoversResponse200DataLinkedShopsItem,
+)
+from .set_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_1 import (
+    SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType1,
+)
+from .set_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_2_type_1 import (
+    SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType2Type1,
+)
+from .set_pull_list_issue_covers_response_200_data_linked_shops_item_order_type_3_type_1 import (
+    SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType3Type1,
+)
 from .set_pull_list_issue_covers_response_200_data_options_item import SetPullListIssueCoversResponse200DataOptionsItem
 from .set_pull_list_issue_covers_response_200_data_options_item_images_type_0 import (
     SetPullListIssueCoversResponse200DataOptionsItemImagesType0,
@@ -1585,6 +1654,16 @@ from .set_pull_list_issue_covers_response_200_data_options_item_images_type_0 im
 from .set_pull_list_issue_covers_response_200_data_options_item_kind import (
     SetPullListIssueCoversResponse200DataOptionsItemKind,
 )
+from .set_pull_list_issue_covers_response_200_data_shop_order_type_1 import (
+    SetPullListIssueCoversResponse200DataShopOrderType1,
+)
+from .set_pull_list_issue_covers_response_200_data_shop_order_type_2_type_1 import (
+    SetPullListIssueCoversResponse200DataShopOrderType2Type1,
+)
+from .set_pull_list_issue_covers_response_200_data_shop_order_type_3_type_1 import (
+    SetPullListIssueCoversResponse200DataShopOrderType3Type1,
+)
+from .set_pull_list_issue_covers_response_200_data_standing import SetPullListIssueCoversResponse200DataStanding
 from .set_pull_list_issue_covers_response_403 import SetPullListIssueCoversResponse403
 from .set_pull_list_issue_covers_response_404 import SetPullListIssueCoversResponse404
 from .set_pull_list_issue_covers_response_422 import SetPullListIssueCoversResponse422
@@ -1678,7 +1757,9 @@ from .update_collection_item_response_200_data_collectable_type_0_series_type_0_
     UpdateCollectionItemResponse200DataCollectableType0SeriesType0ImagesType0,
 )
 from .update_collection_item_response_200_data_comic_shop import UpdateCollectionItemResponse200DataComicShop
+from .update_collection_item_response_200_data_cover_kind import UpdateCollectionItemResponse200DataCoverKind
 from .update_collection_item_response_200_data_loan_type_0 import UpdateCollectionItemResponse200DataLoanType0
+from .update_collection_item_response_200_data_variant_type_0 import UpdateCollectionItemResponse200DataVariantType0
 from .update_collection_item_response_403 import UpdateCollectionItemResponse403
 from .update_collection_item_response_404_type_0 import UpdateCollectionItemResponse404Type0
 from .update_collection_item_response_404_type_1 import UpdateCollectionItemResponse404Type1
@@ -1710,6 +1791,30 @@ from .update_list_response_403 import UpdateListResponse403
 from .update_list_response_404 import UpdateListResponse404
 from .update_list_response_422 import UpdateListResponse422
 from .update_list_response_422_errors import UpdateListResponse422Errors
+from .update_pull_list_item_body import UpdatePullListItemBody
+from .update_pull_list_item_body_preferred_cover_type_type_1 import UpdatePullListItemBodyPreferredCoverTypeType1
+from .update_pull_list_item_body_preferred_cover_type_type_2_type_1 import (
+    UpdatePullListItemBodyPreferredCoverTypeType2Type1,
+)
+from .update_pull_list_item_body_preferred_cover_type_type_3_type_1 import (
+    UpdatePullListItemBodyPreferredCoverTypeType3Type1,
+)
+from .update_pull_list_item_body_status import UpdatePullListItemBodyStatus
+from .update_pull_list_item_response_200 import UpdatePullListItemResponse200
+from .update_pull_list_item_response_200_preferred_cover_type_type_1 import (
+    UpdatePullListItemResponse200PreferredCoverTypeType1,
+)
+from .update_pull_list_item_response_200_preferred_cover_type_type_2_type_1 import (
+    UpdatePullListItemResponse200PreferredCoverTypeType2Type1,
+)
+from .update_pull_list_item_response_200_preferred_cover_type_type_3_type_1 import (
+    UpdatePullListItemResponse200PreferredCoverTypeType3Type1,
+)
+from .update_pull_list_item_response_200_status import UpdatePullListItemResponse200Status
+from .update_pull_list_item_response_403 import UpdatePullListItemResponse403
+from .update_pull_list_item_response_404 import UpdatePullListItemResponse404
+from .update_pull_list_item_response_422 import UpdatePullListItemResponse422
+from .update_pull_list_item_response_422_errors import UpdatePullListItemResponse422Errors
 from .view_yearly_reading_statistics_response_200 import ViewYearlyReadingStatisticsResponse200
 from .view_yearly_reading_statistics_response_200_data import ViewYearlyReadingStatisticsResponse200Data
 from .view_yearly_reading_statistics_response_200_data_breakdowns import (
@@ -1779,7 +1884,9 @@ __all__ = (
     "AddIssueToCollectionResponse201DataCollectableType0SeriesType0",
     "AddIssueToCollectionResponse201DataCollectableType0SeriesType0ImagesType0",
     "AddIssueToCollectionResponse201DataComicShop",
+    "AddIssueToCollectionResponse201DataCoverKind",
     "AddIssueToCollectionResponse201DataLoanType0",
+    "AddIssueToCollectionResponse201DataVariantType0",
     "AddIssueToCollectionResponse201FollowUp",
     "AddIssueToCollectionResponse403",
     "AddIssueToCollectionResponse404",
@@ -1845,6 +1952,7 @@ __all__ = (
     "CheckFollowStatusResponse404",
     "CheckIssueInCollectionResponse200",
     "CheckIssueInCollectionResponse200CopiesItem",
+    "CheckIssueInCollectionResponse200CopiesItemCoverKind",
     "CheckIssueInCollectionResponse200DataType0",
     "CheckIssueInCollectionResponse200DataType0CollectableType0",
     "CheckIssueInCollectionResponse200DataType0CollectableType0ImagesType0",
@@ -1852,7 +1960,9 @@ __all__ = (
     "CheckIssueInCollectionResponse200DataType0CollectableType0NameI18NAdditionalProperty",
     "CheckIssueInCollectionResponse200DataType0CollectableType0SeriesType0",
     "CheckIssueInCollectionResponse200DataType0CollectableType0SeriesType0ImagesType0",
+    "CheckIssueInCollectionResponse200DataType0CoverKind",
     "CheckIssueInCollectionResponse200DataType0LoanType0",
+    "CheckIssueInCollectionResponse200DataType0VariantType0",
     "CheckIssueInCollectionResponse403",
     "CheckIssueInCollectionResponse422",
     "CheckIssueInCollectionResponse422Errors",
@@ -1956,6 +2066,7 @@ __all__ = (
     "GetAnEventResponse200DataIssuesItemSeriesType0ImagesType0",
     "GetAnEventResponse200DataIssueVariantsItem",
     "GetAnEventResponse200DataIssueVariantsItemImagesType0",
+    "GetAnEventResponse200DataIssueVariantsItemShopsItem",
     "GetAnEventResponse200DataIssueVariantsItemVariantNameI18N",
     "GetAnEventResponse200DataIssueVariantsItemVariantNameI18NAdditionalProperty",
     "GetAnEventResponse200DataNameI18N",
@@ -2179,6 +2290,7 @@ __all__ = (
     "GetIssueVariantsResponse200DataItem",
     "GetIssueVariantsResponse200DataItemCreatorsItem",
     "GetIssueVariantsResponse200DataItemImagesType0",
+    "GetIssueVariantsResponse200DataItemShopsItem",
     "GetIssueVariantsResponse200DataItemVariantNameI18N",
     "GetIssueVariantsResponse200DataItemVariantNameI18NAdditionalProperty",
     "GetIssueVariantsResponse403",
@@ -2213,9 +2325,17 @@ __all__ = (
     "GetPublisherDetailsResponse404",
     "GetPullListIssueCoversResponse200",
     "GetPullListIssueCoversResponse200Data",
+    "GetPullListIssueCoversResponse200DataLinkedShopsItem",
+    "GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType1",
+    "GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType2Type1",
+    "GetPullListIssueCoversResponse200DataLinkedShopsItemOrderType3Type1",
     "GetPullListIssueCoversResponse200DataOptionsItem",
     "GetPullListIssueCoversResponse200DataOptionsItemImagesType0",
     "GetPullListIssueCoversResponse200DataOptionsItemKind",
+    "GetPullListIssueCoversResponse200DataShopOrderType1",
+    "GetPullListIssueCoversResponse200DataShopOrderType2Type1",
+    "GetPullListIssueCoversResponse200DataShopOrderType3Type1",
+    "GetPullListIssueCoversResponse200DataStanding",
     "GetPullListIssueCoversResponse403",
     "GetPullListIssueCoversResponse404",
     "GetSeriesCharactersResponse200",
@@ -2354,6 +2474,7 @@ __all__ = (
     "GetVariantDetailsResponse200Data",
     "GetVariantDetailsResponse200DataCreatorsItem",
     "GetVariantDetailsResponse200DataImagesType0",
+    "GetVariantDetailsResponse200DataShopsItem",
     "GetVariantDetailsResponse200DataVariantNameI18N",
     "GetVariantDetailsResponse200DataVariantNameI18NAdditionalProperty",
     "GetVariantDetailsResponse403",
@@ -2367,7 +2488,9 @@ __all__ = (
     "LendACopyOutResponse200DataCollectableType0SeriesType0",
     "LendACopyOutResponse200DataCollectableType0SeriesType0ImagesType0",
     "LendACopyOutResponse200DataComicShop",
+    "LendACopyOutResponse200DataCoverKind",
     "LendACopyOutResponse200DataLoanType0",
+    "LendACopyOutResponse200DataVariantType0",
     "LendACopyOutResponse403",
     "LendACopyOutResponse404",
     "LendACopyOutResponse409",
@@ -2443,7 +2566,9 @@ __all__ = (
     "ListCollectionResponse200DataItemCollectableType0SeriesType0",
     "ListCollectionResponse200DataItemCollectableType0SeriesType0ImagesType0",
     "ListCollectionResponse200DataItemComicShop",
+    "ListCollectionResponse200DataItemCoverKind",
     "ListCollectionResponse200DataItemLoanType0",
+    "ListCollectionResponse200DataItemVariantType0",
     "ListCollectionResponse200Links",
     "ListCollectionResponse200Meta",
     "ListCollectionResponse200MetaLinksItem",
@@ -2524,6 +2649,9 @@ __all__ = (
     "ListPullListResponse200DataItemNextIssueType0NameI18N",
     "ListPullListResponse200DataItemNextIssueType0NameI18NAdditionalProperty",
     "ListPullListResponse200DataItemNotificationSettingsType4",
+    "ListPullListResponse200DataItemPreferredCoverTypeType1",
+    "ListPullListResponse200DataItemPreferredCoverTypeType2Type1",
+    "ListPullListResponse200DataItemPreferredCoverTypeType3Type1",
     "ListPullListResponse200DataItemPullSourcesItem",
     "ListPullListResponse200DataItemPullSourceType0",
     "ListPullListResponse200DataItemSeriesImagesType0",
@@ -2717,7 +2845,9 @@ __all__ = (
     "MarkTheCopysOpenLoanReturnedResponse200DataCollectableType0SeriesType0",
     "MarkTheCopysOpenLoanReturnedResponse200DataCollectableType0SeriesType0ImagesType0",
     "MarkTheCopysOpenLoanReturnedResponse200DataComicShop",
+    "MarkTheCopysOpenLoanReturnedResponse200DataCoverKind",
     "MarkTheCopysOpenLoanReturnedResponse200DataLoanType0",
+    "MarkTheCopysOpenLoanReturnedResponse200DataVariantType0",
     "MarkTheCopysOpenLoanReturnedResponse403",
     "MarkTheCopysOpenLoanReturnedResponse404",
     "MarkTheCopysOpenLoanReturnedResponse422",
@@ -2794,9 +2924,17 @@ __all__ = (
     "SetPullListIssueCoversBody",
     "SetPullListIssueCoversResponse200",
     "SetPullListIssueCoversResponse200Data",
+    "SetPullListIssueCoversResponse200DataLinkedShopsItem",
+    "SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType1",
+    "SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType2Type1",
+    "SetPullListIssueCoversResponse200DataLinkedShopsItemOrderType3Type1",
     "SetPullListIssueCoversResponse200DataOptionsItem",
     "SetPullListIssueCoversResponse200DataOptionsItemImagesType0",
     "SetPullListIssueCoversResponse200DataOptionsItemKind",
+    "SetPullListIssueCoversResponse200DataShopOrderType1",
+    "SetPullListIssueCoversResponse200DataShopOrderType2Type1",
+    "SetPullListIssueCoversResponse200DataShopOrderType3Type1",
+    "SetPullListIssueCoversResponse200DataStanding",
     "SetPullListIssueCoversResponse403",
     "SetPullListIssueCoversResponse404",
     "SetPullListIssueCoversResponse422",
@@ -2856,7 +2994,9 @@ __all__ = (
     "UpdateCollectionItemResponse200DataCollectableType0SeriesType0",
     "UpdateCollectionItemResponse200DataCollectableType0SeriesType0ImagesType0",
     "UpdateCollectionItemResponse200DataComicShop",
+    "UpdateCollectionItemResponse200DataCoverKind",
     "UpdateCollectionItemResponse200DataLoanType0",
+    "UpdateCollectionItemResponse200DataVariantType0",
     "UpdateCollectionItemResponse403",
     "UpdateCollectionItemResponse404Type0",
     "UpdateCollectionItemResponse404Type1",
@@ -2886,6 +3026,20 @@ __all__ = (
     "UpdateListResponse404",
     "UpdateListResponse422",
     "UpdateListResponse422Errors",
+    "UpdatePullListItemBody",
+    "UpdatePullListItemBodyPreferredCoverTypeType1",
+    "UpdatePullListItemBodyPreferredCoverTypeType2Type1",
+    "UpdatePullListItemBodyPreferredCoverTypeType3Type1",
+    "UpdatePullListItemBodyStatus",
+    "UpdatePullListItemResponse200",
+    "UpdatePullListItemResponse200PreferredCoverTypeType1",
+    "UpdatePullListItemResponse200PreferredCoverTypeType2Type1",
+    "UpdatePullListItemResponse200PreferredCoverTypeType3Type1",
+    "UpdatePullListItemResponse200Status",
+    "UpdatePullListItemResponse403",
+    "UpdatePullListItemResponse404",
+    "UpdatePullListItemResponse422",
+    "UpdatePullListItemResponse422Errors",
     "ViewYearlyReadingStatisticsResponse200",
     "ViewYearlyReadingStatisticsResponse200Data",
     "ViewYearlyReadingStatisticsResponse200DataBreakdowns",

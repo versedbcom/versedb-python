@@ -6,6 +6,10 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.update_collection_item_response_200_data_cover_kind import (
+    UpdateCollectionItemResponse200DataCoverKind,
+    check_update_collection_item_response_200_data_cover_kind,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -17,6 +21,9 @@ if TYPE_CHECKING:
     )
     from ..models.update_collection_item_response_200_data_loan_type_0 import (
         UpdateCollectionItemResponse200DataLoanType0,
+    )
+    from ..models.update_collection_item_response_200_data_variant_type_0 import (
+        UpdateCollectionItemResponse200DataVariantType0,
     )
 
 
@@ -32,6 +39,11 @@ class UpdateCollectionItemResponse200Data:
         collectable_type (str):
         collectable_id (int):
         variant_id (int | None | str): As sent: a number, or digits as text.
+        variant (None | UpdateCollectionItemResponse200DataVariantType0): The catalog variant `variant_id` names, while
+            it is a live variant of the copy's issue; null for any other copy.
+        cover_kind (UpdateCollectionItemResponse200DataCoverKind): Which cover the copy is of: `catalog` when
+            `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a
+            variant (`is_variant`), else `main`, the issue's own cover.
         condition (None | str):
         format_ (None | str):
         is_variant (bool | None):
@@ -86,6 +98,8 @@ class UpdateCollectionItemResponse200Data:
     collectable_type: str
     collectable_id: int
     variant_id: int | None | str
+    variant: None | UpdateCollectionItemResponse200DataVariantType0
+    cover_kind: UpdateCollectionItemResponse200DataCoverKind
     condition: None | str
     format_: None | str
     is_variant: bool | None
@@ -141,6 +155,9 @@ class UpdateCollectionItemResponse200Data:
         from ..models.update_collection_item_response_200_data_loan_type_0 import (
             UpdateCollectionItemResponse200DataLoanType0,  # noqa: PLC0415
         )
+        from ..models.update_collection_item_response_200_data_variant_type_0 import (
+            UpdateCollectionItemResponse200DataVariantType0,  # noqa: PLC0415
+        )
 
         id = self.id
 
@@ -152,6 +169,14 @@ class UpdateCollectionItemResponse200Data:
 
         variant_id: int | None | str
         variant_id = self.variant_id
+
+        variant: dict[str, Any] | None
+        if isinstance(self.variant, UpdateCollectionItemResponse200DataVariantType0):
+            variant = self.variant.to_dict()
+        else:
+            variant = self.variant
+
+        cover_kind: str = self.cover_kind
 
         condition: None | str
         condition = self.condition
@@ -350,6 +375,8 @@ class UpdateCollectionItemResponse200Data:
                 "collectable_type": collectable_type,
                 "collectable_id": collectable_id,
                 "variant_id": variant_id,
+                "variant": variant,
+                "cover_kind": cover_kind,
                 "condition": condition,
                 "format": format_,
                 "is_variant": is_variant,
@@ -429,6 +456,9 @@ class UpdateCollectionItemResponse200Data:
         from ..models.update_collection_item_response_200_data_loan_type_0 import (
             UpdateCollectionItemResponse200DataLoanType0,  # noqa: PLC0415
         )
+        from ..models.update_collection_item_response_200_data_variant_type_0 import (
+            UpdateCollectionItemResponse200DataVariantType0,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -445,6 +475,23 @@ class UpdateCollectionItemResponse200Data:
             return cast(int | None | str, data)
 
         variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        def _parse_variant(data: object) -> None | UpdateCollectionItemResponse200DataVariantType0:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                variant_type_0 = UpdateCollectionItemResponse200DataVariantType0.from_dict(data)
+
+                return variant_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(None | UpdateCollectionItemResponse200DataVariantType0, data)
+
+        variant = _parse_variant(d.pop("variant"))
+
+        cover_kind = check_update_collection_item_response_200_data_cover_kind(d.pop("cover_kind"))
 
         def _parse_condition(data: object) -> None | str:
             if data is None:
@@ -805,6 +852,8 @@ class UpdateCollectionItemResponse200Data:
             collectable_type=collectable_type,
             collectable_id=collectable_id,
             variant_id=variant_id,
+            variant=variant,
+            cover_kind=cover_kind,
             condition=condition,
             format_=format_,
             is_variant=is_variant,

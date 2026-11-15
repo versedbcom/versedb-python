@@ -6,12 +6,17 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 if TYPE_CHECKING:
     from ..models.get_issue_variants_response_200_data_item_creators_item import (
         GetIssueVariantsResponse200DataItemCreatorsItem,
     )
     from ..models.get_issue_variants_response_200_data_item_images_type_0 import (
         GetIssueVariantsResponse200DataItemImagesType0,
+    )
+    from ..models.get_issue_variants_response_200_data_item_shops_item import (
+        GetIssueVariantsResponse200DataItemShopsItem,
     )
     from ..models.get_issue_variants_response_200_data_item_variant_name_i18n import (
         GetIssueVariantsResponse200DataItemVariantNameI18N,
@@ -38,10 +43,15 @@ class GetIssueVariantsResponse200DataItem:
         ean (None | str):
         release_date (None | str): This edition's own on-sale date (YYYY-MM-DD), for a later printing or an exclusive
             that ships apart from its issue. Null when it ships with the issue: use the issue's release_date.
+        print_run (int | None): How many copies of this cover were printed. Null when no source states it.
+        cover_letter (None | str): The letter the cover is listed under, one to three capitals (A, B, AA). Null where
+            covers are not lettered.
         is_nsfw (bool):
         creators (list[GetIssueVariantsResponse200DataItemCreatorsItem]):
         variant_name_i18n (GetIssueVariantsResponse200DataItemVariantNameI18N): One name per language, keyed by BCP 47
             tag.
+        shops (list[GetIssueVariantsResponse200DataItemShopsItem] | Unset): The comic shops a retailer exclusive was
+            made for, in display order. On the variants list and the variant page.
     """
 
     id: int
@@ -56,9 +66,12 @@ class GetIssueVariantsResponse200DataItem:
     formatted_price: None | str
     ean: None | str
     release_date: None | str
+    print_run: int | None
+    cover_letter: None | str
     is_nsfw: bool
     creators: list[GetIssueVariantsResponse200DataItemCreatorsItem]
     variant_name_i18n: GetIssueVariantsResponse200DataItemVariantNameI18N
+    shops: list[GetIssueVariantsResponse200DataItemShopsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -104,6 +117,12 @@ class GetIssueVariantsResponse200DataItem:
         release_date: None | str
         release_date = self.release_date
 
+        print_run: int | None
+        print_run = self.print_run
+
+        cover_letter: None | str
+        cover_letter = self.cover_letter
+
         is_nsfw = self.is_nsfw
 
         creators = []
@@ -112,6 +131,13 @@ class GetIssueVariantsResponse200DataItem:
             creators.append(creators_item)
 
         variant_name_i18n = self.variant_name_i18n.to_dict()
+
+        shops: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.shops, Unset):
+            shops = []
+            for shops_item_data in self.shops:
+                shops_item = shops_item_data.to_dict()
+                shops.append(shops_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -129,11 +155,15 @@ class GetIssueVariantsResponse200DataItem:
                 "formatted_price": formatted_price,
                 "ean": ean,
                 "release_date": release_date,
+                "print_run": print_run,
+                "cover_letter": cover_letter,
                 "is_nsfw": is_nsfw,
                 "creators": creators,
                 "variant_name_i18n": variant_name_i18n,
             }
         )
+        if shops is not UNSET:
+            field_dict["shops"] = shops
 
         return field_dict
 
@@ -144,6 +174,9 @@ class GetIssueVariantsResponse200DataItem:
         )
         from ..models.get_issue_variants_response_200_data_item_images_type_0 import (
             GetIssueVariantsResponse200DataItemImagesType0,  # noqa: PLC0415
+        )
+        from ..models.get_issue_variants_response_200_data_item_shops_item import (
+            GetIssueVariantsResponse200DataItemShopsItem,  # noqa: PLC0415
         )
         from ..models.get_issue_variants_response_200_data_item_variant_name_i18n import (
             GetIssueVariantsResponse200DataItemVariantNameI18N,  # noqa: PLC0415
@@ -237,6 +270,20 @@ class GetIssueVariantsResponse200DataItem:
 
         release_date = _parse_release_date(d.pop("release_date"))
 
+        def _parse_print_run(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        print_run = _parse_print_run(d.pop("print_run"))
+
+        def _parse_cover_letter(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_letter = _parse_cover_letter(d.pop("cover_letter"))
+
         is_nsfw = d.pop("is_nsfw")
 
         creators = []
@@ -247,6 +294,15 @@ class GetIssueVariantsResponse200DataItem:
             creators.append(creators_item)
 
         variant_name_i18n = GetIssueVariantsResponse200DataItemVariantNameI18N.from_dict(d.pop("variant_name_i18n"))
+
+        _shops = d.pop("shops", UNSET)
+        shops: list[GetIssueVariantsResponse200DataItemShopsItem] | Unset = UNSET
+        if _shops is not UNSET:
+            shops = []
+            for shops_item_data in _shops:
+                shops_item = GetIssueVariantsResponse200DataItemShopsItem.from_dict(shops_item_data)
+
+                shops.append(shops_item)
 
         get_issue_variants_response_200_data_item = cls(
             id=id,
@@ -261,9 +317,12 @@ class GetIssueVariantsResponse200DataItem:
             formatted_price=formatted_price,
             ean=ean,
             release_date=release_date,
+            print_run=print_run,
+            cover_letter=cover_letter,
             is_nsfw=is_nsfw,
             creators=creators,
             variant_name_i18n=variant_name_i18n,
+            shops=shops,
         )
 
         get_issue_variants_response_200_data_item.additional_properties = d

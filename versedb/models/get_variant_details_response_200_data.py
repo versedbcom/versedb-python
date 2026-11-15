@@ -6,11 +6,14 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..types import UNSET, Unset
+
 if TYPE_CHECKING:
     from ..models.get_variant_details_response_200_data_creators_item import (
         GetVariantDetailsResponse200DataCreatorsItem,
     )
     from ..models.get_variant_details_response_200_data_images_type_0 import GetVariantDetailsResponse200DataImagesType0
+    from ..models.get_variant_details_response_200_data_shops_item import GetVariantDetailsResponse200DataShopsItem
     from ..models.get_variant_details_response_200_data_variant_name_i18n import (
         GetVariantDetailsResponse200DataVariantNameI18N,
     )
@@ -36,8 +39,13 @@ class GetVariantDetailsResponse200Data:
         ean (None | str):
         release_date (None | str): This edition's own on-sale date (YYYY-MM-DD), for a later printing or an exclusive
             that ships apart from its issue. Null when it ships with the issue: use the issue's release_date.
+        print_run (int | None): How many copies of this cover were printed. Null when no source states it.
+        cover_letter (None | str): The letter the cover is listed under, one to three capitals (A, B, AA). Null where
+            covers are not lettered.
         creators (list[GetVariantDetailsResponse200DataCreatorsItem]):
         variant_name_i18n (GetVariantDetailsResponse200DataVariantNameI18N): One name per language, keyed by BCP 47 tag.
+        shops (list[GetVariantDetailsResponse200DataShopsItem] | Unset): The comic shops a retailer exclusive was made
+            for, in display order. On the variants list and the variant page.
     """
 
     id: int
@@ -52,8 +60,11 @@ class GetVariantDetailsResponse200Data:
     formatted_price: None | str
     ean: None | str
     release_date: None | str
+    print_run: int | None
+    cover_letter: None | str
     creators: list[GetVariantDetailsResponse200DataCreatorsItem]
     variant_name_i18n: GetVariantDetailsResponse200DataVariantNameI18N
+    shops: list[GetVariantDetailsResponse200DataShopsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -99,12 +110,25 @@ class GetVariantDetailsResponse200Data:
         release_date: None | str
         release_date = self.release_date
 
+        print_run: int | None
+        print_run = self.print_run
+
+        cover_letter: None | str
+        cover_letter = self.cover_letter
+
         creators = []
         for creators_item_data in self.creators:
             creators_item = creators_item_data.to_dict()
             creators.append(creators_item)
 
         variant_name_i18n = self.variant_name_i18n.to_dict()
+
+        shops: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.shops, Unset):
+            shops = []
+            for shops_item_data in self.shops:
+                shops_item = shops_item_data.to_dict()
+                shops.append(shops_item)
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -122,10 +146,14 @@ class GetVariantDetailsResponse200Data:
                 "formatted_price": formatted_price,
                 "ean": ean,
                 "release_date": release_date,
+                "print_run": print_run,
+                "cover_letter": cover_letter,
                 "creators": creators,
                 "variant_name_i18n": variant_name_i18n,
             }
         )
+        if shops is not UNSET:
+            field_dict["shops"] = shops
 
         return field_dict
 
@@ -137,6 +165,7 @@ class GetVariantDetailsResponse200Data:
         from ..models.get_variant_details_response_200_data_images_type_0 import (
             GetVariantDetailsResponse200DataImagesType0,  # noqa: PLC0415
         )
+        from ..models.get_variant_details_response_200_data_shops_item import GetVariantDetailsResponse200DataShopsItem  # noqa: PLC0415
         from ..models.get_variant_details_response_200_data_variant_name_i18n import (
             GetVariantDetailsResponse200DataVariantNameI18N,  # noqa: PLC0415
         )
@@ -229,6 +258,20 @@ class GetVariantDetailsResponse200Data:
 
         release_date = _parse_release_date(d.pop("release_date"))
 
+        def _parse_print_run(data: object) -> int | None:
+            if data is None:
+                return data
+            return cast(int | None, data)
+
+        print_run = _parse_print_run(d.pop("print_run"))
+
+        def _parse_cover_letter(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        cover_letter = _parse_cover_letter(d.pop("cover_letter"))
+
         creators = []
         _creators = d.pop("creators")
         for creators_item_data in _creators:
@@ -237,6 +280,15 @@ class GetVariantDetailsResponse200Data:
             creators.append(creators_item)
 
         variant_name_i18n = GetVariantDetailsResponse200DataVariantNameI18N.from_dict(d.pop("variant_name_i18n"))
+
+        _shops = d.pop("shops", UNSET)
+        shops: list[GetVariantDetailsResponse200DataShopsItem] | Unset = UNSET
+        if _shops is not UNSET:
+            shops = []
+            for shops_item_data in _shops:
+                shops_item = GetVariantDetailsResponse200DataShopsItem.from_dict(shops_item_data)
+
+                shops.append(shops_item)
 
         get_variant_details_response_200_data = cls(
             id=id,
@@ -251,8 +303,11 @@ class GetVariantDetailsResponse200Data:
             formatted_price=formatted_price,
             ean=ean,
             release_date=release_date,
+            print_run=print_run,
+            cover_letter=cover_letter,
             creators=creators,
             variant_name_i18n=variant_name_i18n,
+            shops=shops,
         )
 
         get_variant_details_response_200_data.additional_properties = d

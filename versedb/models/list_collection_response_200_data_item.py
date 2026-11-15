@@ -6,6 +6,10 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.list_collection_response_200_data_item_cover_kind import (
+    ListCollectionResponse200DataItemCoverKind,
+    check_list_collection_response_200_data_item_cover_kind,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -14,6 +18,9 @@ if TYPE_CHECKING:
     )
     from ..models.list_collection_response_200_data_item_comic_shop import ListCollectionResponse200DataItemComicShop
     from ..models.list_collection_response_200_data_item_loan_type_0 import ListCollectionResponse200DataItemLoanType0
+    from ..models.list_collection_response_200_data_item_variant_type_0 import (
+        ListCollectionResponse200DataItemVariantType0,
+    )
 
 
 T = TypeVar("T", bound="ListCollectionResponse200DataItem")
@@ -28,6 +35,11 @@ class ListCollectionResponse200DataItem:
         collectable_type (str):
         collectable_id (int):
         variant_id (int | None):
+        variant (ListCollectionResponse200DataItemVariantType0 | None): The catalog variant `variant_id` names, while it
+            is a live variant of the copy's issue; null for any other copy.
+        cover_kind (ListCollectionResponse200DataItemCoverKind): Which cover the copy is of: `catalog` when `variant_id`
+            names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a variant
+            (`is_variant`), else `main`, the issue's own cover.
         condition (None | str):
         format_ (None | str):
         is_variant (bool | None):
@@ -82,6 +94,8 @@ class ListCollectionResponse200DataItem:
     collectable_type: str
     collectable_id: int
     variant_id: int | None
+    variant: ListCollectionResponse200DataItemVariantType0 | None
+    cover_kind: ListCollectionResponse200DataItemCoverKind
     condition: None | str
     format_: None | str
     is_variant: bool | None
@@ -137,6 +151,9 @@ class ListCollectionResponse200DataItem:
         from ..models.list_collection_response_200_data_item_loan_type_0 import (
             ListCollectionResponse200DataItemLoanType0,  # noqa: PLC0415
         )
+        from ..models.list_collection_response_200_data_item_variant_type_0 import (
+            ListCollectionResponse200DataItemVariantType0,  # noqa: PLC0415
+        )
 
         id = self.id
 
@@ -148,6 +165,14 @@ class ListCollectionResponse200DataItem:
 
         variant_id: int | None
         variant_id = self.variant_id
+
+        variant: dict[str, Any] | None
+        if isinstance(self.variant, ListCollectionResponse200DataItemVariantType0):
+            variant = self.variant.to_dict()
+        else:
+            variant = self.variant
+
+        cover_kind: str = self.cover_kind
 
         condition: None | str
         condition = self.condition
@@ -352,6 +377,8 @@ class ListCollectionResponse200DataItem:
                 "collectable_type": collectable_type,
                 "collectable_id": collectable_id,
                 "variant_id": variant_id,
+                "variant": variant,
+                "cover_kind": cover_kind,
                 "condition": condition,
                 "format": format_,
                 "is_variant": is_variant,
@@ -433,6 +460,9 @@ class ListCollectionResponse200DataItem:
         from ..models.list_collection_response_200_data_item_loan_type_0 import (
             ListCollectionResponse200DataItemLoanType0,  # noqa: PLC0415
         )
+        from ..models.list_collection_response_200_data_item_variant_type_0 import (
+            ListCollectionResponse200DataItemVariantType0,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -449,6 +479,23 @@ class ListCollectionResponse200DataItem:
             return cast(int | None, data)
 
         variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        def _parse_variant(data: object) -> ListCollectionResponse200DataItemVariantType0 | None:
+            if data is None:
+                return data
+            try:
+                if not isinstance(data, dict):
+                    raise TypeError()
+                variant_type_0 = ListCollectionResponse200DataItemVariantType0.from_dict(data)
+
+                return variant_type_0
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(ListCollectionResponse200DataItemVariantType0 | None, data)
+
+        variant = _parse_variant(d.pop("variant"))
+
+        cover_kind = check_list_collection_response_200_data_item_cover_kind(d.pop("cover_kind"))
 
         def _parse_condition(data: object) -> None | str:
             if data is None:
@@ -813,6 +860,8 @@ class ListCollectionResponse200DataItem:
             collectable_type=collectable_type,
             collectable_id=collectable_id,
             variant_id=variant_id,
+            variant=variant,
+            cover_kind=cover_kind,
             condition=condition,
             format_=format_,
             is_variant=is_variant,

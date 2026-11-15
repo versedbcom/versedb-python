@@ -6,6 +6,18 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.list_pull_list_response_200_data_item_preferred_cover_type_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType1,
+    check_list_pull_list_response_200_data_item_preferred_cover_type_type_1,
+)
+from ..models.list_pull_list_response_200_data_item_preferred_cover_type_type_2_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType2Type1,
+    check_list_pull_list_response_200_data_item_preferred_cover_type_type_2_type_1,
+)
+from ..models.list_pull_list_response_200_data_item_preferred_cover_type_type_3_type_1 import (
+    ListPullListResponse200DataItemPreferredCoverTypeType3Type1,
+    check_list_pull_list_response_200_data_item_preferred_cover_type_type_3_type_1,
+)
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
@@ -56,7 +68,10 @@ class ListPullListResponse200DataItem:
         series (ListPullListResponse200DataItemSeriesType0 | None): Null once the series is gone.
         auto_pull (bool | None | Unset): Left out for a `read:showcase` token.
         last_pulled_at (None | str | Unset): Left out for a `read:showcase` token.
-        preferred_cover_type (None | str | Unset): Left out for a `read:showcase` token.
+        preferred_cover_type (ListPullListResponse200DataItemPreferredCoverTypeType1 |
+            ListPullListResponse200DataItemPreferredCoverTypeType2Type1 |
+            ListPullListResponse200DataItemPreferredCoverTypeType3Type1 | None | Unset): Left out for a `read:showcase`
+            token.
         pull_priority (int | None | Unset): Left out for a `read:showcase` token.
         notify_on_release (bool | None | Unset): Left out for a `read:showcase` token.
         notification_settings (bool | float | list[Any] | ListPullListResponse200DataItemNotificationSettingsType4 |
@@ -91,7 +106,13 @@ class ListPullListResponse200DataItem:
     series: ListPullListResponse200DataItemSeriesType0 | None
     auto_pull: bool | None | Unset = UNSET
     last_pulled_at: None | str | Unset = UNSET
-    preferred_cover_type: None | str | Unset = UNSET
+    preferred_cover_type: (
+        ListPullListResponse200DataItemPreferredCoverTypeType1
+        | ListPullListResponse200DataItemPreferredCoverTypeType2Type1
+        | ListPullListResponse200DataItemPreferredCoverTypeType3Type1
+        | None
+        | Unset
+    ) = UNSET
     pull_priority: int | None | Unset = UNSET
     notify_on_release: bool | None | Unset = UNSET
     notification_settings: (
@@ -191,6 +212,12 @@ class ListPullListResponse200DataItem:
         preferred_cover_type: None | str | Unset
         if isinstance(self.preferred_cover_type, Unset):
             preferred_cover_type = UNSET
+        elif isinstance(self.preferred_cover_type, str):
+            preferred_cover_type = self.preferred_cover_type
+        elif isinstance(self.preferred_cover_type, str):
+            preferred_cover_type = self.preferred_cover_type
+        elif isinstance(self.preferred_cover_type, str):
+            preferred_cover_type = self.preferred_cover_type
         else:
             preferred_cover_type = self.preferred_cover_type
 
@@ -467,12 +494,57 @@ class ListPullListResponse200DataItem:
 
         last_pulled_at = _parse_last_pulled_at(d.pop("last_pulled_at", UNSET))
 
-        def _parse_preferred_cover_type(data: object) -> None | str | Unset:
+        def _parse_preferred_cover_type(
+            data: object,
+        ) -> (
+            ListPullListResponse200DataItemPreferredCoverTypeType1
+            | ListPullListResponse200DataItemPreferredCoverTypeType2Type1
+            | ListPullListResponse200DataItemPreferredCoverTypeType3Type1
+            | None
+            | Unset
+        ):
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(None | str | Unset, data)
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                preferred_cover_type_type_1 = check_list_pull_list_response_200_data_item_preferred_cover_type_type_1(
+                    data
+                )
+
+                return preferred_cover_type_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                preferred_cover_type_type_2_type_1 = (
+                    check_list_pull_list_response_200_data_item_preferred_cover_type_type_2_type_1(data)
+                )
+
+                return preferred_cover_type_type_2_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                preferred_cover_type_type_3_type_1 = (
+                    check_list_pull_list_response_200_data_item_preferred_cover_type_type_3_type_1(data)
+                )
+
+                return preferred_cover_type_type_3_type_1
+            except (TypeError, ValueError, AttributeError, KeyError):
+                pass
+            return cast(
+                ListPullListResponse200DataItemPreferredCoverTypeType1
+                | ListPullListResponse200DataItemPreferredCoverTypeType2Type1
+                | ListPullListResponse200DataItemPreferredCoverTypeType3Type1
+                | None
+                | Unset,
+                data,
+            )
 
         preferred_cover_type = _parse_preferred_cover_type(d.pop("preferred_cover_type", UNSET))
 

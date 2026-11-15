@@ -6,6 +6,11 @@ from typing import Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from ..models.check_issue_in_collection_response_200_copies_item_cover_kind import (
+    CheckIssueInCollectionResponse200CopiesItemCoverKind,
+    check_check_issue_in_collection_response_200_copies_item_cover_kind,
+)
+
 T = TypeVar("T", bound="CheckIssueInCollectionResponse200CopiesItem")
 
 
@@ -15,6 +20,11 @@ class CheckIssueInCollectionResponse200CopiesItem:
     Attributes:
         id (int):
         variant_id (int | None):
+        cover_kind (CheckIssueInCollectionResponse200CopiesItemCoverKind): Which cover the copy is of: `catalog` when
+            `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a
+            variant (`is_variant`), else `main`, the issue's own cover.
+        variant_label (None | str): What the copy's cover is called: the catalog variant's name, else the member's
+            description, else its variant type, else "Variant"; null for a main cover copy.
         condition (None | str):
         graded (bool):
         grade_score (None | str):
@@ -32,6 +42,8 @@ class CheckIssueInCollectionResponse200CopiesItem:
 
     id: int
     variant_id: int | None
+    cover_kind: CheckIssueInCollectionResponse200CopiesItemCoverKind
+    variant_label: None | str
     condition: None | str
     graded: bool
     grade_score: None | str
@@ -52,6 +64,11 @@ class CheckIssueInCollectionResponse200CopiesItem:
 
         variant_id: int | None
         variant_id = self.variant_id
+
+        cover_kind: str = self.cover_kind
+
+        variant_label: None | str
+        variant_label = self.variant_label
 
         condition: None | str
         condition = self.condition
@@ -95,6 +112,8 @@ class CheckIssueInCollectionResponse200CopiesItem:
             {
                 "id": id,
                 "variant_id": variant_id,
+                "cover_kind": cover_kind,
+                "variant_label": variant_label,
                 "condition": condition,
                 "graded": graded,
                 "grade_score": grade_score,
@@ -124,6 +143,15 @@ class CheckIssueInCollectionResponse200CopiesItem:
             return cast(int | None, data)
 
         variant_id = _parse_variant_id(d.pop("variant_id"))
+
+        cover_kind = check_check_issue_in_collection_response_200_copies_item_cover_kind(d.pop("cover_kind"))
+
+        def _parse_variant_label(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        variant_label = _parse_variant_label(d.pop("variant_label"))
 
         def _parse_condition(data: object) -> None | str:
             if data is None:
@@ -204,6 +232,8 @@ class CheckIssueInCollectionResponse200CopiesItem:
         check_issue_in_collection_response_200_copies_item = cls(
             id=id,
             variant_id=variant_id,
+            cover_kind=cover_kind,
+            variant_label=variant_label,
             condition=condition,
             graded=graded,
             grade_score=grade_score,
