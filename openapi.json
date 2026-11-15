@@ -1745,7 +1745,7 @@
                                     "examples": [
                                       "en"
                                     ],
-                                    "description": "The review's language as a BCP 47 primary subtag (`en`, `es`, `ja`), `und` when it could not be told, or null until it is detected."
+                                    "description": "The review's language as a BCP 47 primary subtag (`en`, `es`, `ja`), `und` when it could not be told or the review has no text, or null until it is detected."
                                   },
                                   "cover_url": {
                                     "type": [

@@ -21,7 +21,7 @@ class GetActivityFeedResponse200DataItemDataType1:
         rating (None | str): The rating to one decimal place, as text.
         content_preview (None | str): The first 100 characters of the review.
         language (None | str): The review's language as a BCP 47 primary subtag (`en`, `es`, `ja`), `und` when it could
-            not be told, or null until it is detected.
+            not be told or the review has no text, or null until it is detected.
         cover_url (None | str):
     """
 
