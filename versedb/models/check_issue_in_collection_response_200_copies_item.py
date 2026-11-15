@@ -23,8 +23,9 @@ class CheckIssueInCollectionResponse200CopiesItem:
         cover_kind (CheckIssueInCollectionResponse200CopiesItemCoverKind): Which cover the copy is of: `catalog` when
             `variant_id` names a live variant of the copy's issue, `custom` when it names none and the copy is flagged a
             variant (`is_variant`), else `main`, the issue's own cover.
-        variant_label (None | str): What the copy's cover is called: the catalog variant's name, else the member's
-            description, else its variant type, else "Variant"; null for a main cover copy.
+        variant_label (None | str): What the copy's cover is called. A copy of a catalog variant: the variant's name, or
+            "Variant" when it has none. A variation of the member's own: their description, else its variant type, else
+            "Variant". Null for a main cover copy.
         condition (None | str):
         graded (bool):
         grade_score (None | str):

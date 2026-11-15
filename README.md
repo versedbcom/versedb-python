@@ -62,7 +62,7 @@ uv run pytest
 ```
 
 `scripts/prepare_spec.py` patches a few spec shapes the generator can't parse, and
-`templates/` overrides one generator template. Both explain why in their own files.
+`templates/` overrides two generator templates. Both explain why in their own files.
 A nightly GitHub Action runs the same script and opens a PR when the spec changes.
 
 ### Releasing

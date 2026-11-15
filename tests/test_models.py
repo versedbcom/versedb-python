@@ -53,13 +53,16 @@ def field_names(model: type) -> set[str]:
     return {field.name for field in attrs.fields(model)}
 
 
-@pytest.mark.parametrize(
-    "model",
-    [GetIssueVariantsResponse200DataItem, GetVariantDetailsResponse200Data, GetAnEventResponse200DataIssueVariantsItem],
-)
+@pytest.mark.parametrize("model", [GetIssueVariantsResponse200DataItem, GetVariantDetailsResponse200Data])
 def test_variant_models_carry_print_run_cover_letter_and_shops(model):
     assert {"print_run", "cover_letter", "shops"} <= field_names(model)
     assert attrs.fields(model).shops.default is UNSET
+
+
+def test_event_variants_carry_print_run_and_cover_letter_without_shops():
+    names = field_names(GetAnEventResponse200DataIssueVariantsItem)
+    assert {"print_run", "cover_letter"} <= names
+    assert "shops" not in names
 
 
 def test_variant_shop_round_trips():

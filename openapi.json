@@ -6265,7 +6265,7 @@
                             "examples": [
                               "Cover B"
                             ],
-                            "description": "What the copy's cover is called: the catalog variant's name, else the member's description, else its variant type, else \"Variant\"; null for a main cover copy."
+                            "description": "What the copy's cover is called. A copy of a catalog variant: the variant's name, or \"Variant\" when it has none. A variation of the member's own: their description, else its variant type, else \"Variant\". Null for a main cover copy."
                           },
                           "condition": {
                             "type": [
@@ -21178,44 +21178,6 @@
                                   "B"
                                 ],
                                 "description": "The letter the cover is listed under, one to three capitals (A, B, AA). Null where covers are not lettered."
-                              },
-                              "shops": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "integer",
-                                      "examples": [
-                                        12
-                                      ]
-                                    },
-                                    "name": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ],
-                                      "examples": [
-                                        "Third Eye Comics"
-                                      ]
-                                    },
-                                    "slug": {
-                                      "type": [
-                                        "string",
-                                        "null"
-                                      ],
-                                      "examples": [
-                                        "third-eye-comics"
-                                      ]
-                                    }
-                                  },
-                                  "required": [
-                                    "id",
-                                    "name",
-                                    "slug"
-                                  ]
-                                },
-                                "description": "The comic shops a retailer exclusive was made for, in display order. On the variants list and the variant page."
                               },
                               "is_nsfw": {
                                 "type": [
@@ -53152,7 +53114,7 @@
       "post": {
         "operationId": "addIssueToCollection",
         "summary": "Add issue to collection.",
-        "description": "Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it.",
+        "description": "Adds a copy of the issue to the user's collection; every field is optional. When the issue was on the user's wishlist it comes off when the user chose that, else `was_on_wishlist` is true so the app can offer it. `follow_up` says whether to offer marking it read or reviewing it. Send an `Idempotency-Key` to make a retry safe: for 14 days a repeat with the same key, user and issue answers the copy the first request added, as it is now, and adds nothing.",
         "tags": [
           "User"
         ],
@@ -53169,6 +53131,20 @@
             "description": "The issue ID.",
             "name": "issue_id",
             "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "examples": [
+                "7c0e4c7e-3a55-4f0c-9a58-2f6f4a0d1b21"
+              ],
+              "description": "A UUID you choose for this add. Repeating the request with the same key returns the copy the first request added instead of adding another."
+            },
+            "required": false,
+            "description": "A UUID you choose for this add. Repeating the request with the same key returns the copy the first request added instead of adding another.",
+            "name": "Idempotency-Key",
+            "in": "header"
           }
         ],
         "requestBody": {
@@ -53183,7 +53159,7 @@
                       "integer",
                       "null"
                     ],
-                    "description": "Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.",
+                    "description": "The catalog variant the copy is of. Must be a live variant of the issue. A copy with a `variant_id` is always saved with `is_variant: true`, whatever `is_variant` the request sends. On an update, leave it out to keep the copy on its variant; `null` unlinks the copy, which then keeps `is_variant` only if it has a `variant_description` or a `variant_type` other than `standard`, unless the same request sends `is_variant`.",
                     "examples": [
                       42
                     ]
@@ -53349,7 +53325,7 @@
                   },
                   "is_variant": {
                     "type": "boolean",
-                    "description": "Whether this copy is a variant cover.",
+                    "description": "Whether this copy is a variant cover. Ignored for a copy with a `variant_id`, which is always a variant. On an update that sends `variant_id: null`, this is the value the unlinked copy takes.",
                     "examples": [
                       false
                     ]
@@ -54622,6 +54598,47 @@
               }
             }
           },
+          "400": {
+            "description": "An `Idempotency-Key` that is not a UUID.",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "The Idempotency-Key header must be a UUID."
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ]
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthenticated. The bearer token is missing, invalid, or revoked.",
             "content": {
@@ -54669,6 +54686,58 @@
                   },
                   "required": [
                     "message"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A request with the same `Idempotency-Key` is still adding the copy (`add_in_progress`; repeat it after a moment), or the copy that key added has since been removed (`copy_removed`).",
+            "headers": {
+              "X-RateLimit-Limit": {
+                "description": "Request quota per hour for your tier.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    150
+                  ]
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    149
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "This copy is already being added. Try again in a moment."
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "add_in_progress",
+                        "copy_removed"
+                      ],
+                      "examples": [
+                        "add_in_progress"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "error"
                   ]
                 }
               }
@@ -54872,7 +54941,7 @@
                       "integer",
                       "null"
                     ],
-                    "description": "Link to a specific issue variant. Must belong to the issue. Must match an existing stored value.",
+                    "description": "The catalog variant the copy is of. Must be a live variant of the issue. A copy with a `variant_id` is always saved with `is_variant: true`, whatever `is_variant` the request sends. On an update, leave it out to keep the copy on its variant; `null` unlinks the copy, which then keeps `is_variant` only if it has a `variant_description` or a `variant_type` other than `standard`, unless the same request sends `is_variant`.",
                     "examples": [
                       42
                     ]
@@ -55038,7 +55107,7 @@
                   },
                   "is_variant": {
                     "type": "boolean",
-                    "description": "Whether this copy is a variant cover.",
+                    "description": "Whether this copy is a variant cover. Ignored for a copy with a `variant_id`, which is always a variant. On an update that sends `variant_id: null`, this is the value the unlinked copy takes.",
                     "examples": [
                       false
                     ]

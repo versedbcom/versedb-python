@@ -6,14 +6,9 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from ..types import UNSET, Unset
-
 if TYPE_CHECKING:
     from ..models.get_an_event_response_200_data_issue_variants_item_images_type_0 import (
         GetAnEventResponse200DataIssueVariantsItemImagesType0,
-    )
-    from ..models.get_an_event_response_200_data_issue_variants_item_shops_item import (
-        GetAnEventResponse200DataIssueVariantsItemShopsItem,
     )
     from ..models.get_an_event_response_200_data_issue_variants_item_variant_name_i18n import (
         GetAnEventResponse200DataIssueVariantsItemVariantNameI18N,
@@ -44,8 +39,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
         is_nsfw (bool | None):
         variant_name_i18n (GetAnEventResponse200DataIssueVariantsItemVariantNameI18N): One name per language, keyed by
             BCP 47 tag.
-        shops (list[GetAnEventResponse200DataIssueVariantsItemShopsItem] | Unset): The comic shops a retailer exclusive
-            was made for, in display order. On the variants list and the variant page.
     """
 
     id: int
@@ -63,7 +56,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
     cover_letter: None | str
     is_nsfw: bool | None
     variant_name_i18n: GetAnEventResponse200DataIssueVariantsItemVariantNameI18N
-    shops: list[GetAnEventResponse200DataIssueVariantsItemShopsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -117,13 +109,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
 
         variant_name_i18n = self.variant_name_i18n.to_dict()
 
-        shops: list[dict[str, Any]] | Unset = UNSET
-        if not isinstance(self.shops, Unset):
-            shops = []
-            for shops_item_data in self.shops:
-                shops_item = shops_item_data.to_dict()
-                shops.append(shops_item)
-
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -145,8 +130,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
                 "variant_name_i18n": variant_name_i18n,
             }
         )
-        if shops is not UNSET:
-            field_dict["shops"] = shops
 
         return field_dict
 
@@ -154,9 +137,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.get_an_event_response_200_data_issue_variants_item_images_type_0 import (
             GetAnEventResponse200DataIssueVariantsItemImagesType0,  # noqa: PLC0415
-        )
-        from ..models.get_an_event_response_200_data_issue_variants_item_shops_item import (
-            GetAnEventResponse200DataIssueVariantsItemShopsItem,  # noqa: PLC0415
         )
         from ..models.get_an_event_response_200_data_issue_variants_item_variant_name_i18n import (
             GetAnEventResponse200DataIssueVariantsItemVariantNameI18N,  # noqa: PLC0415
@@ -268,15 +248,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
             d.pop("variant_name_i18n")
         )
 
-        _shops = d.pop("shops", UNSET)
-        shops: list[GetAnEventResponse200DataIssueVariantsItemShopsItem] | Unset = UNSET
-        if _shops is not UNSET:
-            shops = []
-            for shops_item_data in _shops:
-                shops_item = GetAnEventResponse200DataIssueVariantsItemShopsItem.from_dict(shops_item_data)
-
-                shops.append(shops_item)
-
         get_an_event_response_200_data_issue_variants_item = cls(
             id=id,
             issue_id=issue_id,
@@ -293,7 +264,6 @@ class GetAnEventResponse200DataIssueVariantsItem:
             cover_letter=cover_letter,
             is_nsfw=is_nsfw,
             variant_name_i18n=variant_name_i18n,
-            shops=shops,
         )
 
         get_an_event_response_200_data_issue_variants_item.additional_properties = d

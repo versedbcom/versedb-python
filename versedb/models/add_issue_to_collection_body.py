@@ -15,8 +15,11 @@ T = TypeVar("T", bound="AddIssueToCollectionBody")
 class AddIssueToCollectionBody:
     """
     Attributes:
-        variant_id (int | None | Unset): Link to a specific issue variant. Must belong to the issue. Must match an
-            existing stored value.
+        variant_id (int | None | Unset): The catalog variant the copy is of. Must be a live variant of the issue. A copy
+            with a `variant_id` is always saved with `is_variant: true`, whatever `is_variant` the request sends. On an
+            update, leave it out to keep the copy on its variant; `null` unlinks the copy, which then keeps `is_variant`
+            only if it has a `variant_description` or a `variant_type` other than `standard`, unless the same request sends
+            `is_variant`.
         condition (None | str | Unset): Comic condition grade (CGC scale). One of: `MT`, `NM/MT`, `NM+`, `NM`, `NM-`,
             `VF/NM`, `VF+`, `VF`, `VF-`, `F/VF`, `F+`, `F`, `F-`, `VG/F`, `VG+`, `VG`, `VG-`, `G/VG`, `G`, `FR`, `PR`.
         notes (None | str | Unset): User notes about this copy. Must not be greater than 1000 characters.
@@ -47,7 +50,8 @@ class AddIssueToCollectionBody:
         is_signed (bool | Unset): Whether the comic is signed.
         signed_by (None | str | Unset): Name(s) of the creator(s) who signed the comic. Free-text. Comma-separate
             multiple signers. Must not be greater than 255 characters.
-        is_variant (bool | Unset): Whether this copy is a variant cover.
+        is_variant (bool | Unset): Whether this copy is a variant cover. Ignored for a copy with a `variant_id`, which
+            is always a variant. On an update that sends `variant_id: null`, this is the value the unlinked copy takes.
         variant_description (None | str | Unset): Free-text description of the variant cover. Must not be greater than
             500 characters.
         variant_type (None | str | Unset): Variant classification (standard, cover_variant, retailer_exclusive,

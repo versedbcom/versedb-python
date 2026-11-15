@@ -23,8 +23,11 @@ from .add_issue_to_collection_response_201_data_cover_kind import AddIssueToColl
 from .add_issue_to_collection_response_201_data_loan_type_0 import AddIssueToCollectionResponse201DataLoanType0
 from .add_issue_to_collection_response_201_data_variant_type_0 import AddIssueToCollectionResponse201DataVariantType0
 from .add_issue_to_collection_response_201_follow_up import AddIssueToCollectionResponse201FollowUp
+from .add_issue_to_collection_response_400 import AddIssueToCollectionResponse400
 from .add_issue_to_collection_response_403 import AddIssueToCollectionResponse403
 from .add_issue_to_collection_response_404 import AddIssueToCollectionResponse404
+from .add_issue_to_collection_response_409 import AddIssueToCollectionResponse409
+from .add_issue_to_collection_response_409_error import AddIssueToCollectionResponse409Error
 from .add_issue_to_collection_response_422_type_0 import AddIssueToCollectionResponse422Type0
 from .add_issue_to_collection_response_422_type_0_errors import AddIssueToCollectionResponse422Type0Errors
 from .add_issue_to_collection_response_422_type_1 import AddIssueToCollectionResponse422Type1
@@ -288,9 +291,6 @@ from .get_an_event_response_200_data_images_type_0 import GetAnEventResponse200D
 from .get_an_event_response_200_data_issue_variants_item import GetAnEventResponse200DataIssueVariantsItem
 from .get_an_event_response_200_data_issue_variants_item_images_type_0 import (
     GetAnEventResponse200DataIssueVariantsItemImagesType0,
-)
-from .get_an_event_response_200_data_issue_variants_item_shops_item import (
-    GetAnEventResponse200DataIssueVariantsItemShopsItem,
 )
 from .get_an_event_response_200_data_issue_variants_item_variant_name_i18n import (
     GetAnEventResponse200DataIssueVariantsItemVariantNameI18N,
@@ -1888,8 +1888,11 @@ __all__ = (
     "AddIssueToCollectionResponse201DataLoanType0",
     "AddIssueToCollectionResponse201DataVariantType0",
     "AddIssueToCollectionResponse201FollowUp",
+    "AddIssueToCollectionResponse400",
     "AddIssueToCollectionResponse403",
     "AddIssueToCollectionResponse404",
+    "AddIssueToCollectionResponse409",
+    "AddIssueToCollectionResponse409Error",
     "AddIssueToCollectionResponse422Type0",
     "AddIssueToCollectionResponse422Type0Errors",
     "AddIssueToCollectionResponse422Type1",
@@ -2066,7 +2069,6 @@ __all__ = (
     "GetAnEventResponse200DataIssuesItemSeriesType0ImagesType0",
     "GetAnEventResponse200DataIssueVariantsItem",
     "GetAnEventResponse200DataIssueVariantsItemImagesType0",
-    "GetAnEventResponse200DataIssueVariantsItemShopsItem",
     "GetAnEventResponse200DataIssueVariantsItemVariantNameI18N",
     "GetAnEventResponse200DataIssueVariantsItemVariantNameI18NAdditionalProperty",
     "GetAnEventResponse200DataNameI18N",
