@@ -9,6 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
+    from ..models.list_pull_list_response_200_data_item_next_issue_covers_item import (
+        ListPullListResponse200DataItemNextIssueCoversItem,
+    )
     from ..models.list_pull_list_response_200_data_item_next_issue_type_0 import (
         ListPullListResponse200DataItemNextIssueType0,
     )
@@ -65,6 +68,9 @@ class ListPullListResponse200DataItem:
         pull_source_id (int | None | Unset): Left out for a `read:showcase` token.
         pull_source (ListPullListResponse200DataItemPullSourceType0 | None | Unset): Left out for a `read:showcase`
             token.
+        next_issue_covers (list[ListPullListResponse200DataItemNextIssueCoversItem] | Unset): Left out for a
+            `read:showcase` token.
+        next_issue_variant_count (int | Unset): Left out for a `read:showcase` token.
     """
 
     id: int
@@ -96,6 +102,8 @@ class ListPullListResponse200DataItem:
     pull_sources: list[ListPullListResponse200DataItemPullSourcesItem] | Unset = UNSET
     pull_source_id: int | None | Unset = UNSET
     pull_source: ListPullListResponse200DataItemPullSourceType0 | None | Unset = UNSET
+    next_issue_covers: list[ListPullListResponse200DataItemNextIssueCoversItem] | Unset = UNSET
+    next_issue_variant_count: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -240,6 +248,15 @@ class ListPullListResponse200DataItem:
         else:
             pull_source = self.pull_source
 
+        next_issue_covers: list[dict[str, Any]] | Unset = UNSET
+        if not isinstance(self.next_issue_covers, Unset):
+            next_issue_covers = []
+            for next_issue_covers_item_data in self.next_issue_covers:
+                next_issue_covers_item = next_issue_covers_item_data.to_dict()
+                next_issue_covers.append(next_issue_covers_item)
+
+        next_issue_variant_count = self.next_issue_variant_count
+
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
@@ -284,11 +301,18 @@ class ListPullListResponse200DataItem:
             field_dict["pull_source_id"] = pull_source_id
         if pull_source is not UNSET:
             field_dict["pull_source"] = pull_source
+        if next_issue_covers is not UNSET:
+            field_dict["next_issue_covers"] = next_issue_covers
+        if next_issue_variant_count is not UNSET:
+            field_dict["next_issue_variant_count"] = next_issue_variant_count
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.list_pull_list_response_200_data_item_next_issue_covers_item import (
+            ListPullListResponse200DataItemNextIssueCoversItem,  # noqa: PLC0415
+        )
         from ..models.list_pull_list_response_200_data_item_next_issue_type_0 import (
             ListPullListResponse200DataItemNextIssueType0,  # noqa: PLC0415
         )
@@ -552,6 +576,19 @@ class ListPullListResponse200DataItem:
 
         pull_source = _parse_pull_source(d.pop("pull_source", UNSET))
 
+        _next_issue_covers = d.pop("next_issue_covers", UNSET)
+        next_issue_covers: list[ListPullListResponse200DataItemNextIssueCoversItem] | Unset = UNSET
+        if _next_issue_covers is not UNSET:
+            next_issue_covers = []
+            for next_issue_covers_item_data in _next_issue_covers:
+                next_issue_covers_item = ListPullListResponse200DataItemNextIssueCoversItem.from_dict(
+                    next_issue_covers_item_data
+                )
+
+                next_issue_covers.append(next_issue_covers_item)
+
+        next_issue_variant_count = d.pop("next_issue_variant_count", UNSET)
+
         list_pull_list_response_200_data_item = cls(
             id=id,
             user_id=user_id,
@@ -580,6 +617,8 @@ class ListPullListResponse200DataItem:
             pull_sources=pull_sources,
             pull_source_id=pull_source_id,
             pull_source=pull_source,
+            next_issue_covers=next_issue_covers,
+            next_issue_variant_count=next_issue_variant_count,
         )
 
         list_pull_list_response_200_data_item.additional_properties = d

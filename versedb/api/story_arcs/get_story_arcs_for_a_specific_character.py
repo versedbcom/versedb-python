@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.get_story_arcs_for_a_specific_character_response_200 import GetStoryArcsForASpecificCharacterResponse200
+from ...models.get_story_arcs_for_a_specific_character_response_403 import GetStoryArcsForASpecificCharacterResponse403
+from ...models.get_story_arcs_for_a_specific_character_response_404 import GetStoryArcsForASpecificCharacterResponse404
 from ...models.too_many_requests_error import TooManyRequestsError
 from ...models.unauthorized_error import UnauthorizedError
 from ...types import UNSET, Response, Unset
@@ -17,6 +19,7 @@ def _get_kwargs(
     *,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     languages: str | Unset = UNSET,
 ) -> dict[str, Any]:
 
@@ -25,6 +28,8 @@ def _get_kwargs(
     params["q"] = q
 
     params["limit"] = limit
+
+    params["page"] = page
 
     params["languages"] = languages
 
@@ -43,7 +48,14 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     if response.status_code == 200:
         response_200 = GetStoryArcsForASpecificCharacterResponse200.from_dict(response.json())
 
@@ -53,6 +65,16 @@ def _parse_response(
         response_401 = UnauthorizedError.from_dict(response.json())
 
         return response_401
+
+    if response.status_code == 403:
+        response_403 = GetStoryArcsForASpecificCharacterResponse403.from_dict(response.json())
+
+        return response_403
+
+    if response.status_code == 404:
+        response_404 = GetStoryArcsForASpecificCharacterResponse404.from_dict(response.json())
+
+        return response_404
 
     if response.status_code == 429:
         response_429 = TooManyRequestsError.from_dict(response.json())
@@ -67,7 +89,13 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -82,31 +110,40 @@ def sync_detailed(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     languages: str | Unset = UNSET,
-) -> Response[GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get story arcs for a specific character
 
      Returns every story arc the given character appears in.
 
     Args:
-        character_id (int):
+        character_id (int): The ID of the character.
         q (str | Unset): Optional case-insensitive search within these results.
-        limit (int | Unset): Number of results per page (max 50).
+        limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
-            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetStoryArcsForASpecificCharacterResponse200 | GetStoryArcsForASpecificCharacterResponse403 | GetStoryArcsForASpecificCharacterResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         character_id=character_id,
         q=q,
         limit=limit,
+        page=page,
         languages=languages,
     )
 
@@ -123,25 +160,34 @@ def sync(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     languages: str | Unset = UNSET,
-) -> GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get story arcs for a specific character
 
      Returns every story arc the given character appears in.
 
     Args:
-        character_id (int):
+        character_id (int): The ID of the character.
         q (str | Unset): Optional case-insensitive search within these results.
-        limit (int | Unset): Number of results per page (max 50).
+        limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
-            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError
+        GetStoryArcsForASpecificCharacterResponse200 | GetStoryArcsForASpecificCharacterResponse403 | GetStoryArcsForASpecificCharacterResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return sync_detailed(
@@ -149,6 +195,7 @@ def sync(
         client=client,
         q=q,
         limit=limit,
+        page=page,
         languages=languages,
     ).parsed
 
@@ -159,31 +206,40 @@ async def asyncio_detailed(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     languages: str | Unset = UNSET,
-) -> Response[GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError]:
+) -> Response[
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+]:
     """Get story arcs for a specific character
 
      Returns every story arc the given character appears in.
 
     Args:
-        character_id (int):
+        character_id (int): The ID of the character.
         q (str | Unset): Optional case-insensitive search within these results.
-        limit (int | Unset): Number of results per page (max 50).
+        limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
-            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError]
+        Response[GetStoryArcsForASpecificCharacterResponse200 | GetStoryArcsForASpecificCharacterResponse403 | GetStoryArcsForASpecificCharacterResponse404 | TooManyRequestsError | UnauthorizedError]
     """
 
     kwargs = _get_kwargs(
         character_id=character_id,
         q=q,
         limit=limit,
+        page=page,
         languages=languages,
     )
 
@@ -198,25 +254,34 @@ async def asyncio(
     client: AuthenticatedClient | Client,
     q: str | Unset = UNSET,
     limit: int | Unset = UNSET,
+    page: int | Unset = UNSET,
     languages: str | Unset = UNSET,
-) -> GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError | None:
+) -> (
+    GetStoryArcsForASpecificCharacterResponse200
+    | GetStoryArcsForASpecificCharacterResponse403
+    | GetStoryArcsForASpecificCharacterResponse404
+    | TooManyRequestsError
+    | UnauthorizedError
+    | None
+):
     """Get story arcs for a specific character
 
      Returns every story arc the given character appears in.
 
     Args:
-        character_id (int):
+        character_id (int): The ID of the character.
         q (str | Unset): Optional case-insensitive search within these results.
-        limit (int | Unset): Number of results per page (max 50).
+        limit (int | Unset): Results per page (max 50).
+        page (int | Unset): Page number; meta.last_page says where the list ends.
         languages (str | Unset): Keep only these languages in the `_i18n` maps (comma-separated
-            BCP 47 tags). No other field changes, and `Accept-Language` is not read.
+            BCP 47 tags). No other field changes.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetStoryArcsForASpecificCharacterResponse200 | TooManyRequestsError | UnauthorizedError
+        GetStoryArcsForASpecificCharacterResponse200 | GetStoryArcsForASpecificCharacterResponse403 | GetStoryArcsForASpecificCharacterResponse404 | TooManyRequestsError | UnauthorizedError
     """
 
     return (
@@ -225,6 +290,7 @@ async def asyncio(
             client=client,
             q=q,
             limit=limit,
+            page=page,
             languages=languages,
         )
     ).parsed

@@ -20,6 +20,8 @@ class GetActivityFeedResponse200DataItemDataType1:
         series_start_year (int | None):
         rating (None | str): The rating to one decimal place, as text.
         content_preview (None | str): The first 100 characters of the review.
+        language (None | str): The review's language as a BCP 47 primary subtag (`en`, `es`, `ja`), `und` when it could
+            not be told, or null until it is detected.
         cover_url (None | str):
     """
 
@@ -30,6 +32,7 @@ class GetActivityFeedResponse200DataItemDataType1:
     series_start_year: int | None
     rating: None | str
     content_preview: None | str
+    language: None | str
     cover_url: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -53,6 +56,9 @@ class GetActivityFeedResponse200DataItemDataType1:
         content_preview: None | str
         content_preview = self.content_preview
 
+        language: None | str
+        language = self.language
+
         cover_url: None | str
         cover_url = self.cover_url
 
@@ -67,6 +73,7 @@ class GetActivityFeedResponse200DataItemDataType1:
                 "series_start_year": series_start_year,
                 "rating": rating,
                 "content_preview": content_preview,
+                "language": language,
                 "cover_url": cover_url,
             }
         )
@@ -115,6 +122,13 @@ class GetActivityFeedResponse200DataItemDataType1:
 
         content_preview = _parse_content_preview(d.pop("content_preview"))
 
+        def _parse_language(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        language = _parse_language(d.pop("language"))
+
         def _parse_cover_url(data: object) -> None | str:
             if data is None:
                 return data
@@ -130,6 +144,7 @@ class GetActivityFeedResponse200DataItemDataType1:
             series_start_year=series_start_year,
             rating=rating,
             content_preview=content_preview,
+            language=language,
             cover_url=cover_url,
         )
 

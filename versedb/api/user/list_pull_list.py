@@ -92,7 +92,8 @@ def sync_detailed(
 
     Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
     `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next
+    issue's covers.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -135,7 +136,8 @@ def sync(
 
     Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
     `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next
+    issue's covers.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -173,7 +175,8 @@ async def asyncio_detailed(
 
     Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
     `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next
+    issue's covers.
 
     Args:
         per_page (int | Unset): Items per page (max 100).
@@ -214,7 +217,8 @@ async def asyncio(
 
     Needs `read:user` or `read:showcase`. A `read:showcase` token gets each entry without
     `personal_notes`, `notify_on_release`, `notification_settings`, `auto_pull`,
-    `last_pulled_at`, `preferred_cover_type`, `pull_priority` or the pull source fields.
+    `last_pulled_at`, `preferred_cover_type`, `pull_priority`, the pull source fields or the next
+    issue's covers.
 
     Args:
         per_page (int | Unset): Items per page (max 100).

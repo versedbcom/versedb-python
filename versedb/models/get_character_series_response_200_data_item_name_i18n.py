@@ -1,41 +1,62 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
+
+if TYPE_CHECKING:
+    from ..models.get_character_series_response_200_data_item_name_i18n_additional_property import (
+        GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty,
+    )
+
 
 T = TypeVar("T", bound="GetCharacterSeriesResponse200DataItemNameI18N")
 
 
 @_attrs_define
 class GetCharacterSeriesResponse200DataItemNameI18N:
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+    """One name per language, keyed by BCP 47 tag."""
+
+    additional_properties: dict[str, GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty] = _attrs_field(
+        init=False, factory=dict
+    )
 
     def to_dict(self) -> dict[str, Any]:
 
         field_dict: dict[str, Any] = {}
-        field_dict.update(self.additional_properties)
+        for prop_name, prop in self.additional_properties.items():
+            field_dict[prop_name] = prop.to_dict()
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
+        from ..models.get_character_series_response_200_data_item_name_i18n_additional_property import (
+            GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty,  # noqa: PLC0415
+        )
+
         d = dict(src_dict)
         get_character_series_response_200_data_item_name_i18n = cls()
 
-        get_character_series_response_200_data_item_name_i18n.additional_properties = d
+        additional_properties = {}
+        for prop_name, prop_dict in d.items():
+            additional_property = GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty.from_dict(prop_dict)
+
+            additional_properties[prop_name] = additional_property
+
+        get_character_series_response_200_data_item_name_i18n.additional_properties = additional_properties
         return get_character_series_response_200_data_item_name_i18n
 
     @property
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: GetCharacterSeriesResponse200DataItemNameI18NAdditionalProperty) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:
