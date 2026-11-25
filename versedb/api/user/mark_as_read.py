@@ -155,7 +155,7 @@ def sync_detailed(
 
      Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
     one it is dated that day. An issue already read is left as it is, its date included, and the answer
-    gives that date.
+    gives that date; with no `variant_id` that holds whichever variant it was read on.
 
     Args:
         issue_id (int): The issue ID.
@@ -201,7 +201,7 @@ def sync(
 
      Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
     one it is dated that day. An issue already read is left as it is, its date included, and the answer
-    gives that date.
+    gives that date; with no `variant_id` that holds whichever variant it was read on.
 
     Args:
         issue_id (int): The issue ID.
@@ -241,7 +241,7 @@ async def asyncio_detailed(
 
      Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
     one it is dated that day. An issue already read is left as it is, its date included, and the answer
-    gives that date.
+    gives that date; with no `variant_id` that holds whichever variant it was read on.
 
     Args:
         issue_id (int): The issue ID.
@@ -285,7 +285,7 @@ async def asyncio(
 
      Marks an issue (optionally a specific variant) as read. With no `read_at` the read has no date; with
     one it is dated that day. An issue already read is left as it is, its date included, and the answer
-    gives that date.
+    gives that date; with no `variant_id` that holds whichever variant it was read on.
 
     Args:
         issue_id (int): The issue ID.

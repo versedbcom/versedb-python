@@ -131,8 +131,8 @@ def sync_detailed(
 ) -> Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List events.
 
-     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
-    order with `sort`.
+     Returns conventions and store events, paginated. Filter by type, time, place and format, and order
+    with `sort`.
 
     Args:
         q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
@@ -206,8 +206,8 @@ def sync(
 ) -> ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
 
-     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
-    order with `sort`.
+     Returns conventions and store events, paginated. Filter by type, time, place and format, and order
+    with `sort`.
 
     Args:
         q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
@@ -276,8 +276,8 @@ async def asyncio_detailed(
 ) -> Response[ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError]:
     """List events.
 
-     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
-    order with `sort`.
+     Returns conventions and store events, paginated. Filter by type, time, place and format, and order
+    with `sort`.
 
     Args:
         q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming
@@ -349,8 +349,8 @@ async def asyncio(
 ) -> ListEventsResponse200 | ListEventsResponse403 | TooManyRequestsError | UnauthorizedError | None:
     """List events.
 
-     Returns comic conventions and store events, paginated. Filter by type, time, place and format, and
-    order with `sort`.
+     Returns conventions and store events, paginated. Filter by type, time, place and format, and order
+    with `sort`.
 
     Args:
         q (str | Unset): Search by event name, city or venue, tolerating small typos for upcoming

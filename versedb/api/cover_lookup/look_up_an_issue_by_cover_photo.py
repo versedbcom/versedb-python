@@ -121,7 +121,8 @@ def sync_detailed(
     issues it could be, best first, each at its best-scoring cover. Only the image is compared;
     no text is read off the cover, so a slab label's grade is not returned. Requires the
     `read:public` scope. Rate limited separately from catalog reads: 5/min and 100/day, or
-    15/min and 500/day on PRO.
+    15/min and 500/day on PRO. A VerseDB Developers key draws on its organization's plan:
+    15/min and 2,000/day on Business, 30/min and 10,000/day on Scale.
 
     Args:
         body (LookUpAnIssueByCoverPhotoBody):
@@ -168,7 +169,8 @@ def sync(
     issues it could be, best first, each at its best-scoring cover. Only the image is compared;
     no text is read off the cover, so a slab label's grade is not returned. Requires the
     `read:public` scope. Rate limited separately from catalog reads: 5/min and 100/day, or
-    15/min and 500/day on PRO.
+    15/min and 500/day on PRO. A VerseDB Developers key draws on its organization's plan:
+    15/min and 2,000/day on Business, 30/min and 10,000/day on Scale.
 
     Args:
         body (LookUpAnIssueByCoverPhotoBody):
@@ -209,7 +211,8 @@ async def asyncio_detailed(
     issues it could be, best first, each at its best-scoring cover. Only the image is compared;
     no text is read off the cover, so a slab label's grade is not returned. Requires the
     `read:public` scope. Rate limited separately from catalog reads: 5/min and 100/day, or
-    15/min and 500/day on PRO.
+    15/min and 500/day on PRO. A VerseDB Developers key draws on its organization's plan:
+    15/min and 2,000/day on Business, 30/min and 10,000/day on Scale.
 
     Args:
         body (LookUpAnIssueByCoverPhotoBody):
@@ -254,7 +257,8 @@ async def asyncio(
     issues it could be, best first, each at its best-scoring cover. Only the image is compared;
     no text is read off the cover, so a slab label's grade is not returned. Requires the
     `read:public` scope. Rate limited separately from catalog reads: 5/min and 100/day, or
-    15/min and 500/day on PRO.
+    15/min and 500/day on PRO. A VerseDB Developers key draws on its organization's plan:
+    15/min and 2,000/day on Business, 30/min and 10,000/day on Scale.
 
     Args:
         body (LookUpAnIssueByCoverPhotoBody):
